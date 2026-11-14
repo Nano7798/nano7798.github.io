@@ -1,6 +1,6 @@
 // IndoorIRT: funciona sin internet una vez cargada.
 // Cambiá VERSION cada vez que subas una versión nueva de index.html.
-const VERSION = 'ergo-v7';
+const VERSION = 'ergo-v8';
 const ARCHIVOS = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'icon-maskable.png'];
 
 self.addEventListener('install', e => {

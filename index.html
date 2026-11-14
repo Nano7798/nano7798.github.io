@@ -142,7 +142,7 @@ details.h img{width:100%;display:block;margin-top:8px}
 
   <div class="big">
     <div class="card"><div class="lbl">vs plan</div><div class="delta" id="delta">–</div><div class="sub" id="deltaTxt">esperando que empiece</div></div>
-    <div class="card"><div class="lbl">Ritmo /500</div><div class="pace" id="pace">–</div><div class="sub" id="planPace">plan –</div></div>
+    <div class="card" id="paceCard" style="cursor:pointer"><div class="lbl" id="paceLbl">Ritmo /500</div><div class="pace" id="pace">–</div><div class="sub" id="planPace">plan –</div></div>
   </div>
 
   <div class="stats">
@@ -155,6 +155,17 @@ details.h img{width:100%;display:block;margin-top:8px}
     <div><span class="lbl">Proyección</span><b id="sP">–</b></div>
     <div><span class="lbl">FC</span><b id="sH">–</b></div>
     <div><span class="lbl">Arrastre</span><b id="sF">–</b></div>
+    <div><span class="lbl">Calorías</span><b id="sC">–</b></div>
+    <div><span class="lbl">Paladas</span><b id="sN">–</b></div>
+    <div><span class="lbl">Watts medios</span><b id="sWa">–</b></div>
+    <div><span class="lbl">Largo palada</span><b id="sL">–</b></div>
+    <div><span class="lbl">Relación</span><b id="sRt">–</b></div>
+    <div><span class="lbl">Fuerza pico</span><b id="sPk">–</b></div>
+  </div>
+
+  <div class="card hide" id="fcCard">
+    <div class="lbl">Curva de fuerza (última palada)</div>
+    <div id="fcSvg"></div>
   </div>
 
   <div class="card" id="camCard">
@@ -377,6 +388,9 @@ function textoDe(rec){
   t += `\nParciales (ritmo real / plan · pasa por):\n`;
   tr.forEach((x, k) => { t += `${mfmt(x.b)}: ${fmt(ritmoTramo(rec.cross, k, tr))} / ${fmt(rec.plan[k])} · ${fmt(rec.cross[k])}\n`; });
   t += `\ns/m medio ${rec.spm ?? '–'} · arrastre ${rec.drag ?? '–'}`;
+  if (rec.wAvg) t += ` · ${rec.wAvg} W`;
+  if (rec.cal) t += ` · ${rec.cal} cal`;
+  if (rec.hrAvg) t += ` · FC ${rec.hrAvg}${rec.hrMax ? '/' + rec.hrMax : ''}`;
   if (rec.fotos) t += `\nRegistro fotográfico: ${rec.fotos} fotos${rec.video ? ' + video de salida' : ''}`;
   return t;
 }
@@ -700,7 +714,7 @@ $('btnShareAll').onclick = async () => {
 /* ================= estado de la remada ================= */
 let R, REC = null;
 function resetRun(){
-  R = { running:false, finished:false, tarde:false, t:0, d:0, lastT:0, lastD:0, pace:null, avg:null, spm:null, hr:null, w:null, drag:null, wstate:0, cross:[], samples:[] };
+  R = { running:false, finished:false, tarde:false, t:0, d:0, lastT:0, lastD:0, pace:null, avg:null, spm:null, hr:null, w:null, sw:null, wAvg:null, cal:null, calh:null, dl:null, ratio:null, peak:null, strokes:null, fc:null, drag:null, wstate:0, cross:[], samples:[] };
   REC = null;
   $('fin').classList.add('hide'); $('lbVivo').innerHTML = '';
   resetEv(); EV.finalP = null;
@@ -710,7 +724,28 @@ function ingestAdd1(pace, avg, spm, hr){
   R.pace = pace > 0 ? pace : null; R.avg = avg > 0 ? avg : null;
   R.spm = spm || null; R.hr = (hr && hr < 255) ? hr : null;
 }
-function ingestAdd2(w){ R.w = w || null; }
+function ingestAdd2(w, cal){ R.wAvg = w || null; if (cal != null) R.cal = cal; R.w = R.sw || R.wAvg; }
+function ingestStroke(dl, dt, rec, peakLb, count){
+  R.dl = dl > 0 ? dl : null; R.ratio = dt > 0 && rec > 0 ? rec / dt : null;
+  R.peak = peakLb > 0 ? peakLb * 0.4536 : null; if (count) R.strokes = count;
+}
+function ingestStroke2(w, calh, count){ if (w) { R.sw = w; R.w = w; } if (calh) R.calh = calh; if (count) R.strokes = count; }
+const FC = { buf:[], cnt:0, last:-1 };
+function ingestForce(arr){ R.fc = arr; dibujaFuerza(); }
+function dibujaFuerza(){
+  const a = R.fc; if (!a || a.length < 4) return;
+  $('fcCard').classList.remove('hide');
+  const W = 300, H = 90, mx = Math.max(...a, 1);
+  const pts = a.map((v, i) => `${(i / (a.length - 1) * W).toFixed(1)},${(H - 4 - v / mx * (H - 12)).toFixed(1)}`).join(' ');
+  $('fcSvg').innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="display:block;width:100%"><line x1="0" x2="${W}" y1="${H-4}" y2="${H-4}" stroke="#cfe0ee"/><polyline points="${pts}" fill="none" stroke="${color()}" stroke-width="2.5" stroke-linejoin="round"/></svg>`;
+}
+const UNI = ['ritmo', 'watts', 'cal'], UNI_LBL = { ritmo:'Ritmo /500', watts:'Watts', cal:'Calorías/hora' };
+function enUnidad(p){
+  if (p == null || !isFinite(p) || p <= 0) return '–';
+  const u = CFG.unidad || 'ritmo'; if (u === 'ritmo') return fmt(p);
+  const w = 2.8 / Math.pow(p / 500, 3);
+  return String(Math.round(u === 'watts' ? w : w * 4 * 0.8604 + 300));
+}
 function finalizar(t, d){
   R.finished = true; R.running = false; R.t = t; R.d = d; R.lastT = t; R.lastD = d;
   terminar(); schedule();
@@ -766,8 +801,9 @@ function renderVivo(){
     el.textContent = fmtDif(dl); el.className = 'delta ' + (dl <= 0 ? 'ok' : 'bad');
     $('deltaTxt').textContent = dl <= 0 ? 'segundos adelante' : 'segundos atrás';
   } else { $('delta').textContent = '–'; $('delta').className = 'delta'; $('deltaTxt').textContent = 'esperando que empiece'; }
-  $('pace').textContent = R.finished ? fmt(R.t / Math.max(1, R.d) * 500) : fmt(R.pace);
-  $('planPace').textContent = R.finished ? 'media final' : `plan ${fmt(P.plan[i])} · hasta ${mfmt(tr[i].b)} m`;
+  $('pace').textContent = enUnidad(R.finished ? R.t / Math.max(1, R.d) * 500 : R.pace);
+  $('paceLbl').textContent = UNI_LBL[CFG.unidad || 'ritmo'] + ' · tocá para cambiar';
+  $('planPace').textContent = R.finished ? 'media final' : `plan ${enUnidad(P.plan[i])} · hasta ${mfmt(tr[i].b)} m`;
 
   $('sT').textContent = fmt(R.t);
   $('sD').textContent = mfmt(Math.floor(R.d));
@@ -778,6 +814,12 @@ function renderVivo(){
   $('sP').textContent = R.finished ? fmt(R.t) : (R.d > 50 ? fmt(R.t / R.d * target) : '–');
   $('sH').textContent = R.hr ?? '–';
   $('sF').textContent = R.drag ?? '–';
+  $('sC').textContent = R.cal ?? '–';
+  $('sN').textContent = R.strokes ?? '–';
+  $('sWa').textContent = R.wAvg ?? '–';
+  $('sL').textContent = R.dl ? R.dl.toFixed(2).replace('.', ',') + ' m' : '–';
+  $('sRt').textContent = R.ratio ? '1 : ' + R.ratio.toFixed(1).replace('.', ',') : '–';
+  $('sPk').textContent = R.peak ? Math.round(R.peak) + ' kg' : '–';
 
   let h = '';
   tr.forEach((x, k) => {
@@ -847,13 +889,21 @@ function terminar(){
     tiempo:Math.round(R.t*10)/10, distReal:Math.round(R.d), cross:R.cross.map(v => Math.round(v*10)/10),
     plan:P.plan.slice(), ant:P.ant.slice(), drag:R.drag, spm:spm.length ? Math.round(spm.reduce((a, b) => a + b, 0) / spm.length) : null,
     fotos:0, video:false, collage:false };
+  const med = f => { const v = R.samples.map(f).filter(x => x); return v.length ? Math.round(v.reduce((a, b) => a + b, 0) / v.length) : null; };
+  REC.cal = R.cal; REC.strokes = R.strokes; REC.wAvg = R.wAvg || med(q => q.w); REC.hrAvg = med(q => q.hr);
+  REC.hrMax = R.samples.reduce((m, q) => q.hr && q.hr > m ? q.hr : m, 0) || null;
+  REC.sp = mediasTramos(R.samples, R.cross);
   const H = loadHist(); H.unshift(REC); saveHist(H);
+  const esPB = H.some(x => x.id !== REC.id && x.nombre === REC.nombre && x.dist === REC.dist) && esMejor(REC, H);
+  try { const paso = Math.max(1, Math.ceil(R.samples.length / 1500)), r1 = v => v == null ? null : Math.round(v * 10) / 10;
+    idb.put(REC.id + '_s', R.samples.filter((q, j) => j % paso === 0).map(q => [r1(q.t), r1(q.d), r1(q.p), q.spm, q.w, q.hr])).catch(() => {}); } catch(e){}
   try { navigator.storage && navigator.storage.persist && navigator.storage.persist(); } catch(e){}
   const pt = planTotal(), at = antTotal();
   $('fin').classList.remove('hide');
   $('finT').textContent = fmt(R.t);
   let txt = REC.distReal < P.dist - 5 ? `Incompleta: el PM5 terminó en ${mfmt(REC.distReal)} m` : `${fmtDif(R.t - pt)} s vs objetivo ${fmt(pt)}`;
   if (at && REC.distReal >= P.dist - 5) txt += ` · ${fmtDif(R.t - at)} s vs anterior ${fmt(at)}`;
+  if (esPB) txt += ' · MEJOR MARCA';
   $('finTxt').textContent = txt;
   soltarWakeLock();
   camFinal(REC);
@@ -878,6 +928,7 @@ function usarComoAnterior(rec){
 }
 $('btnAnt').onclick = () => { if (REC) usarComoAnterior(REC); };
 $('btnNuevo').onclick = () => { resetRun(); aviso(''); renderVivo(); };
+$('paceCard').onclick = () => { CFG.unidad = UNI[(UNI.indexOf(CFG.unidad || 'ritmo') + 1) % 3]; save(); renderVivo(); };
 $('btnReset').onclick = () => { pararDemo(); resetRun(); renderVivo(); };
 
 /* ================= carga manual en el Logbook de Concept2 ================= */
@@ -917,6 +968,47 @@ document.addEventListener('click', e => {
   if (rec) abrirLb(rec);
 });
 
+/* ================= análisis posterior ================= */
+function mediasTramos(samples, cross){
+  return cross.map((c, k) => {
+    const t0 = k ? cross[k-1] : 0, S = samples.filter(q => q.t > t0 && q.t <= c + 0.5);
+    const av = f => { const v = S.map(f).filter(x => x); return v.length ? Math.round(v.reduce((a, b) => a + b, 0) / v.length) : null; };
+    return { spm:av(q => q.spm), w:av(q => q.w), hr:av(q => q.hr) };
+  });
+}
+function esMejor(rec, H){
+  if (rec.distReal < rec.dist - 5) return false;
+  return !H.some(x => x.id !== rec.id && x.nombre === rec.nombre && x.dist === rec.dist && x.distReal >= x.dist - 5 && x.tiempo <= rec.tiempo);
+}
+// S: filas [t, d, ritmo, s/m, watts, fc]
+function grafCarrera(rec, S){
+  const tr = tramosDe(rec.dist, rec.split), W = 340, m = { l:40, r:8 }, iw = W - m.l - m.r, dMax = Math.max(rec.distReal || rec.dist, 1);
+  const P = S.filter(q => q[2] && q[1] > 15); if (P.length < 5) return '';
+  const X = d => m.l + Math.min(d, dMax) / dMax * iw;
+  const panel = (y0, h, vals, lo, hi, inv) => v => y0 + (inv ? (Math.min(hi, Math.max(lo, v)) - lo) : (hi - Math.min(hi, Math.max(lo, v)))) / (hi - lo) * h;
+  const ps = P.map(q => q[2]).sort((a, b) => a - b);
+  let lo = ps[Math.floor(ps.length * .02)] - 2, hi = ps[Math.floor(ps.length * .98)] + 2;
+  rec.plan.forEach(v => { if (v) { lo = Math.min(lo, v - 1); hi = Math.max(hi, v + 1); } });
+  const Yp = panel(8, 120, 0, lo, hi, true);
+  let s = `<svg viewBox="0 0 ${W} 232" style="display:block;width:100%;margin-top:8px" font-family="Roboto,system-ui,sans-serif" font-size="10">`;
+  [lo, (lo + hi) / 2, hi].forEach(v => { s += `<line x1="${m.l}" x2="${W-m.r}" y1="${Yp(v)}" y2="${Yp(v)}" stroke="#dbe7f2"/><text x="${m.l-4}" y="${Yp(v)+3}" text-anchor="end" fill="#5b6b7d">${fmt(v, 0)}</text>`; });
+  s += `<path d="${tr.map((x, k) => rec.plan[k] ? `M${X(x.a)},${Yp(rec.plan[k])}H${X(x.b)}` : '').join('')}" fill="none" stroke="#8a8f99" stroke-width="1.5" stroke-dasharray="5 4"/>`;
+  s += `<path d="${P.map((q, j) => (j ? 'L' : 'M') + X(q[1]).toFixed(1) + ',' + Yp(q[2]).toFixed(1)).join('')}" fill="none" stroke="${color()}" stroke-width="1.6"/>`;
+  s += `<text x="${m.l}" y="142" fill="#5b6b7d">ritmo /500 (línea) · plan (punteada)</text>`;
+  const Q = S.filter(q => q[3] && q[1] > 15);
+  if (Q.length > 4) {
+    const sv = Q.map(q => q[3]), slo = Math.min(...sv) - 1, shi = Math.max(...sv) + 1, Ys = panel(154, 50, 0, slo, shi, false);
+    [slo, shi].forEach(v => { s += `<line x1="${m.l}" x2="${W-m.r}" y1="${Ys(v)}" y2="${Ys(v)}" stroke="#dbe7f2"/><text x="${m.l-4}" y="${Ys(v)+3}" text-anchor="end" fill="#5b6b7d">${v}</text>`; });
+    s += `<path d="${Q.map((q, j) => (j ? 'L' : 'M') + X(q[1]).toFixed(1) + ',' + Ys(q[3]).toFixed(1)).join('')}" fill="none" stroke="#0b2545" stroke-width="1.4"/>`;
+    const HR = S.filter(q => q[5] && q[1] > 15);
+    if (HR.length > 4) { const hv = HR.map(q => q[5]), hlo = Math.min(...hv) - 2, hhi = Math.max(...hv) + 2, Yh = panel(154, 50, 0, hlo, hhi, false);
+      s += `<path d="${HR.map((q, j) => (j ? 'L' : 'M') + X(q[1]).toFixed(1) + ',' + Yh(q[5]).toFixed(1)).join('')}" fill="none" stroke="#b3261e" stroke-width="1.2"/>`; }
+    s += `<text x="${m.l}" y="218" fill="#5b6b7d">s/m (azul oscuro)${HR.length > 4 ? ' · FC (rojo, ' + Math.min(...HR.map(q => q[5])) + '–' + Math.max(...HR.map(q => q[5])) + ')' : ''}</text>`;
+  }
+  [0, dMax / 2, dMax].forEach(d => { s += `<text x="${X(d)}" y="230" text-anchor="${d === 0 ? 'start' : d === dMax ? 'end' : 'middle'}" fill="#5b6b7d">${mfmt(d)} m</text>`; });
+  return s + '</svg>';
+}
+
 /* ================= pestaña CARRERAS ================= */
 let borrarId = null;
 function renderHist(){
@@ -928,13 +1020,15 @@ function renderHist(){
   $('hLista').innerHTML = L.map(r => {
     const tr = tramosDe(r.dist, r.split), pt = cumDe(r.plan, tr, r.dist), inc = r.distReal < r.dist - 5;
     const fecha = new Date(r.fecha).toLocaleString('es-AR', { dateStyle:'short', timeStyle:'short', hour12:false });
-    const filas = tr.map((x, k) => `<tr><td>${mfmt(x.b)}</td><td>${fmt(r.plan[k])}</td><td>${fmt(ritmoTramo(r.cross, k, tr))}</td><td class="pp">${fmt(r.cross[k])}</td></tr>`).join('');
+    const sp = r.sp || [], pb = esMejor(r, H) && H.some(x => x.id !== r.id && x.nombre === r.nombre && x.dist === r.dist);
+    const filas = tr.map((x, k) => `<tr><td>${mfmt(x.b)}</td><td>${fmt(r.plan[k])}</td><td>${fmt(ritmoTramo(r.cross, k, tr))}</td><td>${(sp[k] && sp[k].spm) ?? '–'}</td><td>${(sp[k] && sp[k].w) ?? '–'}</td><td class="pp">${fmt(r.cross[k])}</td></tr>`).join('');
     return `<details class="h" data-id="${r.id}">
       <summary><span>${esc(r.nombre)} · ${mfmt(r.dist)} m<br><small style="color:var(--muted)">${fecha}</small></span>
-        <span style="text-align:right"><b>${fmt(r.tiempo)}</b><br><small style="color:${inc?'var(--bad)':(r.tiempo-pt<=0?'var(--ok)':'var(--bad)')}">${inc ? 'incompleta' : fmtDif(r.tiempo - pt) + ' s vs obj.'}</small></span></summary>
+        <span style="text-align:right"><b>${fmt(r.tiempo)}</b><br><small style="color:${inc?'var(--bad)':(r.tiempo-pt<=0?'var(--ok)':'var(--bad)')}">${inc ? 'incompleta' : fmtDif(r.tiempo - pt) + ' s vs obj.'}</small>${pb ? '<br><small style="color:var(--navy);font-weight:700">MEJOR MARCA</small>' : ''}</span></summary>
       <div class="in">
-        <table><thead><tr><th>Metros</th><th>Plan</th><th>Real</th><th>Pasa por</th></tr></thead><tbody>${filas}</tbody></table>
-        <div class="note">s/m medio ${r.spm ?? '–'} · arrastre ${r.drag ?? '–'}${r.fotos ? ` · ${r.fotos} fotos` : ''}</div>
+        <table><thead><tr><th>Metros</th><th>Plan</th><th>Real</th><th>s/m</th><th>W</th><th>Pasa por</th></tr></thead><tbody>${filas}</tbody></table>
+        <div class="note">s/m medio ${r.spm ?? '–'} · arrastre ${r.drag ?? '–'}${r.wAvg ? ` · ${r.wAvg} W` : ''}${r.cal ? ` · ${r.cal} cal` : ''}${r.strokes ? ` · ${r.strokes} paladas` : ''}${r.hrAvg ? ` · FC ${r.hrAvg}${r.hrMax ? '/' + r.hrMax : ''}` : ''}${r.fotos ? ` · ${r.fotos} fotos` : ''}</div>
+        <div class="graf"></div>
         <div class="lbh"></div>
         <div class="foto"></div>
         <div class="row">
@@ -953,7 +1047,10 @@ function renderHist(){
 $('hFiltro').onchange = renderHist;
 $('hLista').addEventListener('toggle', async e => {
   const d = e.target; if (!d.open || d.dataset.cargada) return;
-  const r = loadHist().find(x => x.id === d.dataset.id); if (!r || !r.collage) return;
+  const r = loadHist().find(x => x.id === d.dataset.id); if (!r) return;
+  d.dataset.cargada = '1';
+  try { const S = await idb.get(r.id + '_s'); if (S && S.length > 5) d.querySelector('.graf').innerHTML = grafCarrera(r, S); } catch(e){}
+  if (!r.collage) return;
   try { const b = await idb.get(r.id); if (b) { d.querySelector('.foto').innerHTML = `<img alt="collage" src="${URL.createObjectURL(b)}">`; d.dataset.cargada = '1'; } } catch(e){}
 }, true);
 $('hLista').addEventListener('click', async e => {
@@ -966,7 +1063,7 @@ $('hLista').addEventListener('click', async e => {
   else if (act === 'csv') bajarTexto(csvDe(r), `ergo_${r.nombre}_${r.dist}_${r.fecha.slice(0,10)}.csv`);
   else if (act === 'del') {
     if (borrarId !== id) { borrarId = id; e.target.textContent = '¿Borrar? Tocá de nuevo'; setTimeout(() => { if (borrarId === id) { borrarId = null; e.target.textContent = 'Borrar'; } }, 4000); return; }
-    borrarId = null; saveHist(H.filter(x => x.id !== id)); try { await idb.del(id); } catch(e){} renderHist();
+    borrarId = null; saveHist(H.filter(x => x.id !== id)); try { await idb.del(id); await idb.del(id + '_s'); } catch(e){} renderHist();
   }
 });
 $('btnHCsv').onclick = () => {
@@ -994,10 +1091,21 @@ const u16 = (v, o) => v.getUint8(o) | (v.getUint8(o+1) << 8);
 const u24 = (v, o) => v.getUint8(o) | (v.getUint8(o+1) << 8) | (v.getUint8(o+2) << 16);
 function onGeneral(v){ if (v.byteLength >= 10) ingestGeneral(u24(v,0)/100, u24(v,3)/10, v.getUint8(8), v.byteLength > 18 ? v.getUint8(18) : null); }
 function onAdd1(v){ if (v.byteLength >= 11) ingestAdd1(u16(v,7)/100, u16(v,9)/100, v.getUint8(5), v.getUint8(6)); }
-function onAdd2(v){ if (v.byteLength >= 6) ingestAdd2(u16(v,4)); }
+function onAdd2(v){ if (v.byteLength >= 6) ingestAdd2(u16(v,4), v.byteLength >= 8 ? u16(v,6) : null); }
+function onStroke(v){ if (v.byteLength >= 20) ingestStroke(v.getUint8(6)/100, v.getUint8(7)/100, u16(v,8)/100, u16(v,12)/10, u16(v,18)); }
+function onStroke2(v){ if (v.byteLength >= 9) ingestStroke2(u16(v,3), u16(v,5), u16(v,7)); }
+function onForce(v){
+  if (v.byteLength < 4) return;
+  const total = v.getUint8(0) >> 4, n = v.getUint8(0) & 15, seq = v.getUint8(1);
+  if (seq <= FC.last || FC.cnt >= total) { FC.buf = []; FC.cnt = 0; }
+  FC.last = seq; FC.cnt++;
+  for (let i = 0; i < n && 3 + 2*i < v.byteLength; i++) FC.buf.push(u16(v, 2 + 2*i));
+  if (FC.cnt >= total && FC.buf.length > 3) { ingestForce(FC.buf.slice()); FC.last = -1; }
+}
 function onMux(v){
   const id = v.getUint8(0), d = new DataView(v.buffer, v.byteOffset + 1, v.byteLength - 1);
   if (id === 0x31) onGeneral(d); else if (id === 0x32) onAdd1(d); else if (id === 0x33) onAdd2(d);
+  else if (id === 0x35) onStroke(d); else if (id === 0x36) onStroke2(d); else if (id === 0x3D) onForce(d);
 }
 function estado(t){ $('estado').textContent = t; }
 function pmEst(t){ $('pmEst').textContent = t; }
@@ -1044,8 +1152,10 @@ async function abrirGatt(){
   const server = await dev.gatt.connect();
   const svc = await server.getPrimaryService(SVC_ROW);
   try { const sr = await svc.getCharacteristic(U('0034')); await sr.writeValue(new Uint8Array([2])); } catch(e){}
+  let mux = false;
   try { await suscribir(svc, '0031', onGeneral); await suscribir(svc, '0032', onAdd1); await suscribir(svc, '0033', onAdd2); }
-  catch(e) { await suscribir(svc, '0080', onMux); }
+  catch(e) { mux = true; await suscribir(svc, '0080', onMux); }
+  if (!mux) for (const [id, fn] of [['0035', onStroke], ['0036', onStroke2], ['003d', onForce]]) { try { await suscribir(svc, id, fn); } catch(e){} }
   try { const cs = await server.getPrimaryService(SVC_CTRL); ctrlCh = await cs.getCharacteristic(U('0021')); } catch(e) { ctrlCh = null; }
   intentos = 0;
   estado('Conectado · ' + (dev.name || 'PM5'));
@@ -1102,7 +1212,11 @@ $('btnDemo').onclick = () => {
       t += 0.1; d += 500 / pace * 0.1;
     }
     ingestAdd1(pace, t / d * 500, 30 + Math.round(Math.random()*2), null);
-    ingestAdd2(Math.round(2.8 / Math.pow(pace / 500, 3)));
+    const wD = Math.round(2.8 / Math.pow(pace / 500, 3));
+    ingestAdd2(Math.round(2.8 / Math.pow(t / d, 3)), Math.round((wD * 4 * 0.8604 + 300) * t / 3600));
+    ingestStroke2(wD, Math.round(wD * 4 * 0.8604 + 300), Math.round(t / 2));
+    ingestStroke(1.36 + Math.random() * .05, 0.62, 1.30, 170 + Math.random() * 20, Math.round(t / 2));
+    ingestForce(Array.from({ length:28 }, (_, i) => Math.round(180 * Math.pow(Math.sin(Math.PI * i / 27), .7) * (1 - .25 * i / 27))));
     ingestGeneral(t, d, 1, 105);
     if (R.finished) pararDemo();
   }, 100);
