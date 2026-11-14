@@ -3,29 +3,29 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#1d2a5c">
+<meta name="theme-color" content="#74acdf">
 <title>Ergo en vivo · PM5</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <style>
-:root{--navy:#1d2a5c;--ink:#1b1f2a;--paper:#f6f4ef;--card:#fffdf8;--line:#d9d4c7;--muted:#6b6f7a;--acc:#a3264a;--ok:#1f7a4d;--bad:#b3261e;}
+:root{--navy:#0b2545;--ink:#14213d;--paper:#f3f8fc;--card:#ffffff;--line:#cfe0ee;--muted:#5b6b7d;--acc:#2f6ea8;--cel:#74acdf;--sol:#f6b40e;--ok:#1f7a4d;--bad:#b3261e;}
 *{box-sizing:border-box}
 html,body{margin:0}
 body{font-family:Roboto,"Segoe UI",system-ui,sans-serif;background:var(--paper);color:var(--ink);font-variant-numeric:tabular-nums;-webkit-tap-highlight-color:transparent}
-header{background:var(--navy);color:#fff;padding:8px 12px;display:flex;gap:8px;align-items:center}
-#logoBox{width:46px;height:46px;flex:none;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;border:1px solid rgba(255,255,255,.4)}
+header{background:var(--cel);color:var(--navy);padding:8px 12px;display:flex;gap:8px;align-items:center;border-bottom:4px solid #fff;box-shadow:0 4px 0 var(--cel)}
+#logoBox{width:46px;height:46px;flex:none;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;border:1px solid var(--navy)}
 #logoBox img{max-width:100%;max-height:100%;object-fit:contain}
 #logoBox span{font-size:10px;color:var(--navy);text-align:center;line-height:1.1;padding:2px}
 header .tit{flex:1;min-width:0}
 header h1{font-size:17px;margin:0;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#estado{font-size:12px;opacity:.85}
+#estado{font-size:12px;opacity:.9}
 button{font:inherit;font-size:15px;border:1px solid var(--navy);background:#fff;color:var(--navy);padding:10px 14px;border-radius:2px;font-weight:600;cursor:pointer}
 button.pri{background:var(--acc);border-color:var(--acc);color:#fff}
-button.sec{background:transparent;color:#fff;border-color:rgba(255,255,255,.6);padding:9px 10px}
+button.sec{background:#fff;color:var(--navy);border-color:var(--navy);padding:9px 10px}
 button.chip{padding:6px 10px;font-size:14px;font-weight:500}
 button:disabled{opacity:.45}
-nav{display:flex;border-bottom:1px solid var(--line);background:var(--card)}
+nav{display:flex;border-bottom:1px solid var(--line);background:var(--card);margin-top:4px}
 nav button{flex:1;border:0;border-bottom:3px solid transparent;background:none;color:var(--muted);padding:12px 4px}
 nav button.on{color:var(--ink);border-bottom-color:var(--acc)}
 main{padding:12px;max-width:900px;margin:0 auto}
@@ -45,7 +45,7 @@ main{padding:12px;max-width:900px;margin:0 auto}
 table{width:100%;border-collapse:collapse;font-size:15px}
 th{font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);text-align:right;font-weight:600;padding:6px;border-bottom:1px solid var(--line)}
 th:first-child,td:first-child{text-align:left}
-td{text-align:right;padding:7px 6px;border-bottom:1px solid #ece7db}
+td{text-align:right;padding:7px 6px;border-bottom:1px solid #e3edf6}
 td.cur{font-style:italic;color:var(--muted)}
 td.ok{color:var(--ok);font-weight:600}td.bad{color:var(--bad);font-weight:600}
 td.pp{font-weight:700;color:var(--acc)}
@@ -61,7 +61,7 @@ td input{width:92px;text-align:right}
 .legend i.d{border-top-style:dashed;border-top-width:2px}
 .legend i.t{border-top-width:1px}
 #chart svg{display:block;width:100%}
-.msg{background:#fbeee0;border:1px solid #e6c9a3;padding:10px 12px;margin-top:10px;font-size:14px;display:none}
+.msg{background:#fff7e0;border:1px solid var(--sol);padding:10px 12px;margin-top:10px;font-size:14px;display:none}
 .fin{border:2px solid var(--acc)}
 .fin .t{font-size:40px;font-weight:700;color:var(--acc)}
 .gal{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
@@ -78,9 +78,13 @@ details.h summary b{font-size:18px}
 details.h .in{padding:0 12px 12px}
 details.h img{width:100%;display:block;margin-top:8px}
 .hide{display:none!important}
+.lb{border:2px solid var(--cel);background:#f7fbfe;padding:12px;margin-top:10px}
+.lb dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:8px 0 0;font-size:16px}
+.lb dt{color:var(--muted)}.lb dd{margin:0;font-weight:700}
+.lb pre{white-space:pre-wrap;font:inherit;font-size:14px;background:#fff;border:1px solid var(--line);padding:8px;margin:8px 0 0}
 .guia{border:2px solid var(--navy)}
 .guia ol{margin:8px 0 0;padding:0;list-style:none;counter-reset:p}
-.guia li{counter-increment:p;display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid #ece7db}
+.guia li{counter-increment:p;display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid #e3edf6}
 .guia li:first-child{border-top:0}
 .guia li::before{content:counter(p);flex:none;width:28px;height:28px;background:var(--navy);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center}
 .guia li.ok::before{content:'✓';background:var(--ok)}
@@ -126,6 +130,8 @@ details.h img{width:100%;display:block;margin-top:8px}
       <button class="pri" id="btnWa">WhatsApp al número registrado</button>
       <button id="btnShare1">Compartir collage</button>
     </div>
+    <div class="row"><button id="btnLb">Cargar en Logbook</button></div>
+    <div id="lbVivo"></div>
     <div class="row">
       <button id="btnCsv">Descargar CSV</button>
       <button id="btnAnt">Guardar como anterior</button>
@@ -319,7 +325,7 @@ if (CFG.autoProg === undefined) CFG.autoProg = true;
 for (const k in CFG.perfiles) { const P = CFG.perfiles[k]; P.split = P.split || 500; P.ant = P.ant || []; }
 if (!CFG.perfiles[CFG.activo]) CFG.activo = Object.keys(CFG.perfiles)[0];
 const prof = () => CFG.perfiles[CFG.activo];
-const color = () => '#a3264a';
+const color = () => '#2f6ea8';
 
 function tramosDe(dist, split){
   const t = []; for (let a = 0; a < dist - 1e-6; a += split) t.push({ a, b:Math.min(a + split, dist) }); return t;
@@ -625,11 +631,11 @@ async function armarHoja(rec){
   for (let i = 0; i < fotos.length; i += 2) filas.push(Math.max(altoFoto(fotos[i]), fotos[i+1] ? altoFoto(fotos[i+1]) : 0) + 64);
   const H = y0 + filas.reduce((a, b) => a + b, 0) + 150;
   const c = document.createElement('canvas'); c.width = W; c.height = H; const g = c.getContext('2d');
-  g.fillStyle = '#f6f4ef'; g.fillRect(0, 0, W, H);
-  g.fillStyle = '#1d2a5c'; g.fillRect(0, 0, W, 130);
+  g.fillStyle = '#ffffff'; g.fillRect(0, 0, W, H);
+  g.fillStyle = '#74acdf'; g.fillRect(0, 0, W, 130); g.fillStyle = '#ffffff'; g.fillRect(0, 130, W, 8); g.fillStyle = '#74acdf'; g.fillRect(0, 138, W, 6);
   let xT = pad;
   if (CFG.logo) { const im = new Image(); im.src = CFG.logo; await im.decode().catch(() => {}); if (im.width) { const s = 96 / Math.max(im.width, im.height); g.fillStyle = '#fff'; g.fillRect(pad, 17, 96, 96); g.drawImage(im, pad + (96 - im.width*s)/2, 17 + (96 - im.height*s)/2, im.width*s, im.height*s); xT = pad + 116; } }
-  g.fillStyle = '#fff'; g.textBaseline = 'alphabetic';
+  g.fillStyle = '#0b2545'; g.textBaseline = 'alphabetic';
   g.font = '700 40px Roboto, system-ui, sans-serif'; g.fillText(`${rec.nombre} · ${mfmt(rec.dist)} m`, xT, 62);
   g.font = '400 26px Roboto, system-ui, sans-serif'; g.fillText(`${hoyStr()} · arrastre ${rec.drag ?? '–'} · s/m medio ${rec.spm ?? '–'}`, xT, 104);
   const pt = cumDe(rec.plan, tr, rec.dist);
@@ -696,7 +702,7 @@ let R, REC = null;
 function resetRun(){
   R = { running:false, finished:false, tarde:false, t:0, d:0, lastT:0, lastD:0, pace:null, avg:null, spm:null, hr:null, w:null, drag:null, wstate:0, cross:[], samples:[] };
   REC = null;
-  $('fin').classList.add('hide');
+  $('fin').classList.add('hide'); $('lbVivo').innerHTML = '';
   resetEv(); EV.finalP = null;
   if (CAM.stream) { if (CAM.rec) { CAM.keep = false; CAM.rec.stop(); } else armarRec(); }
 }
@@ -808,12 +814,12 @@ function dibujaChart(){
   const Y = v => m.t + (Math.min(hi, Math.max(lo, v)) - lo) / (hi - lo) * ih;
   let s = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" font-family="Roboto,system-ui,sans-serif" font-size="11">`;
   for (let v = lo; v <= hi + 1e-6; v += step) {
-    s += `<line x1="${m.l}" x2="${W-m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="#e4dfd3"/>`;
+    s += `<line x1="${m.l}" x2="${W-m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="#dbe7f2"/>`;
     s += `<text x="${m.l-6}" y="${Y(v)+4}" text-anchor="end" fill="#6b6f7a">${fmt(v,0)}</text>`;
   }
   const lbl = Math.ceil((n + 1) / 7);
   [0, ...tr.map(x => x.b)].forEach((d, k) => {
-    s += `<line x1="${X(d)}" x2="${X(d)}" y1="${m.t}" y2="${H-m.b}" stroke="#ece7db"/>`;
+    s += `<line x1="${X(d)}" x2="${X(d)}" y1="${m.t}" y2="${H-m.b}" stroke="#e8f0f7"/>`;
     if (k % lbl === 0 || k === n) s += `<text x="${X(d)}" y="${H-m.b+16}" text-anchor="middle" fill="#6b6f7a">${mfmt(d)}</text>`;
   });
   const escalones = arr => arr.map((v, k) => v && tr[k] ? `M${X(tr[k].a)},${Y(v)}H${X(tr[k].b)}` : '').join('');
@@ -874,6 +880,43 @@ $('btnAnt').onclick = () => { if (REC) usarComoAnterior(REC); };
 $('btnNuevo').onclick = () => { resetRun(); aviso(''); renderVivo(); };
 $('btnReset').onclick = () => { pararDemo(); resetRun(); renderVivo(); };
 
+/* ================= carga manual en el Logbook de Concept2 ================= */
+const URL_LOG = 'https://log.concept2.com/log';
+function comentarioLb(rec){
+  const tr = tramosDe(rec.dist, rec.split);
+  return 'Parciales: ' + tr.map((x, k) => `${mfmt(x.b)} ${fmt(ritmoTramo(rec.cross, k, tr))}`).join(' · ')
+    + (rec.drag ? ` · arrastre ${rec.drag}` : '') + ' · Ergo en vivo';
+}
+function panelLb(rec){
+  const d = new Date(rec.fecha), z = n => String(n).padStart(2, '0');
+  const t = Math.round(rec.tiempo * 10) / 10, h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), sg = Math.floor(t % 60), dc = Math.round((t * 10) % 10);
+  const dist = rec.distReal < rec.dist - 5 ? rec.distReal : rec.dist;
+  return `<div class="lb">
+    <div class="lbl">Datos para el Logbook</div>
+    <dl>
+      <dt>Fecha</dt><dd>${z(d.getDate())}/${z(d.getMonth()+1)}/${d.getFullYear()} · ${z(d.getHours())}:${z(d.getMinutes())}</dd>
+      <dt>Tipo</dt><dd>RowErg</dd>
+      <dt>Distancia</dt><dd>${dist} m</dd>
+      <dt>Tiempo</dt><dd>${h ? h + ' h ' : ''}${m} min ${sg} s ${dc} déc. <span style="font-weight:400;color:var(--muted)">(${fmt(t)})</span></dd>
+      <dt>s/m</dt><dd>${rec.spm ?? '–'}</dd>
+    </dl>
+    <div class="lbl" style="margin-top:10px">Comentario (se copia solo)</div>
+    <pre>${esc(comentarioLb(rec))}</pre>
+    <div class="row"><button class="pri" data-lbopen="${rec.id}">Copiar comentario y abrir Logbook</button></div>
+    <div class="note">En el Logbook entrá con tu usuario, completá fecha, distancia y tiempo con estos datos y pegá el comentario. Queda sin verificar.</div>
+  </div>`;
+}
+async function abrirLb(rec){
+  try { await navigator.clipboard.writeText(comentarioLb(rec)); } catch(e){}
+  window.open(URL_LOG, '_blank');
+}
+$('btnLb').onclick = () => { if (!REC) return; const el = $('lbVivo'); el.innerHTML = el.innerHTML ? '' : panelLb(REC); };
+document.addEventListener('click', e => {
+  const id = e.target.dataset && e.target.dataset.lbopen; if (!id) return;
+  const rec = (REC && REC.id === id) ? REC : loadHist().find(x => x.id === id);
+  if (rec) abrirLb(rec);
+});
+
 /* ================= pestaña CARRERAS ================= */
 let borrarId = null;
 function renderHist(){
@@ -892,6 +935,7 @@ function renderHist(){
       <div class="in">
         <table><thead><tr><th>Metros</th><th>Plan</th><th>Real</th><th>Pasa por</th></tr></thead><tbody>${filas}</tbody></table>
         <div class="note">s/m medio ${r.spm ?? '–'} · arrastre ${r.drag ?? '–'}${r.fotos ? ` · ${r.fotos} fotos` : ''}</div>
+        <div class="lbh"></div>
         <div class="foto"></div>
         <div class="row">
           <button class="pri" data-act="wa">WhatsApp al número</button>
@@ -899,6 +943,7 @@ function renderHist(){
         </div>
         <div class="row">
           <button data-act="ant">Usar como anterior</button>
+          <button data-act="lb">Logbook</button>
           <button data-act="csv">CSV</button>
           <button data-act="del">${borrarId === r.id ? '¿Borrar? Tocá de nuevo' : 'Borrar'}</button>
         </div>
@@ -917,6 +962,7 @@ $('hLista').addEventListener('click', async e => {
   if (act === 'wa') waDirecto(textoDe(r));
   else if (act === 'share') { let b = null; if (r.collage) { try { b = await idb.get(r.id); } catch(e){} } compartir(b, `${r.fecha.slice(0,10)}_${r.nombre}_resumen.jpg`, textoDe(r)); }
   else if (act === 'ant') usarComoAnterior(r);
+  else if (act === 'lb') { const box = e.target.closest('details').querySelector('.lbh'); box.innerHTML = box.innerHTML ? '' : panelLb(r); }
   else if (act === 'csv') bajarTexto(csvDe(r), `ergo_${r.nombre}_${r.dist}_${r.fecha.slice(0,10)}.csv`);
   else if (act === 'del') {
     if (borrarId !== id) { borrarId = id; e.target.textContent = '¿Borrar? Tocá de nuevo'; setTimeout(() => { if (borrarId === id) { borrarId = null; e.target.textContent = 'Borrar'; } }, 4000); return; }
@@ -1105,7 +1151,12 @@ window.addEventListener('focus', () => renderGuia());
 renderGuia();
 window.addEventListener('appinstalled', () => { instalar = null; $('btnInst').classList.add('hide'); });
 $('btnInst').onclick = async () => { if (!instalar) return; instalar.prompt(); await instalar.userChoice.catch(() => {}); instalar = null; $('btnInst').classList.add('hide'); };
-if (!window.isSecureContext) aviso('Abriste la página como archivo: así Chrome no permite cámara ni Bluetooth. Abrila desde su dirección https.');
+const URL_APP = 'https://nano7798.github.io/';
+if (location.protocol !== 'https:' && !['localhost','127.0.0.1'].includes(location.hostname)) {
+  const m = $('msg');
+  m.innerHTML = '<b>Estás abriendo el archivo descargado, no la app.</b> Así no se puede instalar ni usar la cámara.<div class="row"><a href="' + URL_APP + '"><button class="pri">Abrir la app</button></a></div>';
+  m.style.display = 'block';
+}
 else if (!navigator.bluetooth) estado('Desconectado · sin Bluetooth en este navegador');
 </script>
 </body>
