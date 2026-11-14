@@ -1,0 +1,17 @@
+{
+  "name": "Ergo en vivo",
+  "short_name": "Ergo",
+  "description": "Ritmo en vivo contra el plan para Concept2 PM5, con respaldo fotográfico.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f6f4ef",
+  "theme_color": "#1d2a5c",
+  "lang": "es",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
