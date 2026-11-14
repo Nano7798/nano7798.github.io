@@ -13,7 +13,7 @@
 *{box-sizing:border-box}
 html,body{margin:0}
 body{font-family:Roboto,"Segoe UI",system-ui,sans-serif;background:var(--paper);color:var(--ink);font-variant-numeric:tabular-nums;-webkit-tap-highlight-color:transparent}
-header{background:var(--navy);color:#fff;padding:8px 12px;display:flex;gap:10px;align-items:center}
+header{background:var(--navy);color:#fff;padding:8px 12px;display:flex;gap:8px;align-items:center}
 #logoBox{width:46px;height:46px;flex:none;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;border:1px solid rgba(255,255,255,.4)}
 #logoBox img{max-width:100%;max-height:100%;object-fit:contain}
 #logoBox span{font-size:10px;color:var(--navy);text-align:center;line-height:1.1;padding:2px}
@@ -22,14 +22,15 @@ header h1{font-size:17px;margin:0;font-weight:600;white-space:nowrap;overflow:hi
 #estado{font-size:12px;opacity:.85}
 button{font:inherit;font-size:15px;border:1px solid var(--navy);background:#fff;color:var(--navy);padding:10px 14px;border-radius:2px;font-weight:600;cursor:pointer}
 button.pri{background:var(--acc);border-color:var(--acc);color:#fff}
-button.sec{background:transparent;color:#fff;border-color:rgba(255,255,255,.6)}
+button.sec{background:transparent;color:#fff;border-color:rgba(255,255,255,.6);padding:9px 10px}
+button.chip{padding:6px 10px;font-size:14px;font-weight:500}
 button:disabled{opacity:.45}
 nav{display:flex;border-bottom:1px solid var(--line);background:var(--card)}
-nav button{flex:1;border:0;border-bottom:3px solid transparent;background:none;color:var(--muted);padding:12px}
+nav button{flex:1;border:0;border-bottom:3px solid transparent;background:none;color:var(--muted);padding:12px 4px}
 nav button.on{color:var(--ink);border-bottom-color:var(--acc)}
 main{padding:12px;max-width:900px;margin:0 auto}
-.band{background:var(--acc);color:#fff;display:flex;justify-content:space-between;align-items:baseline;padding:8px 12px;font-weight:600;font-size:18px}
-.band small{font-weight:500;font-size:14px;opacity:.9}
+.band{background:var(--acc);color:#fff;display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:8px 12px;font-weight:600;font-size:18px}
+.band small{font-weight:500;font-size:14px;opacity:.9;text-align:right}
 .card{background:var(--card);border:1px solid var(--line);padding:12px;margin-top:10px}
 .lbl{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
 .big{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
@@ -42,16 +43,19 @@ main{padding:12px;max-width:900px;margin:0 auto}
 .stats div{background:var(--card);padding:8px 10px}
 .stats b{display:block;font-size:24px;font-weight:600;margin-top:2px}
 table{width:100%;border-collapse:collapse;font-size:15px}
-th{font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);text-align:right;font-weight:600;padding:6px 6px;border-bottom:1px solid var(--line)}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.03em;color:var(--muted);text-align:right;font-weight:600;padding:6px;border-bottom:1px solid var(--line)}
 th:first-child,td:first-child{text-align:left}
 td{text-align:right;padding:7px 6px;border-bottom:1px solid #ece7db}
 td.cur{font-style:italic;color:var(--muted)}
 td.ok{color:var(--ok);font-weight:600}td.bad{color:var(--bad);font-weight:600}
 td.pp{font-weight:700;color:var(--acc)}
 input,select{font:inherit;font-size:16px;padding:8px;border:1px solid var(--line);background:#fff;border-radius:2px;width:100%}
-td input{width:88px;text-align:right}
+td input{width:92px;text-align:right}
 .row{display:flex;gap:8px;align-items:end;flex-wrap:wrap;margin-top:8px}
 .row>div{flex:1;min-width:120px}
+.prev{font-size:14px;margin-top:4px;color:var(--muted)}
+.prev.ok{color:var(--ok);font-weight:600}.prev.bad{color:var(--bad)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:6px}
 .legend i{display:inline-block;width:22px;height:0;border-top:3px solid;vertical-align:middle;margin-right:5px}
 .legend i.d{border-top-style:dashed;border-top-width:2px}
@@ -60,12 +64,20 @@ td input{width:88px;text-align:right}
 .msg{background:#fbeee0;border:1px solid #e6c9a3;padding:10px 12px;margin-top:10px;font-size:14px;display:none}
 .fin{border:2px solid var(--acc)}
 .fin .t{font-size:40px;font-weight:700;color:var(--acc)}
-.hide{display:none!important}
 .gal{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
 .gal figure{margin:0}.gal img,.gal video{width:100%;display:block;background:#000}
 .gal figcaption{font-size:12px;color:var(--muted);margin-top:3px;word-break:break-all}
 #camCanvas{width:100%;margin-top:8px;background:#000;display:block}
 .rec{color:var(--bad);font-weight:700}
+.pmbar{display:flex;gap:8px;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--line);border-top:0;padding:6px 12px;font-size:14px;color:var(--muted)}
+.pmbar button{padding:6px 10px;font-size:14px}
+details.h{background:var(--card);border:1px solid var(--line);margin-top:8px}
+details.h summary{list-style:none;padding:10px 12px;display:flex;justify-content:space-between;gap:8px;cursor:pointer}
+details.h summary::-webkit-details-marker{display:none}
+details.h summary b{font-size:18px}
+details.h .in{padding:0 12px 12px}
+details.h img{width:100%;display:block;margin-top:8px}
+.hide{display:none!important}
 .note{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.4}
 </style>
 </head>
@@ -77,24 +89,29 @@ td input{width:88px;text-align:right}
   <button class="sec" id="btnCon">Conectar PM5</button>
 </header>
 <input type="file" id="logoFile" accept="image/*" class="hide">
-<nav><button id="tabPlan">Plan</button><button id="tabVivo" class="on">En vivo</button></nav>
+<nav><button id="tabPlan">Plan</button><button id="tabVivo" class="on">En vivo</button><button id="tabHist">Carreras</button></nav>
 <main>
 <div class="msg" id="msg"></div>
 
 <!-- ============ EN VIVO ============ -->
 <section id="vVivo">
   <div class="band" id="band"><span id="bNombre">–</span><small id="bObj">Objetivo –</small></div>
+  <div class="pmbar hide" id="pmBar"><span id="pmEst">PM5 conectado</span><button id="btnProg">Programar PM5</button></div>
 
   <div class="card fin hide" id="fin">
     <div class="lbl">Tiempo final</div>
     <div class="t" id="finT">–</div>
     <div class="sub" id="finTxt"></div>
     <div class="row">
-      <button class="pri" id="btnWa">Enviar por WhatsApp</button>
+      <button class="pri" id="btnWa">WhatsApp al número registrado</button>
+      <button id="btnShare1">Compartir collage</button>
+    </div>
+    <div class="row">
       <button id="btnCsv">Descargar CSV</button>
       <button id="btnAnt">Guardar como anterior</button>
       <button id="btnNuevo">Nuevo intento</button>
     </div>
+    <div class="note">La carrera ya quedó guardada en la pestaña Carreras.</div>
   </div>
 
   <div class="big">
@@ -128,15 +145,16 @@ td input{width:88px;text-align:right}
   <div class="card hide" id="evCard">
     <div class="lbl">Registro fotográfico</div>
     <div id="evGal" class="gal"></div>
-    <div class="row"><button class="pri" id="btnShare">Compartir todo</button><button id="btnDl">Descargar todo</button></div>
+    <div class="row"><button id="btnShareAll">Compartir todo</button><button id="btnDl">Descargar todo</button></div>
     <div class="note" id="evNote"></div>
   </div>
 
   <div class="card">
     <table>
-      <thead><tr><th>Tramo</th><th>Plan</th><th>Real</th><th>Dif</th><th>Pasa por</th><th>Anterior</th></tr></thead>
+      <thead><tr><th>Metros</th><th>Plan</th><th>Real</th><th>Dif</th><th>Pasa por</th><th>Anterior</th></tr></thead>
       <tbody id="tbVivo"></tbody>
     </table>
+    <div class="note">Plan, Real y Anterior son ritmos por 500 m de cada tramo.</div>
   </div>
 
   <div class="card">
@@ -145,7 +163,7 @@ td input{width:88px;text-align:right}
     <div class="legend">
       <span><i id="lgPlan"></i>Plan</span>
       <span><i class="d" style="border-color:#8a8f99"></i>Anterior</span>
-      <span><i id="lgReal" style="border-color:var(--ink)"></i>Real por tramo</span>
+      <span><i style="border-color:var(--ink)"></i>Real por tramo</span>
       <span><i class="t" id="lgTr"></i>Ritmo instantáneo</span>
     </div>
   </div>
@@ -159,71 +177,107 @@ td input{width:88px;text-align:right}
 <!-- ============ PLAN ============ -->
 <section id="vPlan" class="hide">
   <div class="card">
-    <div class="row">
+    <div class="row" style="margin-top:0">
       <div><span class="lbl">Remero/a</span><select id="perfil"></select></div>
-      <div><span class="lbl">Distancia</span>
-        <select id="dist"><option>1000</option><option>2000</option><option>5000</option><option>6000</option></select></div>
     </div>
     <div class="row">
-      <div><span class="lbl">Objetivo total</span><input id="objetivo" placeholder="7:28,4" inputmode="decimal"></div>
+      <div><span class="lbl">Distancia (metros)</span><input id="dist" type="number" inputmode="numeric" min="100" max="50000" step="1"></div>
+      <div><span class="lbl">Parcial cada</span>
+        <select id="split"><option value="100">100 m</option><option value="250">250 m</option><option value="500">500 m</option><option value="1000">1.000 m</option><option value="2000">2.000 m</option></select></div>
+    </div>
+    <div class="chips" id="chips"></div>
+  </div>
+
+  <div class="card">
+    <span class="lbl">Tiempo objetivo total</span>
+    <div class="row" style="margin-top:4px">
+      <div><input id="objetivo" inputmode="decimal" placeholder="ej. 313 = 3:13"></div>
       <div style="flex:0"><button id="btnParejo">Repartir parejo</button></div>
     </div>
+    <div class="prev" id="objPrev">Escribí 313 para 3:13 · 728,4 para 7:28,4 · también vale 3:13 o 3 13</div>
   </div>
 
   <div class="card">
     <table>
-      <thead><tr><th>Tramo</th><th>Plan /500</th><th>Pasa por</th><th>Anterior /500</th></tr></thead>
+      <thead><tr><th>Metros</th><th>Plan /500</th><th>Pasa por</th><th>Anterior /500</th></tr></thead>
       <tbody id="tbPlan"></tbody>
       <tfoot><tr><td><b>Total</b></td><td></td><td class="pp" id="totPlan">–</td><td id="totAnt" style="font-weight:600">–</td></tr></tfoot>
     </table>
-    <div class="note">Formato m:ss,d (ej. 1:52,5). El anterior es opcional; si solo sabés el total, poné la media en los cuatro tramos.</div>
+    <div class="note">Cada casilla es el ritmo por 500 m de ese tramo. Mismo formato: 152 = 1:52 · 152,5 = 1:52,5. El anterior es opcional.</div>
   </div>
 
   <div class="card">
-    <div class="row">
-      <div><span class="lbl">Nuevo perfil</span><input id="nuevoNombre" placeholder="Nombre"></div>
-      <div style="flex:0"><button id="btnAgregar">Agregar</button></div>
-      <div style="flex:0"><button id="btnBorrar">Borrar perfil</button></div>
-    </div>
-    <div class="row">
+    <div class="row" style="margin-top:0">
       <div><span class="lbl">WhatsApp para el resumen</span><input id="wa" placeholder="5492614123456" inputmode="tel"></div>
-      <div style="flex:0"><button id="btnQuitarLogo">Quitar logo</button></div>
     </div>
-    <div class="note">Número con código de país y sin el 15: Argentina celular = 549 + característica + número (ej. 549 261 4123456).</div>
+    <div class="note">Código de país, sin el 0 ni el 15. Argentina celular: 549 + característica + número (ej. 549 261 4123456).</div>
+    <label class="row" style="align-items:center;gap:10px"><input type="checkbox" id="autoProg" style="width:auto"> <span>Programar la distancia en el PM5 al conectar</span></label>
+  </div>
+
+  <div class="card">
+    <div class="row" style="margin-top:0">
+      <div><span class="lbl">Nuevo remero/a</span><input id="nuevoNombre" placeholder="Nombre"></div>
+      <div style="flex:0"><button id="btnAgregar">Agregar</button></div>
+    </div>
+    <div class="row">
+      <button id="btnBorrar">Borrar remero/a</button>
+      <button id="btnQuitarLogo">Quitar logo</button>
+    </div>
   </div>
 
   <div class="note">
-    Uso: programá la distancia en el PM5 (o Just Row), tocá <b>Conectar PM5</b> y elegí el monitor de la lista.
+    Uso: elegí remero/a y distancia, tocá <b>Conectar PM5</b> y elegí el monitor de la lista.
     ErgData tiene que estar cerrado: el PM5 acepta una sola app a la vez.
-    Necesita Chrome en Android, con Bluetooth y Ubicación activados, y la página abierta desde una dirección https.
   </div>
+</section>
+
+<!-- ============ CARRERAS ============ -->
+<section id="vHist" class="hide">
+  <div class="card">
+    <div class="row" style="margin-top:0">
+      <div><span class="lbl">Ver</span><select id="hFiltro"></select></div>
+      <div style="flex:0"><button id="btnHCsv">Exportar todo (CSV)</button></div>
+    </div>
+    <div class="note" id="hInfo"></div>
+  </div>
+  <div id="hLista"></div>
 </section>
 </main>
 
 <script>
 'use strict';
-const TRAMO = 500;
-const KEY = 'ergoVivo.v2';
+const KEY = 'ergoVivo.v2', KEYH = 'ergoVivo.hist';
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const mfmt = m => Math.round(m).toLocaleString('es-AR');
 
-/* ---------- formato ---------- */
+/* ================= formato de tiempos ================= */
+// Acepta: 3:13 · 3:13,5 · 313 · 313,5 · 3 13 · 3.13 · 3,13 · 3m13s · 1:02:30
 function parseT(s){
   if (s == null) return null;
-  s = String(s).trim().replace(',', '.');
+  s = String(s).trim().toLowerCase().replace(/\s+/g, ' ');
   if (!s) return null;
-  let v = 0;
-  for (const p of s.split(':')) { const n = parseFloat(p); if (isNaN(n)) return null; v = v*60 + n; }
+  let m, v = null;
+  if ((m = s.match(/^(\d+)\s*(?:m|min|')\s*(\d+(?:[.,]\d+)?)?\s*(?:s|seg|")?$/))) v = +m[1]*60 + (m[2] ? parseFloat(m[2].replace(',', '.')) : 0);
+  else if (s.includes(':')) {
+    const parts = s.split(':'); v = 0;
+    for (const p of parts) { const n = parseFloat(p.replace(',', '.')); if (isNaN(n)) return null; v = v*60 + n; }
+    if (parseFloat(parts[parts.length-1].replace(',', '.')) >= 60) return null;
+  }
+  else if ((m = s.match(/^(\d{1,2})[ .,](\d{2})(?:[.,](\d))?$/))) { if (+m[2] >= 60) return null; v = +m[1]*60 + +m[2] + (m[3] ? +m[3]/10 : 0); }
+  else if ((m = s.match(/^(\d{3,4})(?:[.,](\d+))?$/))) { const mm = +m[1].slice(0, -2), ss = +m[1].slice(-2); if (ss >= 60) return null; v = mm*60 + ss + (m[2] ? parseFloat('0.' + m[2]) : 0); }
+  else if ((m = s.match(/^(\d{1,2})(?:[.,](\d+))?$/))) v = +m[1] + (m[2] ? parseFloat('0.' + m[2]) : 0);
   return v > 0 ? v : null;
 }
 function fmt(sec, dec = 1){
   if (sec == null || !isFinite(sec)) return '–';
   const neg = sec < 0; sec = Math.abs(sec);
   const r = Math.round(sec * Math.pow(10, dec)) / Math.pow(10, dec);
-  const m = Math.floor(r / 60);
-  let s = (r - m*60).toFixed(dec);
+  const h = Math.floor(r / 3600), m = Math.floor((r - h*3600) / 60);
+  let s = (r - h*3600 - m*60).toFixed(dec);
   if (parseFloat(s) < 10) s = '0' + s;
-  return (neg ? '−' : '') + m + ':' + s.replace('.', ',');
+  const mm = h ? String(m).padStart(2, '0') : String(m);
+  return (neg ? '−' : '') + (h ? h + ':' : '') + mm + ':' + s.replace('.', ',');
 }
 function fmtDif(x){
   if (x == null || !isFinite(x)) return '–';
@@ -231,55 +285,97 @@ function fmtDif(x){
   return (x > 0.04 ? '+' : x < -0.04 ? '−' : '±') + a;
 }
 
-/* ---------- configuración ---------- */
-const COLORES = {};
-const DEFAULTS = {
-  activo: 'Remero/a', logo: null,
-  perfiles: {
-    'Remero/a': { dist:2000, plan:[120,120,120,120], ant:[] }
-  }
-};
+/* ================= configuración ================= */
+const DEFAULTS = { activo:'Remero/a', logo:null, wa:'', autoProg:true,
+  perfiles:{ 'Remero/a':{ dist:2000, split:500, plan:[120,120,120,120], ant:[] } } };
 function load(){
   try { const j = JSON.parse(localStorage.getItem(KEY)); if (j && j.perfiles && Object.keys(j.perfiles).length) return j; } catch(e){}
   return JSON.parse(JSON.stringify(DEFAULTS));
 }
-function save(){ try { localStorage.setItem(KEY, JSON.stringify(CFG)); } catch(e){ aviso('No se pudo guardar en este navegador (los cambios valen solo por esta sesión).'); } }
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(CFG)); } catch(e){ aviso('No se pudo guardar en este navegador.'); } }
 let CFG = load();
+if (CFG.autoProg === undefined) CFG.autoProg = true;
+for (const k in CFG.perfiles) { const P = CFG.perfiles[k]; P.split = P.split || 500; P.ant = P.ant || []; }
 if (!CFG.perfiles[CFG.activo]) CFG.activo = Object.keys(CFG.perfiles)[0];
 const prof = () => CFG.perfiles[CFG.activo];
-const color = () => COLORES[CFG.activo] || '#1d2a5c';
-function nTramos(){ return Math.round(prof().dist / TRAMO); }
-function normaliza(P){
-  const n = Math.round(P.dist / TRAMO);
-  const fill = (arr, def) => { arr = (arr || []).slice(0, n); while (arr.length < n) arr.push(def(arr)); return arr; };
-  P.plan = fill(P.plan, a => a.length ? a[a.length-1] : 120);
-  P.ant  = fill(P.ant,  () => null);
+const color = () => '#a3264a';
+
+function tramosDe(dist, split){
+  const t = []; for (let a = 0; a < dist - 1e-6; a += split) t.push({ a, b:Math.min(a + split, dist) }); return t;
 }
-const sum = a => a.reduce((s, v) => s + (v || 0), 0);
-function planCum(d){
-  const p = prof().plan; let t = 0;
-  for (let i = 0; i < p.length; i++) {
-    const a = i*TRAMO;
-    if (d >= a + TRAMO) t += p[i];
-    else { t += p[i] * Math.max(0, d - a) / TRAMO; break; }
-  }
+const TR = () => tramosDe(prof().dist, prof().split);
+function normaliza(P){
+  const n = tramosDe(P.dist, P.split).length;
+  const last = P.plan && P.plan.length ? P.plan[P.plan.length-1] : 120;
+  P.plan = (P.plan || []).slice(0, n); while (P.plan.length < n) P.plan.push(last);
+  P.ant = (P.ant || []).slice(0, n); while (P.ant.length < n) P.ant.push(null);
+}
+function cumDe(paces, tr, d){
+  let t = 0;
+  for (let i = 0; i < tr.length; i++) { const { a, b } = tr[i]; if (d <= a) break; t += (paces[i] || 0) * (Math.min(d, b) - a) / 500; }
   return t;
 }
+const planCum = d => cumDe(prof().plan, TR(), d);
+const planTotal = () => planCum(prof().dist);
+function antTotal(P = prof()){ return P.ant.length && P.ant.every(v => v) ? cumDe(P.ant, tramosDe(P.dist, P.split), P.dist) : null; }
+const ritmoTramo = (cross, k, tr) => cross[k] == null ? null : (cross[k] - (k ? cross[k-1] : 0)) / (tr[k].b - tr[k].a) * 500;
 
 function aviso(t){ const m = $('msg'); m.textContent = t; m.style.display = t ? 'block' : 'none'; }
 
-/* ---------- logo ---------- */
-function pintaLogo(){
-  const b = $('logoBox');
-  b.innerHTML = CFG.logo ? `<img alt="logo" src="${CFG.logo}">` : '<span>Tocá para<br>logo</span>';
+/* ================= historial (memoria de carreras) ================= */
+function loadHist(){ try { return JSON.parse(localStorage.getItem(KEYH)) || []; } catch(e){ return []; } }
+function saveHist(H){ try { localStorage.setItem(KEYH, JSON.stringify(H)); } catch(e){ aviso('No hay espacio para guardar más carreras.'); } }
+const idb = (() => {
+  let dbp = null;
+  const open = () => dbp || (dbp = new Promise((res, rej) => {
+    const r = indexedDB.open('ergoVivo', 1);
+    r.onupgradeneeded = () => r.result.createObjectStore('fotos');
+    r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+  }));
+  const tx = (mode, fn) => open().then(db => new Promise((res, rej) => {
+    const t = db.transaction('fotos', mode), rq = fn(t.objectStore('fotos'));
+    t.oncomplete = () => res(rq && rq.result); t.onerror = () => rej(t.error);
+  }));
+  return { put:(k, v) => tx('readwrite', s => s.put(v, k)), get:k => tx('readonly', s => s.get(k)), del:k => tx('readwrite', s => s.delete(k)) };
+})();
+
+function textoDe(rec){
+  const tr = tramosDe(rec.dist, rec.split), pt = cumDe(rec.plan, tr, rec.dist);
+  const fecha = new Date(rec.fecha).toLocaleString('es-AR', { dateStyle:'short', timeStyle:'short', hour12:false });
+  let t = `*${rec.nombre} · ${mfmt(rec.dist)} m* · ${fecha}\n`;
+  if (rec.distReal < rec.dist - 5) t += `*Incompleta: ${mfmt(rec.distReal)} m en ${fmt(rec.tiempo)}*\n`;
+  else t += `*Tiempo: ${fmt(rec.tiempo)}* (media ${fmt(rec.tiempo / rec.dist * 500)}/500)\n`;
+  t += `Objetivo ${fmt(pt)} → ${fmtDif(rec.tiempo - pt)} s\n`;
+  if (rec.ant && rec.ant.length && rec.ant.every(v => v)) { const at = cumDe(rec.ant, tr, rec.dist); t += `Anterior ${fmt(at)} → ${fmtDif(rec.tiempo - at)} s\n`; }
+  t += `\nParciales (ritmo real / plan · pasa por):\n`;
+  tr.forEach((x, k) => { t += `${mfmt(x.b)}: ${fmt(ritmoTramo(rec.cross, k, tr))} / ${fmt(rec.plan[k])} · ${fmt(rec.cross[k])}\n`; });
+  t += `\ns/m medio ${rec.spm ?? '–'} · arrastre ${rec.drag ?? '–'}`;
+  if (rec.fotos) t += `\nRegistro fotográfico: ${rec.fotos} fotos${rec.video ? ' + video de salida' : ''}`;
+  return t;
 }
+
+/* ================= WhatsApp y compartir ================= */
+function waDirecto(txt){
+  if (!CFG.wa) { aviso('Cargá el número de WhatsApp en la pestaña Plan.'); tab('plan'); $('wa').focus(); return; }
+  window.open(`https://wa.me/${CFG.wa}?text=${encodeURIComponent(txt)}`, '_blank');
+}
+async function compartir(blob, nombre, txt){
+  if (blob) {
+    const files = [new File([blob], nombre, { type:blob.type || 'image/jpeg' })];
+    if (navigator.canShare && navigator.canShare({ files })) { try { await navigator.share({ files, text:txt }); } catch(e){} return; }
+  }
+  if (navigator.share) { try { await navigator.share({ text:txt }); } catch(e){} return; }
+  waDirecto(txt);
+}
+
+/* ================= logo ================= */
+function pintaLogo(){ $('logoBox').innerHTML = CFG.logo ? `<img alt="logo" src="${CFG.logo}">` : '<span>Tocá para<br>logo</span>'; }
 $('logoBox').onclick = () => $('logoFile').click();
 $('logoFile').onchange = e => {
   const f = e.target.files[0]; if (!f) return;
   const img = new Image(), url = URL.createObjectURL(f);
-  img.onload = () => {   // se reduce para que entre en el almacenamiento local
-    const s = Math.min(1, 256 / Math.max(img.width, img.height));
-    const c = document.createElement('canvas');
+  img.onload = () => {
+    const s = Math.min(1, 256 / Math.max(img.width, img.height)), c = document.createElement('canvas');
     c.width = Math.round(img.width*s); c.height = Math.round(img.height*s);
     c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
     CFG.logo = c.toDataURL('image/png'); save(); pintaLogo(); URL.revokeObjectURL(url);
@@ -288,63 +384,89 @@ $('logoFile').onchange = e => {
 };
 $('btnQuitarLogo').onclick = () => { CFG.logo = null; save(); pintaLogo(); };
 
-/* ---------- pantalla PLAN ---------- */
+/* ================= pantalla PLAN ================= */
+const CHIPS = [500, 1000, 2000, 5000, 6000, 10000];
 function renderPlan(){
-  const P = prof(); normaliza(P);
+  const P = prof(); normaliza(P); const tr = TR();
   $('perfil').innerHTML = Object.keys(CFG.perfiles).map(n => `<option ${n===CFG.activo?'selected':''}>${esc(n)}</option>`).join('');
-  $('dist').value = P.dist;
-  let cum = 0, h = '';
-  P.plan.forEach((v, i) => {
-    cum += v;
-    h += `<tr><td>${((i+1)*TRAMO).toLocaleString('es-AR')}</td>
-      <td><input data-k="plan" data-i="${i}" value="${fmt(v)}" inputmode="decimal"></td>
-      <td class="pp">${fmt(cum)}</td>
+  $('dist').value = P.dist; $('split').value = P.split;
+  $('chips').innerHTML = CHIPS.map(c => `<button class="chip" data-d="${c}">${mfmt(c)}</button>`).join('');
+  let h = '';
+  tr.forEach((x, i) => {
+    h += `<tr><td>${mfmt(x.b)}</td>
+      <td><input data-k="plan" data-i="${i}" value="${fmt(P.plan[i])}" inputmode="decimal"></td>
+      <td class="pp">${fmt(cumDe(P.plan, tr, x.b))}</td>
       <td><input data-k="ant" data-i="${i}" value="${P.ant[i] ? fmt(P.ant[i]) : ''}" inputmode="decimal" placeholder="–"></td></tr>`;
   });
   $('tbPlan').innerHTML = h;
-  $('totPlan').textContent = fmt(sum(P.plan));
-  $('totAnt').textContent = P.ant.every(v => v) ? fmt(sum(P.ant)) : '–';
-  $('objetivo').placeholder = fmt(sum(P.plan));
+  $('totPlan').textContent = fmt(planTotal());
+  $('totAnt').textContent = fmt(antTotal());
+  $('wa').value = CFG.wa || '';
+  $('autoProg').checked = !!CFG.autoProg;
+}
+function cambioDistancia(){
+  resetRun(); renderPlan(); renderVivo();
+  if (dev && dev.gatt.connected && CFG.autoProg) programarPM5();
 }
 $('tbPlan').addEventListener('change', e => {
   const el = e.target; if (!el.dataset.k) return;
   const P = prof(), v = parseT(el.value);
-  if (el.dataset.k === 'plan' && !v) { aviso('Ritmo de plan inválido. Usá m:ss,d (ej. 1:52,5).'); renderPlan(); return; }
+  if (el.dataset.k === 'plan' && !v) { aviso('No entendí ese ritmo. Ej.: 152 = 1:52 · 152,5 = 1:52,5'); renderPlan(); return; }
   P[el.dataset.k][+el.dataset.i] = v; aviso(''); save(); renderPlan(); renderVivo();
 });
-$('perfil').onchange = e => { CFG.activo = e.target.value; save(); resetRun(); renderPlan(); renderVivo(); };
-$('dist').onchange = e => { prof().dist = +e.target.value; normaliza(prof()); save(); resetRun(); renderPlan(); renderVivo(); };
-$('btnParejo').onclick = () => {
-  const v = parseT($('objetivo').value); if (!v) { aviso('Poné el objetivo total, ej. 7:28,4'); return; }
-  const n = nTramos(); prof().plan = Array(n).fill(Math.round(v/n*100)/100);
-  $('objetivo').value = ''; aviso(''); save(); renderPlan(); renderVivo();
+$('perfil').onchange = e => { CFG.activo = e.target.value; save(); cambioDistancia(); };
+$('dist').onchange = e => {
+  const v = Math.round(+e.target.value);
+  if (!(v >= 100 && v <= 50000)) { aviso('La distancia tiene que estar entre 100 y 50.000 m.'); renderPlan(); return; }
+  const P = prof(); P.dist = v; if (P.split > v) P.split = [2000, 1000, 500, 250, 100].find(s => s <= v) || 100;
+  aviso(''); save(); cambioDistancia();
 };
+$('chips').onclick = e => { const d = +e.target.dataset.d; if (!d) return; $('dist').value = d; $('dist').onchange({ target:$('dist') }); };
+$('split').onchange = e => { const P = prof(); P.split = Math.min(+e.target.value, P.dist); save(); cambioDistancia(); };
+$('objetivo').oninput = () => {
+  const v = parseT($('objetivo').value), el = $('objPrev');
+  if (!$('objetivo').value.trim()) { el.className = 'prev'; el.textContent = 'Escribí 313 para 3:13 · 728,4 para 7:28,4 · también vale 3:13 o 3 13'; return; }
+  if (!v) { el.className = 'prev bad'; el.textContent = 'No lo entiendo. Ej.: 313 = 3:13 · 728,4 = 7:28,4'; return; }
+  el.className = 'prev ok'; el.textContent = `= ${fmt(v)} · ritmo ${fmt(v / prof().dist * 500)}/500 · tocá Repartir parejo`;
+};
+function repartir(){
+  const v = parseT($('objetivo').value); if (!v) { $('objetivo').oninput(); return; }
+  const P = prof(), p = Math.round(v / P.dist * 500 * 100) / 100;
+  P.plan = tramosDe(P.dist, P.split).map(() => p);
+  $('objetivo').value = ''; $('objetivo').oninput(); aviso(''); save(); renderPlan(); renderVivo();
+}
+$('btnParejo').onclick = repartir;
+$('objetivo').onkeydown = e => { if (e.key === 'Enter') repartir(); };
+$('wa').onchange = e => { CFG.wa = e.target.value.replace(/\D/g, ''); e.target.value = CFG.wa; save(); };
+$('autoProg').onchange = e => { CFG.autoProg = e.target.checked; save(); };
 $('btnAgregar').onclick = () => {
   const n = $('nuevoNombre').value.trim(); if (!n) return;
-  if (!CFG.perfiles[n]) CFG.perfiles[n] = { dist: prof().dist, plan: prof().plan.slice(), ant: [] };
-  CFG.activo = n; $('nuevoNombre').value = ''; save(); resetRun(); renderPlan(); renderVivo();
+  if (!CFG.perfiles[n]) { const P = prof(); CFG.perfiles[n] = { dist:P.dist, split:P.split, plan:P.plan.slice(), ant:[] }; }
+  CFG.activo = n; $('nuevoNombre').value = ''; save(); cambioDistancia();
 };
 let borrarArmado = false;
 $('btnBorrar').onclick = () => {
-  if (Object.keys(CFG.perfiles).length < 2) { aviso('Tiene que quedar al menos un perfil.'); return; }
-  if (!borrarArmado) { borrarArmado = true; $('btnBorrar').textContent = `¿Borrar ${CFG.activo}? Tocá de nuevo`; setTimeout(() => { borrarArmado = false; $('btnBorrar').textContent = 'Borrar perfil'; }, 4000); return; }
+  if (Object.keys(CFG.perfiles).length < 2) { aviso('Tiene que quedar al menos un remero/a.'); return; }
+  if (!borrarArmado) { borrarArmado = true; $('btnBorrar').textContent = `¿Borrar ${CFG.activo}? Tocá de nuevo`; setTimeout(() => { borrarArmado = false; $('btnBorrar').textContent = 'Borrar remero/a'; }, 4000); return; }
   delete CFG.perfiles[CFG.activo]; CFG.activo = Object.keys(CFG.perfiles)[0];
-  borrarArmado = false; $('btnBorrar').textContent = 'Borrar perfil';
-  save(); resetRun(); renderPlan(); renderVivo();
+  borrarArmado = false; $('btnBorrar').textContent = 'Borrar remero/a';
+  save(); cambioDistancia();
 };
 
-/* ---------- tabs ---------- */
+/* ================= pestañas ================= */
 function tab(w){
-  $('vPlan').classList.toggle('hide', w !== 'plan'); $('vVivo').classList.toggle('hide', w !== 'vivo');
-  $('tabPlan').classList.toggle('on', w === 'plan'); $('tabVivo').classList.toggle('on', w === 'vivo');
+  ['plan','vivo','hist'].forEach(x => {
+    $({ plan:'vPlan', vivo:'vVivo', hist:'vHist' }[x]).classList.toggle('hide', w !== x);
+    $({ plan:'tabPlan', vivo:'tabVivo', hist:'tabHist' }[x]).classList.toggle('on', w === x);
+  });
   if (w === 'vivo') renderVivo();
+  if (w === 'hist') renderHist();
 }
-$('tabPlan').onclick = () => tab('plan'); $('tabVivo').onclick = () => tab('vivo');
+$('tabPlan').onclick = () => tab('plan'); $('tabVivo').onclick = () => tab('vivo'); $('tabHist').onclick = () => tab('hist');
 
-
-/* ---------- cámara y registro ---------- */
-const CAM = { stream:null, facing:'user', raf:0, rec:null, chunks:[], keep:false, recWall:0, recTimer:0, grabando:false };
-let EV = { photos:[], video:null, sheet:null, txt:null, pend:[] };
+/* ================= cámara y registro ================= */
+const CAM = { stream:null, facing:'user', raf:0, rec:null, chunks:[], keep:false, recWall:0, grabando:false, flash:null };
+let EV = { photos:[], video:null, sheet:null, txt:null, pend:[], base:'' };
 const hoyStr = () => new Date().toLocaleDateString('es-AR');
 const horaStr = () => new Date().toLocaleTimeString('es-AR', { hour12:false });
 const fechaArch = () => { const d = new Date(), z = n => String(n).padStart(2,'0'); return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}_${z(d.getHours())}${z(d.getMinutes())}`; };
@@ -355,23 +477,22 @@ async function sha256(blob){
 function resetEv(){
   EV.photos.forEach(f => URL.revokeObjectURL(f.url)); if (EV.video) URL.revokeObjectURL(EV.video.url); if (EV.sheet) URL.revokeObjectURL(EV.sheet.url);
   EV = { photos:[], video:null, sheet:null, txt:null, pend:[], base:fechaArch() };
-  const c = document.getElementById('evCard'); if (c) { c.classList.add('hide'); $('evGal').innerHTML = ''; }
+  $('evCard').classList.add('hide'); $('evGal').innerHTML = '';
 }
 function sello(g, w, h, abajo){
   const fs = Math.max(14, Math.min(34, Math.round(Math.min(w, h) * 0.045))), pad = Math.round(fs * .45);
   g.font = `600 ${fs}px Roboto, system-ui, sans-serif`; g.textBaseline = 'middle';
-  const arriba = `${CFG.activo} · ${prof().dist.toLocaleString('es-AR')} m · ${hoyStr()} ${horaStr()}`;
+  const arriba = `${CFG.activo} · ${mfmt(prof().dist)} m · ${hoyStr()} ${horaStr()}`;
   g.fillStyle = 'rgba(0,0,0,.6)'; g.fillRect(0, 0, w, fs + pad*2);
   g.fillStyle = '#fff'; g.fillText(arriba, pad, pad + fs/2);
-  const lines = Array.isArray(abajo) ? abajo : [abajo];
-  const bh = lines.length * (fs + pad) + pad;
+  const lines = Array.isArray(abajo) ? abajo : [abajo], bh = lines.length * (fs + pad) + pad;
   g.fillStyle = 'rgba(0,0,0,.6)'; g.fillRect(0, h - bh, w, bh);
   g.fillStyle = '#fff'; lines.forEach((l, i) => g.fillText(l, pad, h - bh + pad + fs/2 + i * (fs + pad)));
 }
 function lineaVivo(){
   if (CAM.flash && performance.now() < CAM.flash.hasta) return CAM.flash.txt;
-  if (R.finished) return `FINAL ${fmt(R.t)} · ${prof().dist.toLocaleString('es-AR')} m`;
-  if (R.running) return `${Math.floor(R.d).toLocaleString('es-AR')} m · ${fmt(R.t)} · ritmo ${fmt(R.pace)} · ${R.spm ?? '–'} s/m`;
+  if (R.finished) return `FINAL ${fmt(R.t)} · ${mfmt(R.d)} m`;
+  if (R.running) return `${mfmt(Math.floor(R.d))} m · ${fmt(R.t)} · ritmo ${fmt(R.pace)} · ${R.spm ?? '–'} s/m`;
   return 'Esperando salida';
 }
 function loopCam(){
@@ -387,7 +508,7 @@ function loopCam(){
 function camEst(){
   const e = $('camEst');
   if (!CAM.stream) { e.textContent = 'Apagada'; return; }
-  e.innerHTML = CAM.grabando ? '<span class="rec">● Grabando salida</span> · fotos en cada 500 m' : 'Lista · fotos en cada 500 m';
+  e.innerHTML = CAM.grabando ? '<span class="rec">● Grabando salida</span> · fotos en los parciales' : 'Lista · fotos en los parciales';
 }
 async function camOn(){
   if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { aviso('La cámara necesita Chrome y la página abierta desde https.'); return; }
@@ -396,7 +517,7 @@ async function camOn(){
   } catch(e) {
     CAM.stream = null;
     if (!window.isSecureContext) aviso('La cámara solo funciona con la página abierta desde una dirección https (no como archivo).');
-    else if (e.name === 'NotAllowedError') aviso('Chrome tiene la cámara bloqueada para esta página: tocá el ícono a la izquierda de la dirección → Permisos → Cámara → Permitir, y recargá. Si sigue, en Ajustes de Android → Apps → Chrome → Permisos → Cámara → Permitir.');
+    else if (e.name === 'NotAllowedError') aviso('Chrome tiene la cámara bloqueada para esta página: tocá el ícono a la izquierda de la dirección → Permisos → Cámara → Permitir, y recargá. Si sigue, Ajustes de Android → Apps → Chrome → Permisos → Cámara → Permitir.');
     else aviso('No se pudo abrir la cámara: ' + e.message);
     return;
   }
@@ -412,7 +533,6 @@ function camOff(){
 $('btnCam').onclick = () => CAM.stream ? camOff() : camOn();
 $('btnFlip').onclick = async () => { CAM.facing = CAM.facing === 'user' ? 'environment' : 'user'; if (CAM.stream) { camOff(); await camOn(); } };
 
-// video: se graba desde que la cámara está lista hasta 20 s después de la salida
 function armarRec(){
   if (!CAM.stream || CAM.rec || R.finished || (R.running && R.t > 20) || !window.MediaRecorder) return;
   const c = $('camCanvas'); if (!c.captureStream) return;
@@ -425,16 +545,15 @@ function armarRec(){
     CAM.rec = null; CAM.grabando = false; camEst();
     if (keep && chunks.length) {
       const blob = new Blob(chunks, { type }), ext = type.includes('mp4') ? 'mp4' : 'webm';
-      const p = sha256(blob).then(h => { EV.video = { blob, hash:h, url:URL.createObjectURL(blob), name:`${EV.base}_${CFG.activo}_salida.${ext}` }; renderEv(); });
-      EV.pend.push(p);
-    } else if (CAM.stream && !R.running && !R.finished) armarRec();   // reciclado mientras espera
+      EV.pend.push(sha256(blob).then(h => { EV.video = { blob, hash:h, url:URL.createObjectURL(blob), name:`${EV.base}_${CFG.activo}_salida.${ext}` }; renderEv(); }));
+    } else if (CAM.stream && !R.running && !R.finished) armarRec();
   };
   rec.start(1000); camEst();
 }
 function pararRec(keep){ if (CAM.rec && CAM.rec.state !== 'inactive') { CAM.keep = keep; CAM.rec.stop(); } }
 setInterval(() => {
   if (!CAM.rec) return;
-  if (!R.running && !R.finished && Date.now() - CAM.recWall > 60000) pararRec(false);   // no acumular esperas largas
+  if (!R.running && !R.finished && Date.now() - CAM.recWall > 60000) pararRec(false);
   else if ((R.running && R.t >= 20) || R.finished) pararRec(true);
 }, 500);
 
@@ -443,42 +562,45 @@ function capturar(etiqueta, lineas, arch){
   const k = Math.min(1, 1280 / Math.max(v.videoWidth, v.videoHeight));
   const c = document.createElement('canvas'); c.width = Math.round(v.videoWidth * k); c.height = Math.round(v.videoHeight * k);
   const g = c.getContext('2d'); g.drawImage(v, 0, 0, c.width, c.height); sello(g, c.width, c.height, lineas);
-  const p = new Promise(res => c.toBlob(async blob => {
+  EV.pend.push(new Promise(res => c.toBlob(async blob => {
     if (!blob) return res();
     const hash = await sha256(blob);
     EV.photos.push({ etiqueta, blob, hash, url:URL.createObjectURL(blob), name:`${EV.base}_${CFG.activo}_${arch}.jpg`, hora:horaStr(), c });
     renderEv(); res();
-  }, 'image/jpeg', 0.88));
-  EV.pend.push(p);
+  }, 'image/jpeg', 0.88)));
 }
-function camSalida(){
-  if (!EV.base) EV.base = fechaArch();
-  capturar('Salida', [`SALIDA · ${prof().dist.toLocaleString('es-AR')} m`, `${hoyStr()} ${horaStr()}`], '0000m_salida');
-}
-function camPaso(k, tc, split){
-  const m = (k + 1) * TRAMO, mm = m.toLocaleString('es-AR');
-  const txt = `PASO ${mm} m · ${fmt(tc)} · tramo ${fmt(split)}`;
+function camSalida(){ capturar('Salida', [`SALIDA · ${mfmt(prof().dist)} m`, `${hoyStr()} ${horaStr()}`], '00000m_salida'); }
+function camPaso(k, tc){
+  const tr = TR(), n = tr.length, paso = Math.ceil(n / 8);
+  const mark = tr[k].b, pace = ritmoTramo(R.cross, k, tr);
+  const txt = `PASO ${mfmt(mark)} m · ${fmt(tc)} · ritmo tramo ${fmt(pace)}`;
   CAM.flash = { txt, hasta: performance.now() + 2000 };
-  capturar(`${mm} m`, [txt, `s/m ${R.spm ?? '–'} · ritmo ${fmt(R.pace)}`], String(m).padStart(4,'0') + 'm');
+  if ((k + 1) % paso === 0 || k === n - 1)   // como máximo ~8 fotos de paso
+    capturar(`${mfmt(mark)} m`, [txt, `s/m ${R.spm ?? '–'} · ritmo ${fmt(R.pace)}`], String(Math.round(mark)).padStart(5,'0') + 'm');
 }
-function camFinal(){
+function camFinal(rec){
   if (!CAM.stream && !EV.photos.length) return;
-  const b = $('btnWa'); b.disabled = true; b.textContent = 'Preparando collage…';
+  const b = $('btnShare1'); b.disabled = true; b.textContent = 'Preparando collage…';
   EV.finalP = (async () => {
     pararRec(true);
-    // foto del monitor ya mostrando el tiempo final
-    await new Promise(r => setTimeout(r, 2500));
-    capturar('Final', [`FINAL ${fmt(R.t)} · ${prof().dist.toLocaleString('es-AR')} m`, `media ${fmt(R.t / prof().dist * TRAMO)}/500 · ${hoyStr()} ${horaStr()}`], '9999m_final');
+    await new Promise(r => setTimeout(r, 2500));   // foto del monitor ya con el tiempo final
+    capturar('Final', [`FINAL ${fmt(rec.tiempo)} · ${mfmt(rec.distReal)} m`, `media ${fmt(rec.tiempo / Math.max(1, rec.distReal) * 500)}/500 · ${hoyStr()} ${horaStr()}`], '99999m_final');
     await new Promise(r => setTimeout(r, 300));
     await Promise.all(EV.pend);
-    if (EV.photos.length || EV.video) { await armarHoja(); renderEv(); }
-  })().finally(() => { b.disabled = false; b.textContent = 'Enviar por WhatsApp'; });
+    if (EV.photos.length || EV.video) {
+      rec.fotos = EV.photos.length; rec.video = !!EV.video;
+      await armarHoja(rec); renderEv();
+      try { await idb.put(rec.id, EV.sheet.blob); rec.collage = true; } catch(e){}
+      const H = loadHist(), i = H.findIndex(x => x.id === rec.id); if (i >= 0) { H[i] = rec; saveHist(H); }
+    }
+  })().finally(() => { b.disabled = false; b.textContent = 'Compartir collage'; });
 }
-async function armarHoja(){
-  const P = prof(), n = nTramos(), W = 1080, pad = 36, colW = (W - pad*3) / 2;
+async function armarHoja(rec){
+  const tr = tramosDe(rec.dist, rec.split), n = tr.length, W = 1080, pad = 36, colW = (W - pad*3) / 2;
+  const paso = Math.ceil(n / 8), filasT = tr.map((x, k) => k).filter(k => (k + 1) % paso === 0 || k === n - 1);
   const fotos = EV.photos.slice().sort((a, b) => a.name.localeCompare(b.name));
   const altoFoto = f => colW * f.c.height / f.c.width;
-  let y0 = 250 + n * 44 + 40, filas = [];
+  const y0 = 250 + filasT.length * 40 + 40, filas = [];
   for (let i = 0; i < fotos.length; i += 2) filas.push(Math.max(altoFoto(fotos[i]), fotos[i+1] ? altoFoto(fotos[i+1]) : 0) + 64);
   const H = y0 + filas.reduce((a, b) => a + b, 0) + 150;
   const c = document.createElement('canvas'); c.width = W; c.height = H; const g = c.getContext('2d');
@@ -487,19 +609,20 @@ async function armarHoja(){
   let xT = pad;
   if (CFG.logo) { const im = new Image(); im.src = CFG.logo; await im.decode().catch(() => {}); if (im.width) { const s = 96 / Math.max(im.width, im.height); g.fillStyle = '#fff'; g.fillRect(pad, 17, 96, 96); g.drawImage(im, pad + (96 - im.width*s)/2, 17 + (96 - im.height*s)/2, im.width*s, im.height*s); xT = pad + 116; } }
   g.fillStyle = '#fff'; g.textBaseline = 'alphabetic';
-  g.font = '700 40px Roboto, system-ui, sans-serif'; g.fillText(`${CFG.activo} · ${P.dist.toLocaleString('es-AR')} m`, xT, 62);
-  g.font = '400 26px Roboto, system-ui, sans-serif'; g.fillText(`${hoyStr()} · arrastre ${R.drag ?? '–'} · registro fotográfico`, xT, 104);
-  g.fillStyle = color(); g.font = '700 64px Roboto, system-ui, sans-serif'; g.fillText(fmt(R.t), pad, 210);
+  g.font = '700 40px Roboto, system-ui, sans-serif'; g.fillText(`${rec.nombre} · ${mfmt(rec.dist)} m`, xT, 62);
+  g.font = '400 26px Roboto, system-ui, sans-serif'; g.fillText(`${hoyStr()} · arrastre ${rec.drag ?? '–'} · s/m medio ${rec.spm ?? '–'}`, xT, 104);
+  const pt = cumDe(rec.plan, tr, rec.dist);
+  g.fillStyle = color(); g.font = '700 64px Roboto, system-ui, sans-serif'; g.fillText(fmt(rec.tiempo), pad, 210);
   g.fillStyle = '#6b6f7a'; g.font = '400 26px Roboto, system-ui, sans-serif';
-  g.fillText(`objetivo ${fmt(sum(P.plan))} (${fmtDif(R.t - sum(P.plan))} s)`, pad + 300, 200);
-  let y = 260; g.font = '600 24px Roboto, system-ui, sans-serif'; g.fillStyle = '#6b6f7a';
-  ['Tramo','Plan','Real','Pasa por'].forEach((t, i) => g.fillText(t, pad + i*240, y)); y += 8;
+  g.fillText(rec.distReal < rec.dist - 5 ? `incompleta: ${mfmt(rec.distReal)} m` : `objetivo ${fmt(pt)} (${fmtDif(rec.tiempo - pt)} s)`, pad + 330, 200);
+  let y = 260; g.font = '600 24px Roboto, system-ui, sans-serif';
+  ['Metros','Plan /500','Real /500','Pasa por'].forEach((t, i) => g.fillText(t, pad + i*240, y)); y += 6;
   g.font = '400 28px Roboto, system-ui, sans-serif';
-  for (let k = 0; k < n; k++) {
-    y += 40; const real = R.cross[k] != null ? R.cross[k] - (k ? R.cross[k-1] : 0) : null;
-    g.fillStyle = '#1b1f2a'; [((k+1)*TRAMO).toLocaleString('es-AR'), fmt(P.plan[k]), fmt(real)].forEach((t, i) => g.fillText(t, pad + i*240, y));
-    g.fillStyle = color(); g.fillText(fmt(R.cross[k]), pad + 720, y);
-  }
+  filasT.forEach(k => {
+    y += 40;
+    g.fillStyle = '#1b1f2a'; [mfmt(tr[k].b), fmt(rec.plan[k]), fmt(ritmoTramo(rec.cross, k, tr))].forEach((t, i) => g.fillText(t, pad + i*240, y));
+    g.fillStyle = color(); g.fillText(fmt(rec.cross[k]), pad + 720, y);
+  });
   y = y0;
   for (let i = 0; i < fotos.length; i += 2) {
     [fotos[i], fotos[i+1]].forEach((f, j) => {
@@ -511,17 +634,15 @@ async function armarHoja(){
     y += filas[i/2];
   }
   g.fillStyle = '#6b6f7a'; g.font = '400 20px Roboto, system-ui, sans-serif';
-  if (EV.video) g.fillText(`Video de salida: ${EV.video.name} · SHA-256 ${EV.video.hash.slice(0, 24)}…`, pad, y + 40);
+  if (EV.video) g.fillText(`Video de salida · SHA-256 ${EV.video.hash.slice(0, 24)}…`, pad, y + 40);
   g.fillText('Los códigos SHA-256 completos están en el archivo de texto; cualquier edición de una foto cambia su código.', pad, y + 74);
-  const blob = await new Promise(r => c.toBlob(r, 'image/jpeg', 0.9));
+  const blob = await new Promise(r => c.toBlob(r, 'image/jpeg', 0.88));
   if (EV.sheet) URL.revokeObjectURL(EV.sheet.url);
-  EV.sheet = { blob, url:URL.createObjectURL(blob), name:`${EV.base}_${CFG.activo}_resumen.jpg` };
-  let t = `Registro ${CFG.activo} · ${P.dist} m · ${new Date().toLocaleString('es-AR')}\nTiempo final: ${fmt(R.t)}\n\nParciales:\n`;
-  for (let k = 0; k < n; k++) t += `${(k+1)*TRAMO} m\tpasa ${fmt(R.cross[k])}\n`;
-  t += '\nSHA-256 de cada archivo:\n';
+  EV.sheet = { blob, url:URL.createObjectURL(blob), name:`${EV.base}_${rec.nombre}_resumen.jpg` };
+  let t = textoDe(rec).replace(/\*/g, '') + '\n\nSHA-256 de cada archivo:\n';
   fotos.forEach(f => t += `${f.hash}  ${f.name}\n`);
   if (EV.video) t += `${EV.video.hash}  ${EV.video.name}\n`;
-  EV.txt = { blob:new Blob([t], { type:'text/plain' }), name:`${EV.base}_${CFG.activo}_hashes.txt` };
+  EV.txt = { blob:new Blob([t], { type:'text/plain' }), name:`${EV.base}_${rec.nombre}_hashes.txt` };
 }
 function archivosEv(){
   const a = [];
@@ -532,274 +653,319 @@ function archivosEv(){
   return a;
 }
 function renderEv(){
-  const fs = archivosEv(); if (!fs.length) return;
+  if (!archivosEv().length) return;
   $('evCard').classList.remove('hide');
   let h = '';
-  if (EV.sheet) h += `<figure style="grid-column:1/-1"><img src="${EV.sheet.url}" alt=""><figcaption>Hoja resumen</figcaption></figure>`;
+  if (EV.sheet) h += `<figure style="grid-column:1/-1"><img src="${EV.sheet.url}" alt=""><figcaption>Collage resumen</figcaption></figure>`;
   else EV.photos.slice().sort((x, y) => x.name.localeCompare(y.name)).forEach(f => h += `<figure><img src="${f.url}" alt=""><figcaption>${esc(f.etiqueta)} · ${f.hash.slice(0,12)}…</figcaption></figure>`);
   if (EV.video) h += `<figure><video src="${EV.video.url}" controls playsinline></video><figcaption>Video salida · ${EV.video.hash.slice(0,12)}…</figcaption></figure>`;
   $('evGal').innerHTML = h;
-  $('evNote').textContent = `${EV.photos.length} fotos${EV.video ? ' + video de salida' : ''}${EV.sheet ? ' + hoja resumen + códigos' : ''}. Guardalo antes de empezar otro intento: no queda almacenado en la app.`;
+  $('evNote').textContent = `${EV.photos.length} fotos${EV.video ? ' + video de salida' : ''}. El collage queda guardado en Carreras; las fotos sueltas y el video, no: descargalos si los necesitás.`;
 }
 function bajar(f){ const a = document.createElement('a'); a.href = f.url || URL.createObjectURL(f.blob); a.download = f.name; document.body.appendChild(a); a.click(); a.remove(); }
 $('btnDl').onclick = () => archivosEv().forEach((f, i) => setTimeout(() => bajar(f), i * 400));
-$('btnShare').onclick = async () => {
+$('btnShareAll').onclick = async () => {
   const files = archivosEv().map(f => new File([f.blob], f.name, { type:f.blob.type }));
-  if (navigator.canShare && navigator.canShare({ files })) {
-    try { await navigator.share({ files, title:`Registro ${CFG.activo}` }); } catch(e) {}
-  } else { aviso('Este navegador no permite compartir archivos; se descargan.'); $('btnDl').onclick(); }
+  if (navigator.canShare && navigator.canShare({ files })) { try { await navigator.share({ files, title:`Registro ${CFG.activo}` }); } catch(e){} }
+  else { aviso('Este navegador no permite compartir archivos; se descargan.'); $('btnDl').onclick(); }
 };
 
-/* ---------- estado de la remada ---------- */
-let R;
+/* ================= estado de la remada ================= */
+let R, REC = null;
 function resetRun(){
-  R = { running:false, finished:false, t:0, d:0, lastT:0, lastD:0, pace:null, avg:null, spm:null, hr:null, w:null, drag:null, wstate:0, cross:[], samples:[] };
+  R = { running:false, finished:false, tarde:false, t:0, d:0, lastT:0, lastD:0, pace:null, avg:null, spm:null, hr:null, w:null, drag:null, wstate:0, cross:[], samples:[] };
+  REC = null;
   $('fin').classList.add('hide');
   resetEv(); EV.finalP = null;
   if (CAM.stream) { if (CAM.rec) { CAM.keep = false; CAM.rec.stop(); } else armarRec(); }
 }
-resetRun();
-
 function ingestAdd1(pace, avg, spm, hr){
   R.pace = pace > 0 ? pace : null; R.avg = avg > 0 ? avg : null;
   R.spm = spm || null; R.hr = (hr && hr < 255) ? hr : null;
 }
 function ingestAdd2(w){ R.w = w || null; }
+function finalizar(t, d){
+  R.finished = true; R.running = false; R.t = t; R.d = d; R.lastT = t; R.lastD = d;
+  terminar(); schedule();
+}
 function ingestGeneral(t, d, wstate, drag){
   if (drag) R.drag = drag;
   if (R.finished) {
-    // arranca otra remada en el PM5: el tiempo vuelve a cero y hay metros nuevos
     if (t < R.lastT - 1 && d > 0 && d < 60) resetRun(); else { schedule(); return; }
-  } else if (R.running && t + 1 < R.lastT) {
+  } else if ((R.running || R.tarde) && t + 1 < R.lastT) {
     resetRun();
   }
   R.wstate = wstate;
-  const target = prof().dist, n = nTramos();
-  if (!R.running && d > 0) { R.running = true; pedirWakeLock(); camSalida(); }
+  const P = prof(), tr = TR(), n = tr.length, finPM = wstate >= 10 && wstate <= 12;
+  if (!R.running && !R.tarde && d > 0 && !finPM) {
+    if (d > 30 && R.lastD === 0 && R.lastT === 0) R.tarde = true;           // se conectó con la remada ya empezada
+    else { R.running = true; pedirWakeLock(); camSalida(); }
+  }
   if (R.running) {
     while (R.cross.length < n) {
-      const mark = (R.cross.length + 1) * TRAMO;
-      if (d >= mark && d > R.lastD) {
-        const tc = R.lastT + (mark - R.lastD) * (t - R.lastT) / (d - R.lastD), k = R.cross.length;
-        R.cross.push(tc); camPaso(k, tc, tc - (k ? R.cross[k-1] : 0));
-      } else break;
+      const k = R.cross.length, mark = tr[k].b;
+      if (d >= mark && d > R.lastD) { const tc = R.lastT + (mark - R.lastD) * (t - R.lastT) / (d - R.lastD); R.cross.push(tc); camPaso(k, tc); }
+      else break;
     }
     R.samples.push({ t, d, p:R.pace, spm:R.spm, w:R.w, hr:R.hr });
-    // fin: llegó a la distancia, o el PM5 marca fin de entrenamiento muy cerca del objetivo
-    if (R.cross.length < n && wstate === 10 && d > target - 5) { while (R.cross.length < n) { const k = R.cross.length; R.cross.push(t); camPaso(k, t, t - (k ? R.cross[k-1] : 0)); } }
-    if (R.cross.length >= n) { R.finished = true; R.running = false; R.t = R.cross[n-1]; R.d = target; R.lastT = t; R.lastD = d; terminar(); schedule(); return; }
+    if (R.cross.length >= n) { finalizar(R.cross[n-1], P.dist); return; }
+    if (finPM && d > 0) {   // el PM5 terminó su entrenamiento: la app termina con él
+      if (d > P.dist - 5) { while (R.cross.length < n) { const k = R.cross.length; R.cross.push(t); camPaso(k, t); } finalizar(t, P.dist); }
+      else finalizar(t, d);
+      return;
+    }
   }
   R.lastT = t; R.lastD = d; R.t = t; R.d = d;
   schedule();
 }
 
-/* ---------- render en vivo ---------- */
+/* ================= render en vivo ================= */
 let pend = false;
 function schedule(){ if (!pend) { pend = true; requestAnimationFrame(() => { pend = false; renderVivo(); }); } }
-
 function renderVivo(){
   const P = prof(); normaliza(P);
-  const n = nTramos(), target = P.dist, col = color();
+  const tr = TR(), n = tr.length, target = P.dist, col = color();
   $('band').style.background = col;
   $('bNombre').textContent = CFG.activo;
-  $('bObj').textContent = 'Objetivo ' + fmt(sum(P.plan)) + (P.ant.every(v => v) ? ' · anterior ' + fmt(sum(P.ant)) : '');
-  $('titulo').textContent = `Ergo en vivo · ${target.toLocaleString('es-AR')} m`;
+  const at = antTotal();
+  $('bObj').textContent = 'Objetivo ' + fmt(planTotal()) + (at ? ' · anterior ' + fmt(at) : '');
+  $('titulo').textContent = `Ergo en vivo · ${mfmt(target)} m`;
   $('lgPlan').style.borderColor = col; $('lgTr').style.borderColor = col;
 
-  const i = Math.min(Math.floor(R.d / TRAMO), n - 1);
-  if (R.d > 5) {
-    const dl = R.t - planCum(R.d);
-    const el = $('delta'); el.textContent = fmtDif(dl);
-    el.className = 'delta ' + (dl <= 0 ? 'ok' : 'bad');
+  let i = tr.findIndex(x => R.d < x.b); if (i < 0) i = n - 1;
+  if (R.tarde) { $('delta').textContent = '–'; $('delta').className = 'delta'; $('deltaTxt').textContent = 'la remada ya había empezado: esperá la próxima'; }
+  else if (R.d > 5) {
+    const dl = R.t - planCum(Math.min(R.d, target)), el = $('delta');
+    el.textContent = fmtDif(dl); el.className = 'delta ' + (dl <= 0 ? 'ok' : 'bad');
     $('deltaTxt').textContent = dl <= 0 ? 'segundos adelante' : 'segundos atrás';
   } else { $('delta').textContent = '–'; $('delta').className = 'delta'; $('deltaTxt').textContent = 'esperando que empiece'; }
-  $('pace').textContent = R.finished ? fmt(R.t / target * TRAMO) : fmt(R.pace);
-  $('planPace').textContent = R.finished ? 'media final' : `plan ${fmt(P.plan[i])} · tramo ${i+1}`;
+  $('pace').textContent = R.finished ? fmt(R.t / Math.max(1, R.d) * 500) : fmt(R.pace);
+  $('planPace').textContent = R.finished ? 'media final' : `plan ${fmt(P.plan[i])} · hasta ${mfmt(tr[i].b)} m`;
 
   $('sT').textContent = fmt(R.t);
-  $('sD').textContent = Math.floor(R.d).toLocaleString('es-AR');
-  $('sR').textContent = Math.max(0, Math.ceil(target - R.d)).toLocaleString('es-AR');
-  $('sA').textContent = fmt(R.avg || (R.d > 20 ? R.t / R.d * TRAMO : null));
+  $('sD').textContent = mfmt(Math.floor(R.d));
+  $('sR').textContent = mfmt(Math.max(0, Math.ceil(target - R.d)));
+  $('sA').textContent = fmt(R.avg || (R.d > 20 ? R.t / R.d * 500 : null));
   $('sS').textContent = R.spm ?? '–';
   $('sW').textContent = R.w ?? '–';
-  $('sP').textContent = R.d > 50 && !R.finished ? fmt(R.t / R.d * target) : (R.finished ? fmt(R.t) : '–');
+  $('sP').textContent = R.finished ? fmt(R.t) : (R.d > 50 ? fmt(R.t / R.d * target) : '–');
   $('sH').textContent = R.hr ?? '–';
   $('sF').textContent = R.drag ?? '–';
 
-  // tabla
-  let h = '', cumP = 0;
-  for (let k = 0; k < n; k++) {
-    cumP += P.plan[k];
+  let h = '';
+  tr.forEach((x, k) => {
+    const cumP = cumDe(P.plan, tr, x.b);
     let real = null, cls = '', pasa = '–', dif = null;
-    if (k < R.cross.length) {
-      real = R.cross[k] - (k ? R.cross[k-1] : 0); dif = real - P.plan[k];
-      pasa = fmt(R.cross[k]); cls = '';
-    } else if (k === R.cross.length && R.running) {
-      const t0 = k ? R.cross[k-1] : 0, dd = R.d - k*TRAMO;
-      if (dd > 30) { real = (R.t - t0) / dd * TRAMO; dif = real - P.plan[k]; cls = 'cur'; }
+    if (k < R.cross.length) { real = ritmoTramo(R.cross, k, tr); dif = real - P.plan[k]; pasa = fmt(R.cross[k]); }
+    else if (k === R.cross.length && R.running) {
+      const t0 = k ? R.cross[k-1] : 0, dd = R.d - x.a;
+      if (dd > 30) { real = (R.t - t0) / dd * 500; dif = real - P.plan[k]; cls = 'cur'; }
     }
-    const pasaDif = k < R.cross.length ? ` <span style="font-size:12px;color:${R.cross[k]-cumP<=0?'var(--ok)':'var(--bad)'}">${fmtDif(R.cross[k]-cumP)}</span>` : '';
-    h += `<tr><td>${((k+1)*TRAMO).toLocaleString('es-AR')}</td><td>${fmt(P.plan[k])}</td>
-      <td class="${cls}">${fmt(real)}</td>
+    const pd = k < R.cross.length ? ` <span style="font-size:12px;color:${R.cross[k]-cumP<=0?'var(--ok)':'var(--bad)'}">${fmtDif(R.cross[k]-cumP)}</span>` : '';
+    h += `<tr><td>${mfmt(x.b)}</td><td>${fmt(P.plan[k])}</td><td class="${cls}">${fmt(real)}</td>
       <td class="${dif==null||Math.abs(dif)<0.05?'':(dif<0?'ok':'bad')}">${fmtDif(dif)}</td>
-      <td class="pp">${pasa}${pasaDif}</td><td style="color:var(--muted)">${P.ant[k] ? fmt(P.ant[k]) : '–'}</td></tr>`;
-  }
+      <td class="pp">${pasa}${pd}</td><td style="color:var(--muted)">${P.ant[k] ? fmt(P.ant[k]) : '–'}</td></tr>`;
+  });
   $('tbVivo').innerHTML = h;
   dibujaChart();
 }
 
-/* ---------- gráfico ---------- */
+/* ================= gráfico ================= */
 function dibujaChart(){
-  const P = prof(), n = nTramos(), target = P.dist, col = color();
+  const P = prof(), tr = TR(), n = tr.length, target = P.dist, col = color();
   const box = $('chart'), W = Math.max(300, box.clientWidth || 340), H = 240;
-  const m = { l:50, r:22, t:14, b:28 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
-  const reales = R.cross.map((c, k) => c - (k ? R.cross[k-1] : 0));
+  const m = { l:50, r:24, t:14, b:28 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
+  const reales = R.cross.map((c, k) => ritmoTramo(R.cross, k, tr));
   let parcial = null;
-  if (R.running && R.cross.length < n) {
-    const k = R.cross.length, dd = R.d - k*TRAMO;
-    if (dd > 30) parcial = (R.t - (k ? R.cross[k-1] : 0)) / dd * TRAMO;
-  }
+  if (R.running && R.cross.length < n) { const k = R.cross.length, dd = R.d - tr[k].a; if (dd > 30) parcial = (R.t - (k ? R.cross[k-1] : 0)) / dd * 500; }
   const vals = [...P.plan, ...P.ant.filter(v => v), ...reales, ...(parcial ? [parcial] : [])];
   let lo = Math.min(...vals) - 3, hi = Math.max(...vals) + 3;
   if (hi - lo < 10) { const c = (hi + lo) / 2; lo = c - 5; hi = c + 5; }
   const step = hi - lo <= 14 ? 2 : hi - lo <= 35 ? 5 : 10;
   lo = Math.floor(lo / step) * step; hi = Math.ceil(hi / step) * step;
   const X = d => m.l + d / target * iw;
-  const Y = v => m.t + (Math.min(hi, Math.max(lo, v)) - lo) / (hi - lo) * ih;   // menor tiempo = arriba
+  const Y = v => m.t + (Math.min(hi, Math.max(lo, v)) - lo) / (hi - lo) * ih;
   let s = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" font-family="Roboto,system-ui,sans-serif" font-size="11">`;
   for (let v = lo; v <= hi + 1e-6; v += step) {
     s += `<line x1="${m.l}" x2="${W-m.r}" y1="${Y(v)}" y2="${Y(v)}" stroke="#e4dfd3"/>`;
     s += `<text x="${m.l-6}" y="${Y(v)+4}" text-anchor="end" fill="#6b6f7a">${fmt(v,0)}</text>`;
   }
-  for (let k = 0; k <= n; k++) {
-    const x = X(k*TRAMO);
-    s += `<line x1="${x}" x2="${x}" y1="${m.t}" y2="${H-m.b}" stroke="#ece7db"/>`;
-    if (n <= 6 || k % 2 === 0) s += `<text x="${x}" y="${H-m.b+16}" text-anchor="middle" fill="#6b6f7a">${(k*TRAMO).toLocaleString('es-AR')}</text>`;
-  }
-  const escalones = arr => arr.map((v, k) => v ? `M${X(k*TRAMO)},${Y(v)}H${X((k+1)*TRAMO)}` : '').join('');
-  // ritmo instantáneo
+  const lbl = Math.ceil((n + 1) / 7);
+  [0, ...tr.map(x => x.b)].forEach((d, k) => {
+    s += `<line x1="${X(d)}" x2="${X(d)}" y1="${m.t}" y2="${H-m.b}" stroke="#ece7db"/>`;
+    if (k % lbl === 0 || k === n) s += `<text x="${X(d)}" y="${H-m.b+16}" text-anchor="middle" fill="#6b6f7a">${mfmt(d)}</text>`;
+  });
+  const escalones = arr => arr.map((v, k) => v && tr[k] ? `M${X(tr[k].a)},${Y(v)}H${X(tr[k].b)}` : '').join('');
   if (R.samples.length > 2) {
-    const every = Math.max(1, Math.floor(R.samples.length / 400));
-    let dpath = '';
-    R.samples.forEach((q, j) => { if (q.p && q.d > 15 && j % every === 0) dpath += (dpath ? 'L' : 'M') + X(Math.min(q.d, target)).toFixed(1) + ',' + Y(q.p).toFixed(1); });
-    s += `<path d="${dpath}" fill="none" stroke="${col}" stroke-opacity=".4" stroke-width="1.2"/>`;
+    const every = Math.max(1, Math.floor(R.samples.length / 400)); let dp = '';
+    R.samples.forEach((q, j) => { if (q.p && q.d > 15 && j % every === 0) dp += (dp ? 'L' : 'M') + X(Math.min(q.d, target)).toFixed(1) + ',' + Y(q.p).toFixed(1); });
+    s += `<path d="${dp}" fill="none" stroke="${col}" stroke-opacity=".4" stroke-width="1.2"/>`;
   }
   if (P.ant.some(v => v)) s += `<path d="${escalones(P.ant)}" fill="none" stroke="#8a8f99" stroke-width="2" stroke-dasharray="6 5"/>`;
   s += `<path d="${escalones(P.plan)}" fill="none" stroke="${col}" stroke-width="3"/>`;
   if (reales.length) {
     s += `<path d="${escalones(reales)}" fill="none" stroke="#1b1f2a" stroke-width="3.5"/>`;
-    reales.forEach((v, k) => {
-      s += `<text x="${X((k+.5)*TRAMO)}" y="${Y(v)-6}" text-anchor="middle" font-weight="700" fill="#1b1f2a">${fmt(v)}</text>`;
-    });
+    if (n <= 12) reales.forEach((v, k) => { s += `<text x="${X((tr[k].a + tr[k].b)/2)}" y="${Y(v)-6}" text-anchor="middle" font-weight="700" fill="#1b1f2a">${fmt(v)}</text>`; });
   }
-  if (parcial) {
-    const k = R.cross.length;
-    s += `<path d="M${X(k*TRAMO)},${Y(parcial)}H${X(Math.min(R.d, target))}" stroke="#1b1f2a" stroke-width="3" stroke-dasharray="2 3" fill="none"/>`;
-  }
+  if (parcial) { const k = R.cross.length; s += `<path d="M${X(tr[k].a)},${Y(parcial)}H${X(Math.min(R.d, target))}" stroke="#1b1f2a" stroke-width="3" stroke-dasharray="2 3" fill="none"/>`; }
   s += `<text transform="translate(12 ${m.t+ih/2}) rotate(-90)" text-anchor="middle" fill="#6b6f7a">ritmo /500</text></svg>`;
   box.innerHTML = s;
 }
 window.addEventListener('resize', () => schedule());
 
-/* ---------- fin y exportación ---------- */
+/* ================= fin de la remada ================= */
 function terminar(){
-  const P = prof(), tp = sum(P.plan), dif = R.t - tp;
+  const P = prof(), spm = R.samples.filter(q => q.spm).map(q => q.spm);
+  REC = { id:Date.now().toString(36), fecha:new Date().toISOString(), nombre:CFG.activo, dist:P.dist, split:P.split,
+    tiempo:Math.round(R.t*10)/10, distReal:Math.round(R.d), cross:R.cross.map(v => Math.round(v*10)/10),
+    plan:P.plan.slice(), ant:P.ant.slice(), drag:R.drag, spm:spm.length ? Math.round(spm.reduce((a, b) => a + b, 0) / spm.length) : null,
+    fotos:0, video:false, collage:false };
+  const H = loadHist(); H.unshift(REC); saveHist(H);
+  try { navigator.storage && navigator.storage.persist && navigator.storage.persist(); } catch(e){}
+  const pt = planTotal(), at = antTotal();
   $('fin').classList.remove('hide');
   $('finT').textContent = fmt(R.t);
-  let txt = `${fmtDif(dif)} s vs objetivo ${fmt(tp)}`;
-  if (P.ant.every(v => v)) txt += ` · ${fmtDif(R.t - sum(P.ant))} s vs anterior ${fmt(sum(P.ant))}`;
+  let txt = REC.distReal < P.dist - 5 ? `Incompleta: el PM5 terminó en ${mfmt(REC.distReal)} m` : `${fmtDif(R.t - pt)} s vs objetivo ${fmt(pt)}`;
+  if (at && REC.distReal >= P.dist - 5) txt += ` · ${fmtDif(R.t - at)} s vs anterior ${fmt(at)}`;
   $('finTxt').textContent = txt;
   soltarWakeLock();
-  camFinal();
+  camFinal(REC);
 }
-$('btnCsv').onclick = () => {
-  const P = prof(), n = nTramos(), f = v => v == null ? '' : String(Math.round(v*10)/10).replace('.', ',');
-  let c = `Remero/a;${CFG.activo}\nFecha;${new Date().toLocaleString('es-AR')}\nDistancia;${P.dist}\nTiempo;${fmt(R.t)}\nArrastre;${R.drag ?? ''}\n\n`;
-  c += 'Tramo;Plan;Real;Dif;Pasa por\n';
-  for (let k = 0; k < n; k++) {
-    const real = R.cross[k] != null ? R.cross[k] - (k ? R.cross[k-1] : 0) : null;
-    c += `${(k+1)*TRAMO};${fmt(P.plan[k])};${fmt(real)};${f(real != null ? real - P.plan[k] : null)};${fmt(R.cross[k])}\n`;
-  }
-  c += '\nt_s;metros;ritmo_s500;s/m;watts;fc\n';
-  R.samples.forEach(q => { c += `${f(q.t)};${f(q.d)};${f(q.p)};${q.spm ?? ''};${q.w ?? ''};${q.hr ?? ''}\n`; });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob(['﻿' + c], { type:'text/csv' }));
-  a.download = `ergo_${CFG.activo}_${P.dist}_${new Date().toISOString().slice(0,10)}.csv`;
-  document.body.appendChild(a); a.click(); a.remove();
-};
-$('btnAnt').onclick = () => {
-  const n = nTramos(); if (R.cross.length < n) return;
-  prof().ant = R.cross.map((c, k) => Math.round((c - (k ? R.cross[k-1] : 0)) * 10) / 10);
-  save(); renderPlan(); renderVivo(); aviso('Guardado como anterior de ' + CFG.activo + '.');
-};
+$('btnWa').onclick = () => { if (REC) waDirecto(textoDe(REC)); };
+$('btnShare1').onclick = () => { if (REC) compartir(EV.sheet && EV.sheet.blob, EV.sheet ? EV.sheet.name : '', textoDe(REC)); };
+function csvDe(rec, samples){
+  const tr = tramosDe(rec.dist, rec.split), f = v => v == null ? '' : String(Math.round(v*10)/10).replace('.', ',');
+  let c = `Remero/a;${rec.nombre}\nFecha;${new Date(rec.fecha).toLocaleString('es-AR')}\nDistancia;${rec.dist}\nTiempo;${fmt(rec.tiempo)}\nArrastre;${rec.drag ?? ''}\n\nMetros;Plan /500;Real /500;Dif;Pasa por\n`;
+  tr.forEach((x, k) => { const r = ritmoTramo(rec.cross, k, tr); c += `${x.b};${fmt(rec.plan[k])};${fmt(r)};${f(r != null ? r - rec.plan[k] : null)};${fmt(rec.cross[k])}\n`; });
+  if (samples) { c += '\nt_s;metros;ritmo_s500;s/m;watts;fc\n'; samples.forEach(q => { c += `${f(q.t)};${f(q.d)};${f(q.p)};${q.spm ?? ''};${q.w ?? ''};${q.hr ?? ''}\n`; }); }
+  return c;
+}
+function bajarTexto(txt, nombre){ bajar({ blob:new Blob(['﻿' + txt], { type:'text/csv' }), name:nombre }); }
+$('btnCsv').onclick = () => { if (REC) bajarTexto(csvDe(REC, R.samples), `ergo_${REC.nombre}_${REC.dist}_${REC.fecha.slice(0,10)}.csv`); };
+function usarComoAnterior(rec){
+  const P = CFG.perfiles[rec.nombre] || prof(); const tr = tramosDe(rec.dist, rec.split);
+  if (rec.distReal < rec.dist - 5) { aviso('Esa carrera está incompleta: no se puede usar como anterior.'); return; }
+  P.dist = rec.dist; P.split = rec.split; normaliza(P);
+  P.ant = tr.map((x, k) => Math.round(ritmoTramo(rec.cross, k, tr) * 10) / 10);
+  save(); renderPlan(); renderVivo(); aviso(`Guardado como anterior de ${rec.nombre}.`);
+}
+$('btnAnt').onclick = () => { if (REC) usarComoAnterior(REC); };
 $('btnNuevo').onclick = () => { resetRun(); aviso(''); renderVivo(); };
 $('btnReset').onclick = () => { pararDemo(); resetRun(); renderVivo(); };
 
-/* ---------- resumen por WhatsApp ---------- */
-$('wa').value = CFG.wa || '';
-$('wa').onchange = e => { CFG.wa = e.target.value.replace(/\D/g, ''); e.target.value = CFG.wa; save(); };
-function textoResumen(){
-  const P = prof(), n = nTramos(), tp = sum(P.plan);
-  const spm = R.samples.filter(q => q.spm).map(q => q.spm);
-  const spmMed = spm.length ? Math.round(spm.reduce((a, b) => a + b, 0) / spm.length) : null;
-  let t = `*${CFG.activo} · ${P.dist.toLocaleString('es-AR')} m* · ${new Date().toLocaleString('es-AR', { dateStyle:'short', timeStyle:'short', hour12:false })}\n`;
-  t += `*Tiempo: ${fmt(R.t)}* (media ${fmt(R.t / P.dist * TRAMO)}/500)\n`;
-  t += `Objetivo ${fmt(tp)} → ${fmtDif(R.t - tp)} s\n`;
-  if (P.ant.every(v => v)) t += `Anterior ${fmt(sum(P.ant))} → ${fmtDif(R.t - sum(P.ant))} s\n`;
-  t += `\nParciales (real / plan · pasa por):\n`;
-  for (let k = 0; k < n; k++) {
-    const real = R.cross[k] != null ? R.cross[k] - (k ? R.cross[k-1] : 0) : null;
-    t += `${((k+1)*TRAMO).toLocaleString('es-AR')}: ${fmt(real)} / ${fmt(P.plan[k])} · ${fmt(R.cross[k])}\n`;
-  }
-  t += `\ns/m medio ${spmMed ?? '–'} · arrastre ${R.drag ?? '–'}`;
-  if (EV.photos.length) t += `\nRegistro fotográfico: ${EV.photos.length} fotos${EV.video ? ' + video de salida' : ''}`;
-  return t;
+/* ================= pestaña CARRERAS ================= */
+let borrarId = null;
+function renderHist(){
+  const H = loadHist(), sel = $('hFiltro'), cur = sel.value || '__todos';
+  const nombres = [...new Set(H.map(r => r.nombre))];
+  sel.innerHTML = `<option value="__todos">Todos</option>` + nombres.map(n => `<option ${n===cur?'selected':''}>${esc(n)}</option>`).join('');
+  const L = cur === '__todos' ? H : H.filter(r => r.nombre === cur);
+  $('hInfo').textContent = H.length ? `${L.length} carrera${L.length===1?'':'s'} guardada${L.length===1?'':'s'} en este celular.` : 'Todavía no hay carreras guardadas. Se guardan solas al terminar cada remada.';
+  $('hLista').innerHTML = L.map(r => {
+    const tr = tramosDe(r.dist, r.split), pt = cumDe(r.plan, tr, r.dist), inc = r.distReal < r.dist - 5;
+    const fecha = new Date(r.fecha).toLocaleString('es-AR', { dateStyle:'short', timeStyle:'short', hour12:false });
+    const filas = tr.map((x, k) => `<tr><td>${mfmt(x.b)}</td><td>${fmt(r.plan[k])}</td><td>${fmt(ritmoTramo(r.cross, k, tr))}</td><td class="pp">${fmt(r.cross[k])}</td></tr>`).join('');
+    return `<details class="h" data-id="${r.id}">
+      <summary><span>${esc(r.nombre)} · ${mfmt(r.dist)} m<br><small style="color:var(--muted)">${fecha}</small></span>
+        <span style="text-align:right"><b>${fmt(r.tiempo)}</b><br><small style="color:${inc?'var(--bad)':(r.tiempo-pt<=0?'var(--ok)':'var(--bad)')}">${inc ? 'incompleta' : fmtDif(r.tiempo - pt) + ' s vs obj.'}</small></span></summary>
+      <div class="in">
+        <table><thead><tr><th>Metros</th><th>Plan</th><th>Real</th><th>Pasa por</th></tr></thead><tbody>${filas}</tbody></table>
+        <div class="note">s/m medio ${r.spm ?? '–'} · arrastre ${r.drag ?? '–'}${r.fotos ? ` · ${r.fotos} fotos` : ''}</div>
+        <div class="foto"></div>
+        <div class="row">
+          <button class="pri" data-act="wa">WhatsApp al número</button>
+          <button data-act="share">Compartir${r.collage ? ' collage' : ''}</button>
+        </div>
+        <div class="row">
+          <button data-act="ant">Usar como anterior</button>
+          <button data-act="csv">CSV</button>
+          <button data-act="del">${borrarId === r.id ? '¿Borrar? Tocá de nuevo' : 'Borrar'}</button>
+        </div>
+      </div></details>`;
+  }).join('');
 }
-$('btnWa').onclick = async () => {
-  const txt = textoResumen();
-  if (EV.sheet) {
-    const files = [new File([EV.sheet.blob], EV.sheet.name, { type:'image/jpeg' })];
-    if (navigator.canShare && navigator.canShare({ files })) {
-      try { await navigator.share({ files, text:txt }); return; }
-      catch(e) { if (e.name === 'AbortError') return; }
-    }
+$('hFiltro').onchange = renderHist;
+$('hLista').addEventListener('toggle', async e => {
+  const d = e.target; if (!d.open || d.dataset.cargada) return;
+  const r = loadHist().find(x => x.id === d.dataset.id); if (!r || !r.collage) return;
+  try { const b = await idb.get(r.id); if (b) { d.querySelector('.foto').innerHTML = `<img alt="collage" src="${URL.createObjectURL(b)}">`; d.dataset.cargada = '1'; } } catch(e){}
+}, true);
+$('hLista').addEventListener('click', async e => {
+  const act = e.target.dataset && e.target.dataset.act; if (!act) return;
+  const id = e.target.closest('details').dataset.id, H = loadHist(), r = H.find(x => x.id === id); if (!r) return;
+  if (act === 'wa') waDirecto(textoDe(r));
+  else if (act === 'share') { let b = null; if (r.collage) { try { b = await idb.get(r.id); } catch(e){} } compartir(b, `${r.fecha.slice(0,10)}_${r.nombre}_resumen.jpg`, textoDe(r)); }
+  else if (act === 'ant') usarComoAnterior(r);
+  else if (act === 'csv') bajarTexto(csvDe(r), `ergo_${r.nombre}_${r.dist}_${r.fecha.slice(0,10)}.csv`);
+  else if (act === 'del') {
+    if (borrarId !== id) { borrarId = id; e.target.textContent = '¿Borrar? Tocá de nuevo'; setTimeout(() => { if (borrarId === id) { borrarId = null; e.target.textContent = 'Borrar'; } }, 4000); return; }
+    borrarId = null; saveHist(H.filter(x => x.id !== id)); try { await idb.del(id); } catch(e){} renderHist();
   }
-  // sin collage o sin menú de compartir: solo texto al número registrado
-  if (!CFG.wa) { aviso('Cargá el número de WhatsApp en la pestaña Plan.'); tab('plan'); $('wa').focus(); return; }
-  window.open(`https://wa.me/${CFG.wa}?text=${encodeURIComponent(txt)}`, '_blank');
+});
+$('btnHCsv').onclick = () => {
+  const H = loadHist(); if (!H.length) return;
+  let c = 'Fecha;Remero/a;Distancia;Tiempo;Ritmo medio /500;Objetivo;Dif objetivo;s/m;Arrastre;Parciales (pasa por)\n';
+  H.forEach(r => {
+    const tr = tramosDe(r.dist, r.split), pt = cumDe(r.plan, tr, r.dist);
+    c += `${new Date(r.fecha).toLocaleString('es-AR')};${r.nombre};${r.distReal < r.dist - 5 ? r.distReal + ' (incompleta)' : r.dist};${fmt(r.tiempo)};${fmt(r.tiempo / Math.max(1, r.distReal) * 500)};${fmt(pt)};${fmtDif(r.tiempo - pt)};${r.spm ?? ''};${r.drag ?? ''};${r.cross.map(v => fmt(v)).join(' | ')}\n`;
+  });
+  bajarTexto(c, `ergo_carreras_${new Date().toISOString().slice(0,10)}.csv`);
 };
 
-/* ---------- pantalla encendida ---------- */
+/* ================= pantalla encendida ================= */
 let wake = null;
 async function pedirWakeLock(){ try { if ('wakeLock' in navigator && !wake) { wake = await navigator.wakeLock.request('screen'); wake.addEventListener('release', () => wake = null); } } catch(e){} }
 function soltarWakeLock(){ if (CAM.stream) return; try { wake && wake.release(); } catch(e){} wake = null; }
-document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && (R.running || dev)) pedirWakeLock(); });
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && (R.running || dev || CAM.stream)) pedirWakeLock(); });
 
-/* ---------- Bluetooth PM5 ---------- */
-// Servicio de remo del PM5 (Concept2 PM5 Bluetooth Smart Interface Definition)
+/* ================= Bluetooth PM5 ================= */
+// Concept2 PM5 Bluetooth Smart Interface Definition
 const U = x => `ce06${x}-43e5-11e4-916c-0800200c9a66`;
-const SVC_ROW = U('0030');
-let dev = null, intentos = 0, manual = false;
+const SVC_ROW = U('0030'), SVC_CTRL = U('0020');
+let dev = null, ctrlCh = null, intentos = 0, manual = false;
 const u16 = (v, o) => v.getUint8(o) | (v.getUint8(o+1) << 8);
 const u24 = (v, o) => v.getUint8(o) | (v.getUint8(o+1) << 8) | (v.getUint8(o+2) << 16);
-
-function onGeneral(v){   // 0x0031
-  if (v.byteLength < 10) return;
-  ingestGeneral(u24(v,0)/100, u24(v,3)/10, v.getUint8(8), v.byteLength > 18 ? v.getUint8(18) : null);
-}
-function onAdd1(v){      // 0x0032
-  if (v.byteLength < 11) return;
-  ingestAdd1(u16(v,7)/100, u16(v,9)/100, v.getUint8(5), v.getUint8(6));
-}
-function onAdd2(v){      // 0x0033
-  if (v.byteLength < 6) return;
-  ingestAdd2(u16(v,4));
-}
-function onMux(v){       // 0x0080: primer byte = id de característica
+function onGeneral(v){ if (v.byteLength >= 10) ingestGeneral(u24(v,0)/100, u24(v,3)/10, v.getUint8(8), v.byteLength > 18 ? v.getUint8(18) : null); }
+function onAdd1(v){ if (v.byteLength >= 11) ingestAdd1(u16(v,7)/100, u16(v,9)/100, v.getUint8(5), v.getUint8(6)); }
+function onAdd2(v){ if (v.byteLength >= 6) ingestAdd2(u16(v,4)); }
+function onMux(v){
   const id = v.getUint8(0), d = new DataView(v.buffer, v.byteOffset + 1, v.byteLength - 1);
   if (id === 0x31) onGeneral(d); else if (id === 0x32) onAdd1(d); else if (id === 0x33) onAdd2(d);
 }
 function estado(t){ $('estado').textContent = t; }
+function pmEst(t){ $('pmEst').textContent = t; }
+
+// Programación del PM5 por CSAFE: entrenamiento de distancia fija con parciales
+function csafeFrame(content){
+  let chk = 0; for (const b of content) chk ^= b;
+  const out = [0xF1];
+  for (const b of [...content, chk]) { if (b >= 0xF0 && b <= 0xF3) out.push(0xF3, b - 0xF0); else out.push(b); }
+  out.push(0xF2); return new Uint8Array(out);
+}
+const u32be = v => [(v >>> 24) & 255, (v >>> 16) & 255, (v >>> 8) & 255, v & 255];
+function frameDistancia(dist, split){
+  const cmds = [
+    0x01, 0x01, 0x03,                     // tipo: distancia fija con parciales
+    0x03, 0x05, 0x80, ...u32be(dist),     // duración: distancia en metros
+    0x05, 0x05, 0x80, ...u32be(split),    // parcial: distancia en metros
+    0x14, 0x01, 0x01,                     // configurar entrenamiento
+    0x13, 0x02, 0x01, 0x01                // pantalla: preparado para remar
+  ];
+  return csafeFrame([0x76, cmds.length, ...cmds]);
+}
+async function programarPM5(){
+  if (!dev || !dev.gatt.connected) return;
+  if (R.running) { pmEst('No se puede programar con la remada en curso.'); return; }
+  if (!ctrlCh) { pmEst('Este PM5 no aceptó control remoto: programá la distancia a mano.'); return; }
+  const P = prof();
+  let sp = P.split; if (P.dist / sp > 30) sp = Math.ceil(P.dist / 30 / 100) * 100; sp = Math.max(100, Math.min(sp, P.dist));
+  try {
+    const f = frameDistancia(P.dist, sp);
+    for (let i = 0; i < f.length; i += 20) await ctrlCh.writeValue(f.slice(i, i + 20));
+    pmEst(`PM5 programado: ${mfmt(P.dist)} m · revisá que la pantalla del PM5 muestre esa distancia`);
+  } catch(e) { pmEst('El PM5 no aceptó la programación: programá la distancia a mano.'); }
+}
+$('btnProg').onclick = programarPM5;
 
 async function suscribir(svc, id, fn){
   const ch = await svc.getCharacteristic(U(id));
@@ -810,30 +976,25 @@ async function abrirGatt(){
   estado('Conectando…');
   const server = await dev.gatt.connect();
   const svc = await server.getPrimaryService(SVC_ROW);
-  try { const sr = await svc.getCharacteristic(U('0034')); await sr.writeValue(new Uint8Array([2])); } catch(e){}  // muestreo 250 ms
-  try {
-    await suscribir(svc, '0031', onGeneral);
-    await suscribir(svc, '0032', onAdd1);
-    await suscribir(svc, '0033', onAdd2);
-  } catch(e) {
-    await suscribir(svc, '0080', onMux);
-  }
+  try { const sr = await svc.getCharacteristic(U('0034')); await sr.writeValue(new Uint8Array([2])); } catch(e){}
+  try { await suscribir(svc, '0031', onGeneral); await suscribir(svc, '0032', onAdd1); await suscribir(svc, '0033', onAdd2); }
+  catch(e) { await suscribir(svc, '0080', onMux); }
+  try { const cs = await server.getPrimaryService(SVC_CTRL); ctrlCh = await cs.getCharacteristic(U('0021')); } catch(e) { ctrlCh = null; }
   intentos = 0;
   estado('Conectado · ' + (dev.name || 'PM5'));
-  $('btnCon').textContent = 'Desconectar';
+  $('btnCon').textContent = 'Desconectar'; $('pmBar').classList.remove('hide'); pmEst('PM5 conectado');
   pedirWakeLock();
+  if (CFG.autoProg && !R.running) programarPM5();
 }
 async function conectar(){
   aviso('');
   if (!navigator.bluetooth) {
-    aviso(location.protocol !== 'https:'
-      ? 'El Bluetooth del navegador solo funciona si la página se abre desde una dirección https (no como archivo local).'
-      : 'Este navegador no tiene Bluetooth. Si la abriste desde WhatsApp, tocá ⋮ → Abrir en Chrome.');
+    aviso(!window.isSecureContext ? 'El Bluetooth solo funciona con la página abierta desde https.' : 'Este navegador no tiene Bluetooth. Si la abriste desde WhatsApp, tocá ⋮ → Abrir en Chrome.');
     return;
   }
   pararDemo();
   try {
-    dev = await navigator.bluetooth.requestDevice({ filters:[{ namePrefix:'PM5' }], optionalServices:[SVC_ROW] });
+    dev = await navigator.bluetooth.requestDevice({ filters:[{ namePrefix:'PM5' }], optionalServices:[SVC_ROW, SVC_CTRL] });
     manual = false;
     dev.addEventListener('gattserverdisconnected', alDesconectar);
     await abrirGatt();
@@ -845,7 +1006,7 @@ async function conectar(){
   }
 }
 async function alDesconectar(){
-  $('btnCon').textContent = 'Conectar PM5';
+  $('btnCon').textContent = 'Conectar PM5'; $('pmBar').classList.add('hide');
   if (manual || !dev) { estado('Desconectado'); return; }
   if (intentos < 3) {
     intentos++; estado(`Se cortó · reconectando (${intentos}/3)…`);
@@ -855,21 +1016,21 @@ async function alDesconectar(){
   estado('Desconectado'); aviso('Se perdió la conexión con el PM5. Tocá Conectar PM5 de nuevo.');
 }
 $('btnCon').onclick = () => {
-  if (dev && dev.gatt.connected) { manual = true; dev.gatt.disconnect(); dev = null; soltarWakeLock(); estado('Desconectado'); $('btnCon').textContent = 'Conectar PM5'; }
+  if (dev && dev.gatt.connected) { manual = true; dev.gatt.disconnect(); dev = null; ctrlCh = null; soltarWakeLock(); estado('Desconectado'); $('btnCon').textContent = 'Conectar PM5'; $('pmBar').classList.add('hide'); }
   else conectar();
 };
 
-/* ---------- demo sin ergo ---------- */
+/* ================= demo sin ergo ================= */
 let demo = null;
 function pararDemo(){ if (demo) { clearInterval(demo); demo = null; $('btnDemo').textContent = 'Probar sin ergo (demo ×10)'; if (!dev) estado('Desconectado'); } }
 $('btnDemo').onclick = () => {
   if (demo) { pararDemo(); return; }
   resetRun(); tab('vivo'); estado('Demo (datos simulados)'); $('btnDemo').textContent = 'Parar demo';
-  const P = prof(); let t = 0, d = 0;
+  const P = prof(), tr = TR(); let t = 0, d = 0;
   demo = setInterval(() => {
     let pace = 0;
-    for (let k = 0; k < 10; k++) {             // 10 pasos de 0,1 s = 1 s simulado cada 100 ms
-      const i = Math.min(Math.floor(d / TRAMO), P.plan.length - 1);
+    for (let k = 0; k < 10; k++) {
+      let i = tr.findIndex(x => d < x.b); if (i < 0) i = tr.length - 1;
       pace = t < 8 ? P.plan[i] - 6 + t*0.75 : P.plan[i] + 1.3*Math.sin(t/9) + (Math.random() - .5) * 1.5;
       t += 0.1; d += 500 / pace * 0.1;
     }
@@ -880,17 +1041,16 @@ $('btnDemo').onclick = () => {
   }, 100);
 };
 
-/* ---------- inicio ---------- */
+/* ================= inicio ================= */
+resetRun();
 pintaLogo(); renderPlan(); renderVivo();
-
-/* ---------- app instalable ---------- */
 if ('serviceWorker' in navigator && window.isSecureContext) navigator.serviceWorker.register('sw.js').catch(() => {});
 let instalar = null;
 window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); instalar = e; $('btnInst').classList.remove('hide'); });
 window.addEventListener('appinstalled', () => { instalar = null; $('btnInst').classList.add('hide'); });
 $('btnInst').onclick = async () => { if (!instalar) return; instalar.prompt(); await instalar.userChoice.catch(() => {}); instalar = null; $('btnInst').classList.add('hide'); };
 if (!window.isSecureContext) aviso('Abriste la página como archivo: así Chrome no permite cámara ni Bluetooth. Abrila desde su dirección https.');
-if (!navigator.bluetooth) estado('Desconectado · sin Bluetooth en este navegador');
+else if (!navigator.bluetooth) estado('Desconectado · sin Bluetooth en este navegador');
 </script>
 </body>
 </html>
