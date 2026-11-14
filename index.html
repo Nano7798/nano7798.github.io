@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#74acdf">
-<title>Ergo en vivo · PM5</title>
+<title>IndoorIRT</title>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
@@ -99,7 +99,7 @@ details.h img{width:100%;display:block;margin-top:8px}
 <body>
 <header>
   <div id="logoBox" title="Tocá para cargar el logo"><span>Tocá para<br>logo</span></div>
-  <div class="tit"><h1 id="titulo">Ergo en vivo</h1><div id="estado">Desconectado</div></div>
+  <div class="tit"><h1 id="titulo">IndoorIRT</h1><div id="estado">Desconectado</div></div>
   <button class="sec hide" id="btnInst">Instalar</button>
   <button class="sec" id="btnCon">Conectar PM5</button>
 </header>
@@ -756,7 +756,7 @@ function renderVivo(){
   $('bNombre').textContent = CFG.activo;
   const at = antTotal();
   $('bObj').textContent = 'Objetivo ' + fmt(planTotal()) + (at ? ' · anterior ' + fmt(at) : '');
-  $('titulo').textContent = `Ergo en vivo · ${mfmt(target)} m`;
+  $('titulo').textContent = `IndoorIRT · ${mfmt(target)} m`;
   $('lgPlan').style.borderColor = col; $('lgTr').style.borderColor = col;
 
   let i = tr.findIndex(x => R.d < x.b); if (i < 0) i = n - 1;
@@ -885,7 +885,7 @@ const URL_LOG = 'https://log.concept2.com/log';
 function comentarioLb(rec){
   const tr = tramosDe(rec.dist, rec.split);
   return 'Parciales: ' + tr.map((x, k) => `${mfmt(x.b)} ${fmt(ritmoTramo(rec.cross, k, tr))}`).join(' · ')
-    + (rec.drag ? ` · arrastre ${rec.drag}` : '') + ' · Ergo en vivo';
+    + (rec.drag ? ` · arrastre ${rec.drag}` : '') + ' · IndoorIRT';
 }
 function panelLb(rec){
   const d = new Date(rec.fecha), z = n => String(n).padStart(2, '0');
@@ -976,7 +976,7 @@ $('btnHCsv').onclick = () => {
     const tr = tramosDe(r.dist, r.split), pt = cumDe(r.plan, tr, r.dist);
     c += `${new Date(r.fecha).toLocaleString('es-AR')};${r.nombre};${r.distReal < r.dist - 5 ? r.distReal + ' (incompleta)' : r.dist};${fmt(r.tiempo)};${fmt(r.tiempo / Math.max(1, r.distReal) * 500)};${fmt(pt)};${fmtDif(r.tiempo - pt)};${r.spm ?? ''};${r.drag ?? ''};${r.cross.map(v => fmt(v)).join(' | ')}\n`;
   });
-  bajarTexto(c, `ergo_carreras_${new Date().toISOString().slice(0,10)}.csv`);
+  bajarTexto(c, `IndoorIRT_carreras_${new Date().toISOString().slice(0,10)}.csv`);
 };
 
 /* ================= pantalla encendida ================= */
