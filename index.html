@@ -78,6 +78,17 @@ details.h summary b{font-size:18px}
 details.h .in{padding:0 12px 12px}
 details.h img{width:100%;display:block;margin-top:8px}
 .hide{display:none!important}
+.guia{border:2px solid var(--navy)}
+.guia ol{margin:8px 0 0;padding:0;list-style:none;counter-reset:p}
+.guia li{counter-increment:p;display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid #ece7db}
+.guia li:first-child{border-top:0}
+.guia li::before{content:counter(p);flex:none;width:28px;height:28px;background:var(--navy);color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center}
+.guia li.ok::before{content:'✓';background:var(--ok)}
+.guia li.bad::before{content:'!';background:var(--bad)}
+.guia li>div{flex:1}
+.guia b{display:block;font-size:16px}
+.guia .det{font-size:14px;color:var(--muted);margin-top:3px;line-height:1.4}
+.guia button{margin-top:6px}
 .note{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.4}
 </style>
 </head>
@@ -95,6 +106,15 @@ details.h img{width:100%;display:block;margin-top:8px}
 
 <!-- ============ EN VIVO ============ -->
 <section id="vVivo">
+  <div class="card guia hide" id="guia">
+    <div class="lbl">Primeros pasos · solo la primera vez</div>
+    <ol>
+      <li id="gInst"><div><b>Instalar la app</b><div class="det" id="gInstTxt"></div><button class="pri hide" id="gInstBtn">Instalar</button></div></li>
+      <li id="gCam"><div><b>Permitir la cámara</b><div class="det" id="gCamTxt">Para las fotos de respaldo de cada parcial.</div><button class="pri" id="gCamBtn">Permitir cámara</button></div></li>
+      <li id="gBt"><div><b>Conectar el ergo</b><div class="det">Encendé el PM5, cerrá ErgData si está abierta y tocá el botón. Chrome muestra la lista: elegí el PM5 y tocá Vincular.</div><button class="pri" id="gBtBtn">Conectar PM5</button></div></li>
+    </ol>
+    <div class="row"><button id="gCerrar">Listo, ocultar</button></div>
+  </div>
   <div class="band" id="band"><span id="bNombre">–</span><small id="bObj">Objetivo –</small></div>
   <div class="pmbar hide" id="pmBar"><span id="pmEst">PM5 conectado</span><button id="btnProg">Programar PM5</button></div>
 
@@ -225,6 +245,7 @@ details.h img{width:100%;display:block;margin-top:8px}
     </div>
   </div>
 
+  <div class="row"><button id="btnGuia">Ver primeros pasos</button></div>
   <div class="note">
     Uso: elegí remero/a y distancia, tocá <b>Conectar PM5</b> y elegí el monitor de la lista.
     ErgData tiene que estar cerrado: el PM5 acepta una sola app a la vez.
@@ -1041,12 +1062,47 @@ $('btnDemo').onclick = () => {
   }, 100);
 };
 
+/* ================= guía de primeros pasos ================= */
+const esApp = () => window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
+async function estadoCamara(){
+  try { const p = await navigator.permissions.query({ name:'camera' }); return p.state; } catch(e){ return 'prompt'; }
+}
+async function renderGuia(){
+  const g = $('guia');
+  if (CFG.guiaVista) { g.classList.add('hide'); return; }
+  g.classList.remove('hide');
+  // 1 instalar
+  const li1 = $('gInst');
+  if (esApp()) { li1.className = 'ok'; $('gInstTxt').textContent = 'Ya la estás usando instalada.'; $('gInstBtn').classList.add('hide'); }
+  else if (instalar) { li1.className = ''; $('gInstTxt').textContent = 'Queda un ícono en el celular, como cualquier app.'; $('gInstBtn').classList.remove('hide'); }
+  else { li1.className = ''; $('gInstTxt').innerHTML = 'Tocá <b style="display:inline">⋮</b> arriba a la derecha de Chrome → <b style="display:inline">Instalar app</b> (o Agregar a pantalla principal). Si dice <i>Abrir en la app</i>, ya está instalada.'; $('gInstBtn').classList.add('hide'); }
+  // 2 cámara
+  const st = await estadoCamara(), li2 = $('gCam');
+  if (st === 'granted') { li2.className = 'ok'; $('gCamTxt').textContent = 'Cámara habilitada.'; $('gCamBtn').classList.add('hide'); }
+  else if (st === 'denied') {
+    li2.className = 'bad'; $('gCamBtn').textContent = 'Probar de nuevo'; $('gCamBtn').classList.remove('hide');
+    $('gCamTxt').innerHTML = 'Quedó bloqueada. Para habilitarla:<br>1) Ajustes del celular → Aplicaciones → Chrome → Permisos → Cámara → <i>Permitir mientras se usa</i>.<br>2) En Chrome: ⋮ → Configuración → Configuración de sitios → Cámara → buscá este sitio en Bloqueados y pasalo a Permitir.<br>3) Cerrá la app del todo y abrila de nuevo.';
+  } else { li2.className = ''; $('gCamTxt').textContent = 'Para las fotos de respaldo de cada parcial. Cuando Chrome pregunte, tocá Permitir.'; $('gCamBtn').textContent = 'Permitir cámara'; $('gCamBtn').classList.remove('hide'); }
+  // 3 bluetooth
+  $('gBt').className = dev && dev.gatt.connected ? 'ok' : '';
+}
+$('gInstBtn').onclick = async () => { if (!instalar) return; instalar.prompt(); await instalar.userChoice.catch(() => {}); instalar = null; $('btnInst').classList.add('hide'); renderGuia(); };
+$('gCamBtn').onclick = async () => {
+  try { const s = await navigator.mediaDevices.getUserMedia({ video:true, audio:false }); s.getTracks().forEach(t => t.stop()); } catch(e){}
+  renderGuia();
+};
+$('gBtBtn').onclick = async () => { await conectar(); renderGuia(); };
+$('gCerrar').onclick = () => { CFG.guiaVista = true; save(); renderGuia(); };
+$('btnGuia').onclick = () => { CFG.guiaVista = false; save(); tab('vivo'); renderGuia(); window.scrollTo(0, 0); };
+
 /* ================= inicio ================= */
 resetRun();
 pintaLogo(); renderPlan(); renderVivo();
 if ('serviceWorker' in navigator && window.isSecureContext) navigator.serviceWorker.register('sw.js').catch(() => {});
 let instalar = null;
-window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); instalar = e; $('btnInst').classList.remove('hide'); });
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); instalar = e; $('btnInst').classList.remove('hide'); renderGuia(); });
+window.addEventListener('focus', () => renderGuia());
+renderGuia();
 window.addEventListener('appinstalled', () => { instalar = null; $('btnInst').classList.add('hide'); });
 $('btnInst').onclick = async () => { if (!instalar) return; instalar.prompt(); await instalar.userChoice.catch(() => {}); instalar = null; $('btnInst').classList.add('hide'); };
 if (!window.isSecureContext) aviso('Abriste la página como archivo: así Chrome no permite cámara ni Bluetooth. Abrila desde su dirección https.');
