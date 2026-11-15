@@ -78,7 +78,29 @@ details.h summary b{font-size:18px}
 details.h .in{padding:0 12px 12px}
 details.h img{width:100%;display:block;margin-top:8px}
 .hide{display:none!important}
-@media (orientation:landscape) and (min-width:560px){
+#land{position:fixed;inset:0;z-index:50;background:var(--paper);display:flex;flex-direction:column;overflow:hidden}
+.lt{display:flex;gap:14px;align-items:center;background:var(--cel);color:var(--navy);padding:0 10px;font-size:14px;height:32px;flex:none;white-space:nowrap;overflow:hidden}
+.lt button{margin-left:auto;padding:2px 10px;font-size:13px}
+.lb2{flex:1;min-height:0;position:relative}
+.ls{position:absolute;inset:0;padding:6px 10px;display:none;flex-direction:column;gap:6px}
+.ls.on{display:flex}
+.l2{flex:1.7;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.l2>div{background:var(--card);border:1px solid var(--line);padding:2px 14px;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.ld{font-weight:700;line-height:1;font-size:min(30vh,13vw)}
+.ld.ok{color:var(--ok)}.ld.bad{color:var(--bad)}
+.l6{flex:1;min-height:0;display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--line);border:1px solid var(--line)}
+.l6 div{background:var(--card);padding:2px 8px;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+.l6 b{font-size:min(9vh,4vw);font-weight:600;white-space:nowrap}
+.l6 .lbl{font-size:11px}
+.ltb{flex:1;min-height:0;background:var(--card);border:1px solid var(--line);padding:2px 12px;overflow:hidden}
+#land table{font-size:min(6.2vh,3vw);height:100%}
+#land td,#land th{padding:0 6px}
+#lChart,#lFc{flex:1.7;min-height:0;background:var(--card);border:1px solid var(--line);padding:4px}
+#lChart svg,#lFc svg{display:block;width:100%;height:100%}
+.ln{display:flex;height:40px;flex:none;border-top:1px solid var(--line);background:var(--card)}
+.ln button{flex:1;border:0;border-top:4px solid transparent;background:none;color:var(--muted);padding:0;font-size:15px}
+.ln button.on{color:var(--ink);border-top-color:var(--acc)}
+@media (orientation:landscape) and (min-width:560px) and (min-height:620px){
   main{max-width:1200px}
   #vVivo{display:grid;grid-template-columns:1fr 1fr;gap:0 12px;align-items:start}
   #vVivo>.band,#vVivo>.pmbar,#vVivo>.guia,#vVivo>.fin,#vVivo>.big{grid-column:1/-1}
@@ -115,6 +137,41 @@ details.h img{width:100%;display:block;margin-top:8px}
   <button class="sec" id="btnCon">Conectar PM5</button>
 </header>
 <input type="file" id="logoFile" accept="image/*" class="hide">
+<div id="land" class="hide">
+  <div class="lt"><b id="lNom"></b><span id="lObj"></span><span id="lEst"></span><button id="lSalir">Salir</button></div>
+  <div class="lb2">
+    <div class="ls" data-s="0">
+      <div class="l2">
+        <div><span class="lbl">vs plan</span><div class="ld" id="lDelta">–</div><span class="sub" data-from="deltaTxt"></span></div>
+        <div id="lPaceBox"><span class="lbl" data-from="paceLbl"></span><div class="ld" data-from="pace">–</div><span class="sub" data-from="planPace"></span></div>
+      </div>
+      <div class="l6">
+        <div><span class="lbl">Tiempo</span><b data-from="sT"></b></div>
+        <div><span class="lbl">Metros</span><b data-from="sD"></b></div>
+        <div><span class="lbl">Restan</span><b data-from="sR"></b></div>
+        <div><span class="lbl">s/m</span><b data-from="sS"></b></div>
+        <div><span class="lbl">Ritmo medio</span><b data-from="sA"></b></div>
+        <div><span class="lbl">Proyección</span><b data-from="sP"></b></div>
+      </div>
+    </div>
+    <div class="ls" data-s="1">
+      <div class="ltb"><table><thead><tr><th>Metros</th><th>Plan</th><th>Real</th><th>Dif</th><th>Pasa por</th><th>Anterior</th></tr></thead><tbody id="lTb"></tbody></table></div>
+    </div>
+    <div class="ls" data-s="2"><div id="lChart" style="flex:1"></div></div>
+    <div class="ls" data-s="3">
+      <div id="lFc"></div>
+      <div class="l6">
+        <div><span class="lbl">Watts</span><b data-from="sW"></b></div>
+        <div><span class="lbl">Watts medios</span><b data-from="sWa"></b></div>
+        <div><span class="lbl">Largo</span><b data-from="sL"></b></div>
+        <div><span class="lbl">Relación</span><b data-from="sRt"></b></div>
+        <div><span class="lbl">Fuerza pico</span><b data-from="sPk"></b></div>
+        <div><span class="lbl">FC</span><b data-from="sH"></b></div>
+      </div>
+    </div>
+  </div>
+  <div class="ln"><button data-s="0">Datos</button><button data-s="1">Parciales</button><button data-s="2">Gráfico</button><button data-s="3">Palada</button></div>
+</div>
 <nav><button id="tabPlan">Plan</button><button id="tabVivo" class="on">En vivo</button><button id="tabHist">Carreras</button></nav>
 <main>
 <div class="msg" id="msg"></div>
@@ -513,6 +570,7 @@ function tab(w){
   });
   if (w === 'vivo') renderVivo();
   if (w === 'hist') renderHist();
+  landVis();
 }
 $('tabPlan').onclick = () => tab('plan'); $('tabVivo').onclick = () => tab('vivo'); $('tabHist').onclick = () => tab('hist');
 
@@ -748,7 +806,8 @@ function dibujaFuerza(){
   $('fcCard').classList.remove('hide');
   const W = 300, H = 90, mx = Math.max(...a, 1);
   const pts = a.map((v, i) => `${(i / (a.length - 1) * W).toFixed(1)},${(H - 4 - v / mx * (H - 12)).toFixed(1)}`).join(' ');
-  $('fcSvg').innerHTML = `<svg viewBox="0 0 ${W} ${H}" style="display:block;width:100%"><line x1="0" x2="${W}" y1="${H-4}" y2="${H-4}" stroke="#cfe0ee"/><polyline points="${pts}" fill="none" stroke="${color()}" stroke-width="2.5" stroke-linejoin="round"/></svg>`;
+  FC.svg = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="display:block;width:100%"><line x1="0" x2="${W}" y1="${H-4}" y2="${H-4}" stroke="#cfe0ee"/><polyline points="${pts}" fill="none" stroke="${color()}" stroke-width="2.5" stroke-linejoin="round" vector-effect="non-scaling-stroke"/></svg>`;
+  $('fcSvg').innerHTML = FC.svg;
 }
 const UNI = ['ritmo', 'watts', 'cal'], UNI_LBL = { ritmo:'Ritmo /500', watts:'Watts', cal:'Calorías/hora' };
 function enUnidad(p){
@@ -848,12 +907,43 @@ function renderVivo(){
   });
   $('tbVivo').innerHTML = h;
   dibujaChart();
+  renderLand(i);
 }
 
+/* ================= modo horizontal: pantallas fijas ================= */
+let landOff = false, landS = CFG.landS || 0;
+const esLand = () => window.matchMedia('(orientation:landscape)').matches && window.innerHeight < 620;
+function landVis(){
+  const on = esLand() && !landOff && !$('vVivo').classList.contains('hide');
+  $('land').classList.toggle('hide', !on); document.body.style.overflow = on ? 'hidden' : '';
+  return on;
+}
+function renderLand(i){
+  if (!landVis()) return;
+  const L = $('land');
+  L.querySelectorAll('.ls').forEach(x => x.classList.toggle('on', +x.dataset.s === landS));
+  L.querySelectorAll('.ln button').forEach(x => x.classList.toggle('on', +x.dataset.s === landS));
+  $('lNom').textContent = `${CFG.activo} · ${mfmt(prof().dist)} m`;
+  $('lObj').textContent = 'Objetivo ' + fmt(planTotal());
+  $('lEst').textContent = R.finished ? `FINAL ${fmt(R.t)} · girá a vertical para enviar` : $('estado').textContent;
+  L.querySelectorAll('[data-from]').forEach(el => el.textContent = $(el.dataset.from).textContent);
+  const d = $('delta'); $('lDelta').textContent = d.textContent;
+  $('lDelta').className = 'ld ' + (d.classList.contains('ok') ? 'ok' : d.classList.contains('bad') ? 'bad' : '');
+  if (landS === 1) {
+    const rows = [...$('tbVivo').rows], max = 6, a = Math.max(0, Math.min((i || 0) - 2, rows.length - max));
+    $('lTb').innerHTML = rows.slice(a, a + max).map(r => r.outerHTML).join('');
+  } else if (landS === 2) { const b = $('lChart'); dibujaChart(b, Math.max(140, b.clientHeight - 8)); }
+  else if (landS === 3) $('lFc').innerHTML = FC.svg || '<div class="sub" style="padding:10px">La curva aparece al remar.</div>';
+}
+$('land').querySelector('.ln').onclick = e => { const v = e.target.dataset.s; if (v == null) return; landS = +v; CFG.landS = landS; save(); schedule(); };
+$('lSalir').onclick = () => { landOff = true; landVis(); };
+$('lPaceBox').onclick = () => $('paceCard').onclick();
+window.addEventListener('resize', () => { if (!esLand()) landOff = false; landVis(); });
+
 /* ================= gráfico ================= */
-function dibujaChart(){
+function dibujaChart(box = $('chart'), H = 240){
   const P = prof(), tr = TR(), n = tr.length, target = P.dist, col = color();
-  const box = $('chart'), W = Math.max(300, box.clientWidth || 340), H = 240;
+  const W = Math.max(300, box.clientWidth || 340);
   const m = { l:50, r:24, t:14, b:28 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
   const reales = R.cross.map((c, k) => ritmoTramo(R.cross, k, tr));
   let parcial = null;
