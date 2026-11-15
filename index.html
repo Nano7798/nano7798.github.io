@@ -78,6 +78,17 @@ details.h summary b{font-size:18px}
 details.h .in{padding:0 12px 12px}
 details.h img{width:100%;display:block;margin-top:8px}
 .hide{display:none!important}
+@media (orientation:landscape) and (min-width:560px){
+  main{max-width:1200px}
+  #vVivo{display:grid;grid-template-columns:1fr 1fr;gap:0 12px;align-items:start}
+  #vVivo>.band,#vVivo>.pmbar,#vVivo>.guia,#vVivo>.fin,#vVivo>.big{grid-column:1/-1}
+  #vVivo>.stats{grid-template-columns:repeat(3,1fr)}
+  .delta{font-size:clamp(56px,13vw,120px)}
+  .pace{font-size:clamp(52px,12vw,110px)}
+  header{padding:4px 12px}
+  #logoBox{width:36px;height:36px}
+  nav button{padding:7px 4px}
+}
 .lb{border:2px solid var(--cel);background:#f7fbfe;padding:12px;margin-top:10px}
 .lb dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:8px 0 0;font-size:16px}
 .lb dt{color:var(--muted)}.lb dd{margin:0;font-weight:700}
