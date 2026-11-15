@@ -377,6 +377,7 @@ details.h img{width:100%;display:block;margin-top:8px}
 
 <script>
 'use strict';
+const APP_V = 14;
 const KEY = 'ergoVivo.v2', KEYH = 'ergoVivo.hist';
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -1430,7 +1431,7 @@ function onMux(v){
   if (id === 0x31) onGeneral(d); else if (id === 0x32) onAdd1(d); else if (id === 0x33) onAdd2(d);
   else if (id === 0x35) onStroke(d); else if (id === 0x36) onStroke2(d); else if (id === 0x3D) onForce(d); else if (id === 0x39) onFin(d);
 }
-function estado(t){ $('estado').textContent = t; }
+function estado(t){ $('estado').textContent = t + ' · v' + APP_V; }
 function pmEst(t){ $('pmEst').textContent = t; }
 
 // Programación del PM5 por CSAFE: entrenamiento de distancia fija con parciales
@@ -1609,7 +1610,13 @@ $('btnGuia').onclick = () => { CFG.guiaVista = false; save(); tab('vivo'); rende
 /* ================= inicio ================= */
 resetRun();
 pintaLogo(); renderPlan(); renderVivo();
-if ('serviceWorker' in navigator && window.isSecureContext) navigator.serviceWorker.register('sw.js').catch(() => {});
+estado('Desconectado');
+// Si hay una versión nueva publicada, se instala y la app se recarga sola
+if ('serviceWorker' in navigator && window.isSecureContext) {
+  let recargado = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => { if (!recargado && !R.running) { recargado = true; location.reload(); } });
+  navigator.serviceWorker.register('sw.js', { updateViaCache:'none' }).then(r => { r.update().catch(() => {}); }).catch(() => {});
+}
 let instalar = null;
 window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); instalar = e; $('btnInst').classList.remove('hide'); renderGuia(); });
 window.addEventListener('focus', () => renderGuia());
