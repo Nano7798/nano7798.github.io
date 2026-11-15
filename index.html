@@ -78,37 +78,67 @@ details.h summary b{font-size:18px}
 details.h .in{padding:0 12px 12px}
 details.h img{width:100%;display:block;margin-top:8px}
 .hide{display:none!important}
-#land{position:fixed;inset:0;z-index:50;background:var(--paper);display:flex;flex-direction:column;overflow:hidden;touch-action:pan-y;user-select:none}
-.lt{display:flex;gap:14px;align-items:center;background:var(--cel);color:var(--navy);padding:0 10px;font-size:13px;height:26px;flex:none;white-space:nowrap;overflow:hidden}
-.lt button{margin-left:auto;padding:1px 10px;font-size:12px}
+#finDlg{position:fixed;inset:0;z-index:60;background:rgba(11,37,69,.75);display:flex;align-items:center;justify-content:center;padding:10px}
+.fd{background:var(--card);border:2px solid var(--cel);padding:12px 14px;width:min(600px,100%);max-height:100%;overflow:auto;display:flex;flex-direction:column;gap:8px}
+.fdT b{display:block;font-size:34px;line-height:1.1;color:var(--acc)}
+.fdT span{font-size:14px;color:var(--muted)}
+.fdB{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fdB button{padding:15px 8px;font-size:17px}
+#fdCerrar{padding:12px}
+@media (orientation:portrait){.fdB{grid-template-columns:1fr}.fdB button{padding:18px 8px}}
+#land{position:fixed;inset:0;z-index:50;background:var(--paper);display:flex;flex-direction:column;overflow:hidden;touch-action:pan-y;user-select:none;color:var(--navy)}
 .lb2{flex:1;min-height:0;position:relative}
-.ls{position:absolute;inset:0;padding:6px 8px 2px;display:none;flex-direction:column;gap:6px}
-.ls.on{display:flex}
-.l2{flex:1.9;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.l2>div{background:var(--card);border:1px solid var(--line);padding:2px 12px;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
-.ld{font-weight:700;line-height:1;font-size:min(40vh,13.6vw);white-space:nowrap}
-.ld.ok{color:var(--ok)}.ld.bad{color:var(--bad)}
-.lg{flex:1;min-height:0;display:grid;gap:1px;background:var(--line);border:1px solid var(--line)}
-.lg.c3{grid-template-columns:repeat(3,1fr)}.lg.c4{grid-template-columns:repeat(4,1fr)}
-.lg div{background:var(--card);padding:2px 12px;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
-.lg b{font-weight:700;line-height:1.05;white-space:nowrap;font-size:min(17vh,7.5vw)}
-.lg.xl b{font-size:min(24vh,9vw)}
-.lg.c4 b{font-size:min(14vh,5.6vw)}
-.lg .lbl,.l2 .lbl{font-size:13px}
-.ltb{flex:1;min-height:0;background:var(--card);border:1px solid var(--line);padding:2px 12px;overflow:hidden}
-#land table{font-size:min(8.2vh,3.7vw);height:100%}
-#land td,#land th{padding:0 6px}
-#land th{font-size:13px}
-#lChart,#lFc{flex:1.6;min-height:0;background:var(--card);border:1px solid var(--line);padding:4px}
+.ls{position:absolute;inset:0;padding:2vh 1.2vw 0;display:none}
+.ls.on{display:block}
+.e1,.e2,.e3{height:100%;display:grid;gap:1vw}
+.e1{grid-template-columns:27% 1fr}.e2{grid-template-columns:27% 1fr 25%}.e3{grid-template-columns:30% 1fr}
+.el,.er,.es{display:flex;flex-direction:column;gap:1.6vh;min-height:0;min-width:0}
+.em{border:0;background:none;font-size:8vh;line-height:1;padding:0 1.4vw;color:var(--navy);align-self:flex-start;font-weight:400}
+.etop{display:flex;align-items:center;justify-content:space-between;gap:1vw}
+.eu{font-size:4.4vh;padding:1.2vh 1.6vw;border:1px solid var(--line);background:var(--card);color:var(--muted)}
+.lm{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.lm b{font-size:min(21vh,7.4vw);font-weight:700;line-height:1}
+.lm span{font-size:6vh;line-height:1.3}
+.lmI{display:flex;align-items:baseline;justify-content:center;gap:.6vw;padding:1vh 0}
+.lmI b{font-size:min(17vh,6.6vw);font-weight:700;line-height:1}
+.lmI span{font-size:4vh}
+.box{background:var(--card);border:1px solid var(--line)}
+.etv{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:0}
+.el .etv{flex:none;height:35%}.er .etv{flex:1}
+.etv b{font-size:min(16vh,6.4vw);font-weight:700;line-height:1.05}
+.etv span{font-size:5vh}
+.et{flex:1;min-height:0;display:flex;align-items:center}
+.et b{flex:1;text-align:right;font-size:min(11.5vh,4.5vw);font-weight:700;line-height:1;padding-right:.9vw;white-space:nowrap}
+.et span{width:41%;flex:none;font-size:3.7vh;line-height:1.12}
+.ec{display:flex;flex-direction:column;min-width:0;min-height:0}
+.ecp{flex:1.55;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;border-bottom:2px solid var(--line);margin:0 2vw}
+.ecp b{font-size:min(40vh,15.5vw);line-height:.95;font-weight:700;white-space:nowrap}
+.ecp span{font-size:5.6vh}
+.ecb{flex:1;min-height:0;display:flex;padding:2vh 0}
+.ecb>div{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ecb>div+div{border-left:2px solid var(--line)}
+.ecb b{font-size:min(17vh,6.2vw);font-weight:700;line-height:1.05;white-space:nowrap}
+.ecb span{font-size:4.6vh}
+.vp.ok{color:var(--ok)}.vp.bad{color:var(--bad)}
+.ex{min-width:0;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+#lChart{flex:1;min-height:0;padding:4px}
 #lChart svg,#lFc svg{display:block;width:100%;height:100%}
-.lcam{flex:1;min-height:0;display:flex;gap:8px}
+#land table{font-size:min(7.4vh,3.1vw);width:100%;border-collapse:collapse}
+#land th{font-size:4.2vh;text-transform:none;letter-spacing:0;text-align:center;padding:2.4vh 0;color:var(--navy);background:#e6f0f9;border:0}
+#land td{text-align:center;padding:2.6vh 0;border:0}
+#land tr.cur td{background:var(--cel);font-weight:700}
+#lFc{flex:1;min-height:0;padding:6px;border-bottom:2px solid var(--line)}
+.ef{flex:none;height:27%;display:flex;gap:1vw;padding:1.4vh 1vw}
+.ef .et{background:#e6f0f9}
+.lcam{height:100%;display:flex;gap:1vw}
 #lCam{flex:1;min-width:0;background:#000;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px}
 #lCam canvas{width:auto;max-width:100%;height:auto;max-height:100%;margin:0}
-.lcam .bt{flex:none;width:28%;display:flex;flex-direction:column;gap:6px}
+.lcam .bt{flex:none;width:28%;display:flex;flex-direction:column;gap:1.6vh}
 .lcam .bt button{flex:1;font-size:min(6vh,2.6vw);padding:4px}
-.ln{display:flex;height:18px;flex:none;align-items:center;justify-content:center;gap:12px}
-.ln i{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.ln{display:flex;height:6vh;min-height:16px;flex:none;align-items:center;justify-content:center;gap:1.3vw;position:relative}
+.ln i{width:1.1vw;height:1.1vw;min-width:8px;min-height:8px;border-radius:50%;background:var(--line)}
 .ln i.on{background:var(--acc)}
+#lRec{position:absolute;right:1.4vw;font-size:3.6vh;font-style:normal;color:var(--bad);font-weight:700}
 @media (orientation:landscape) and (min-width:560px) and (min-height:620px){
   main{max-width:1200px}
   #vVivo{display:grid;grid-template-columns:1fr 1fr;gap:0 12px;align-items:start}
@@ -146,53 +176,20 @@ details.h img{width:100%;display:block;margin-top:8px}
   <button class="sec" id="btnCon">Conectar PM5</button>
 </header>
 <input type="file" id="logoFile" accept="image/*" class="hide">
-<div id="land" class="hide">
-  <div class="lt"><b id="lNom"></b><span id="lObj"></span><span id="lEst"></span><button id="lSalir">Salir</button></div>
-  <div class="lb2">
-    <div class="ls" data-s="0">
-      <div class="l2">
-        <div><span class="lbl">vs plan</span><div class="ld" id="lDelta">–</div><span class="sub" data-from="deltaTxt"></span></div>
-        <div id="lPaceBox"><span class="lbl" data-from="paceLbl"></span><div class="ld" data-from="pace">–</div><span class="sub" data-from="planPace"></span></div>
-      </div>
-      <div class="lg c3">
-        <div><span class="lbl">Tiempo</span><b data-from="sT"></b></div>
-        <div><span class="lbl">Metros</span><b data-from="sD"></b></div>
-        <div><span class="lbl">s/m</span><b data-from="sS"></b></div>
-      </div>
-    </div>
-    <div class="ls" data-s="1">
-      <div class="lg c3 xl">
-        <div><span class="lbl">Restan</span><b data-from="sR"></b></div>
-        <div><span class="lbl">Ritmo medio</span><b data-from="sA"></b></div>
-        <div><span class="lbl">Proyección</span><b data-from="sP"></b></div>
-      </div>
-      <div class="lg c3 xl">
-        <div><span class="lbl">Watts</span><b data-from="sW"></b></div>
-        <div><span class="lbl">Calorías</span><b data-from="sC"></b></div>
-        <div><span class="lbl">FC</span><b data-from="sH"></b></div>
-      </div>
-    </div>
-    <div class="ls" data-s="2">
-      <div class="ltb"><table><thead><tr><th>Metros</th><th>Plan</th><th>Real</th><th>Dif</th><th>Pasa por</th><th>Anterior</th></tr></thead><tbody id="lTb"></tbody></table></div>
-    </div>
-    <div class="ls" data-s="3"><div id="lChart" style="flex:1"></div></div>
-    <div class="ls" data-s="4">
-      <div id="lFc"></div>
-      <div class="lg c4">
-        <div><span class="lbl">Watts</span><b data-from="sW"></b></div>
-        <div><span class="lbl">Largo</span><b data-from="sL"></b></div>
-        <div><span class="lbl">Relación</span><b data-from="sRt"></b></div>
-        <div><span class="lbl">Fuerza pico</span><b data-from="sPk"></b></div>
-      </div>
-    </div>
-    <div class="ls" data-s="5">
-      <div class="lcam">
-        <div id="lCam"><span id="lCamOff">Cámara apagada</span></div>
-        <div class="bt"><button class="pri" id="lCamBtn">Activar cámara</button><button id="lCamFlip">Frontal / trasera</button><button id="lCamRot">Rotar imagen</button></div>
-      </div>
-    </div>
+<div id="finDlg" class="hide"><div class="fd">
+  <div class="fdT"><span class="lbl" id="fdLbl">Guardado</span><b id="fdRes"></b><span id="fdTxt"></span></div>
+  <div class="fdB">
+    <button class="pri" id="fdNuevo">Crear nuevo entrenamiento</button>
+    <button class="pri" id="fdVer">Ver resultados</button>
+    <button class="pri" id="fdWa">Enviar por WhatsApp</button>
+    <button class="pri" id="fdDesc">Desconectar PM5</button>
+    <button id="fdVert">Poner vertical</button>
   </div>
-  <div class="ln" id="lDots"></div>
+  <button id="fdCerrar">Volver</button>
+</div></div>
+<div id="land" class="hide">
+  <div class="lb2" id="lScreens"></div>
+  <div class="ln"><span id="lDots" style="display:flex;gap:1.3vw;align-items:center"></span><em id="lRec"></em></div>
 </div>
 <nav><button id="tabPlan">Plan</button><button id="tabVivo" class="on">En vivo</button><button id="tabHist">Carreras</button></nav>
 <main>
@@ -210,7 +207,9 @@ details.h img{width:100%;display:block;margin-top:8px}
     <div class="row"><button id="gCerrar">Listo, ocultar</button></div>
   </div>
   <div class="band" id="band"><span id="bNombre">–</span><small id="bObj">Objetivo –</small></div>
-  <div class="pmbar hide" id="pmBar"><span id="pmEst">PM5 conectado</span><button id="btnProg">Programar PM5</button></div>
+  <div class="pmbar hide" id="pmBar"><span id="pmEst">PM5 conectado</span><span style="display:flex;gap:6px;flex:none"><button id="btnProg">Programar</button><button id="btnDesc">Desconectar</button></span></div>
+
+  <div class="pmbar"><span>Vista para remar</span><button id="btnGirar">Poner horizontal</button></div>
 
   <div class="card fin hide" id="fin">
     <div class="lbl">Tiempo final</div>
@@ -244,7 +243,7 @@ details.h img{width:100%;display:block;margin-top:8px}
     <div><span class="lbl">Watts</span><b id="sW">–</b></div>
     <div><span class="lbl">Proyección</span><b id="sP">–</b></div>
     <div><span class="lbl">FC</span><b id="sH">–</b></div>
-    <div><span class="lbl">Arrastre</span><b id="sF">–</b></div>
+    <div><span class="lbl">Drag factor</span><b id="sF">–</b></div>
     <div><span class="lbl">Calorías</span><b id="sC">–</b></div>
     <div><span class="lbl">Paladas</span><b id="sN">–</b></div>
     <div><span class="lbl">Watts medios</span><b id="sWa">–</b></div>
@@ -279,7 +278,7 @@ details.h img{width:100%;display:block;margin-top:8px}
 
   <div class="card">
     <table>
-      <thead><tr><th>Metros</th><th>Plan</th><th>Real</th><th>Dif</th><th>Pasa por</th><th>Anterior</th></tr></thead>
+      <thead><tr><th class="ejeH">Metros</th><th>Plan</th><th>Real</th><th>Dif</th><th>Pasa por</th><th>Anterior</th></tr></thead>
       <tbody id="tbVivo"></tbody>
     </table>
     <div class="note">Plan, Real y Anterior son ritmos por 500 m de cada tramo.</div>
@@ -309,7 +308,10 @@ details.h img{width:100%;display:block;margin-top:8px}
       <div><span class="lbl">Remero/a</span><select id="perfil"></select></div>
     </div>
     <div class="row">
-      <div><span class="lbl">Distancia (metros)</span><input id="dist" type="number" inputmode="numeric" min="100" max="50000" step="1"></div>
+      <div><span class="lbl">Tipo de entrenamiento</span><select id="modo"><option value="dist">Por distancia</option><option value="tiempo">Por tiempo</option></select></div>
+    </div>
+    <div class="row">
+      <div><span class="lbl" id="distLbl">Distancia (metros)</span><input id="dist" type="text" inputmode="decimal"></div>
       <div><span class="lbl">Parcial cada</span>
         <select id="split"><option value="100">100 m</option><option value="250">250 m</option><option value="500">500 m</option><option value="1000">1.000 m</option><option value="2000">2.000 m</option></select></div>
     </div>
@@ -317,7 +319,7 @@ details.h img{width:100%;display:block;margin-top:8px}
   </div>
 
   <div class="card">
-    <span class="lbl">Tiempo objetivo total</span>
+    <span class="lbl" id="objLbl">Tiempo objetivo total</span>
     <div class="row" style="margin-top:4px">
       <div><input id="objetivo" inputmode="decimal" placeholder="ej. 313 = 3:13"></div>
       <div style="flex:0"><button id="btnParejo">Repartir parejo</button></div>
@@ -327,7 +329,7 @@ details.h img{width:100%;display:block;margin-top:8px}
 
   <div class="card">
     <table>
-      <thead><tr><th>Metros</th><th>Plan /500</th><th>Pasa por</th><th>Anterior /500</th></tr></thead>
+      <thead><tr><th class="ejeH">Metros</th><th>Plan /500</th><th>Pasa por</th><th>Anterior /500</th></tr></thead>
       <tbody id="tbPlan"></tbody>
       <tfoot><tr><td><b>Total</b></td><td></td><td class="pp" id="totPlan">–</td><td id="totAnt" style="font-weight:600">–</td></tr></tfoot>
     </table>
@@ -429,25 +431,48 @@ if (!CFG.perfiles[CFG.activo]) CFG.activo = Object.keys(CFG.perfiles)[0];
 const prof = () => CFG.perfiles[CFG.activo];
 const color = () => '#2f6ea8';
 
-function tramosDe(dist, split){
-  const t = []; for (let a = 0; a < dist - 1e-6; a += split) t.push({ a, b:Math.min(a + split, dist) }); return t;
+// modo 'dist': el eje son metros y en cada marca se anota el tiempo.
+// modo 'tiempo': el eje son segundos y en cada marca se anotan los metros.
+function tramosDe(total, split, modo){
+  const t = []; for (let a = 0; a < total - 1e-6; a += split) t.push({ a, b:Math.min(a + split, total) });
+  t.modo = modo === 'tiempo' ? 'tiempo' : 'dist'; return t;
 }
-const TR = () => tramosDe(prof().dist, prof().split);
+const esT = x => !!x && x.modo === 'tiempo';
+const TR = () => tramosDe(prof().dist, prof().split, prof().modo);
 function normaliza(P){
-  const n = tramosDe(P.dist, P.split).length;
+  const n = tramosDe(P.dist, P.split, P.modo).length;
   const last = P.plan && P.plan.length ? P.plan[P.plan.length-1] : 120;
   P.plan = (P.plan || []).slice(0, n); while (P.plan.length < n) P.plan.push(last);
   P.ant = (P.ant || []).slice(0, n); while (P.ant.length < n) P.ant.push(null);
 }
-function cumDe(paces, tr, d){
-  let t = 0;
-  for (let i = 0; i < tr.length; i++) { const { a, b } = tr[i]; if (d <= a) break; t += (paces[i] || 0) * (Math.min(d, b) - a) / 500; }
-  return t;
+function cumDe(paces, tr, x){
+  let v = 0;
+  for (let i = 0; i < tr.length; i++) {
+    const { a, b } = tr[i]; if (x <= a) break;
+    const p = paces[i] || 0, w = Math.min(x, b) - a;
+    v += esT(tr) ? (p ? w / p * 500 : 0) : p * w / 500;
+  }
+  return v;
 }
-const planCum = d => cumDe(prof().plan, TR(), d);
+const planCum = x => cumDe(prof().plan, TR(), x);
 const planTotal = () => planCum(prof().dist);
-function antTotal(P = prof()){ return P.ant.length && P.ant.every(v => v) ? cumDe(P.ant, tramosDe(P.dist, P.split), P.dist) : null; }
-const ritmoTramo = (cross, k, tr) => cross[k] == null ? null : (cross[k] - (k ? cross[k-1] : 0)) / (tr[k].b - tr[k].a) * 500;
+function antTotal(P = prof()){ return P.ant.length && P.ant.every(v => v) ? cumDe(P.ant, tramosDe(P.dist, P.split, P.modo), P.dist) : null; }
+const ritmoTramo = (cross, k, tr) => {
+  if (cross[k] == null) return null;
+  const dc = cross[k] - (k ? cross[k-1] : 0), da = tr[k].b - tr[k].a;
+  return esT(tr) ? (dc > 0 ? da / dc * 500 : null) : dc / da * 500;
+};
+const eje = (tr, x) => esT(tr) ? fmt(x, 0) : mfmt(x);                                             // marca del eje
+const res = (tr, v) => v == null || !isFinite(v) ? '–' : esT(tr) ? mfmt(v) + ' m' : fmt(v);       // valor anotado o resultado
+function difRes(tr, real, plan){
+  const d = real - plan;
+  if (esT(tr)) return (d >= 0.5 ? '+' : d <= -0.5 ? '−' : '±') + mfmt(Math.abs(d)) + ' m';
+  return fmtDif(d) + ' s';
+}
+const bien = (tr, real, plan) => esT(tr) ? real >= plan : real <= plan;
+const tituloDe = o => esT(o) ? fmt(o.dist, 0) + ' min' : mfmt(o.dist) + ' m';
+const incompleta = r => esT(r) ? r.tiempo < r.dist - 1.5 : r.distReal < r.dist - 5;
+const resultado = r => esT(r) ? r.distReal : r.tiempo;
 
 function aviso(t){ const m = $('msg'); m.textContent = t; m.style.display = t ? 'block' : 'none'; }
 
@@ -469,16 +494,16 @@ const idb = (() => {
 })();
 
 function textoDe(rec){
-  const tr = tramosDe(rec.dist, rec.split), pt = cumDe(rec.plan, tr, rec.dist);
+  const tr = tramosDe(rec.dist, rec.split, rec.modo), pt = cumDe(rec.plan, tr, rec.dist), val = resultado(rec);
   const fecha = new Date(rec.fecha).toLocaleString('es-AR', { dateStyle:'short', timeStyle:'short', hour12:false });
-  let t = `*${rec.nombre} · ${mfmt(rec.dist)} m* · ${fecha}\n`;
-  if (rec.distReal < rec.dist - 5) t += `*Incompleta: ${mfmt(rec.distReal)} m en ${fmt(rec.tiempo)}*\n`;
-  else t += `*Tiempo: ${fmt(rec.tiempo)}* (media ${fmt(rec.tiempo / rec.dist * 500)}/500)\n`;
-  t += `Objetivo ${fmt(pt)} → ${fmtDif(rec.tiempo - pt)} s\n`;
-  if (rec.ant && rec.ant.length && rec.ant.every(v => v)) { const at = cumDe(rec.ant, tr, rec.dist); t += `Anterior ${fmt(at)} → ${fmtDif(rec.tiempo - at)} s\n`; }
+  let t = `*${rec.nombre} · ${tituloDe(rec)}* · ${fecha}\n`;
+  if (incompleta(rec)) t += `*Incompleta: ${mfmt(rec.distReal)} m en ${fmt(rec.tiempo)}*\n`;
+  else t += (esT(rec) ? `*Metros: ${mfmt(rec.distReal)}*` : `*Tiempo: ${fmt(rec.tiempo)}*`) + ` (media ${fmt(rec.tiempo / Math.max(1, rec.distReal) * 500)}/500)\n`;
+  t += `Objetivo ${res(tr, pt)} → ${difRes(tr, val, pt)}\n`;
+  if (rec.ant && rec.ant.length && rec.ant.every(v => v)) { const at = cumDe(rec.ant, tr, rec.dist); t += `Anterior ${res(tr, at)} → ${difRes(tr, val, at)}\n`; }
   t += `\nParciales (ritmo real / plan · pasa por):\n`;
-  tr.forEach((x, k) => { t += `${mfmt(x.b)}: ${fmt(ritmoTramo(rec.cross, k, tr))} / ${fmt(rec.plan[k])} · ${fmt(rec.cross[k])}\n`; });
-  t += `\ns/m medio ${rec.spm ?? '–'} · arrastre ${rec.drag ?? '–'}`;
+  tr.forEach((x, k) => { t += `${eje(tr, x.b)}: ${fmt(ritmoTramo(rec.cross, k, tr))} / ${fmt(rec.plan[k])} · ${res(tr, rec.cross[k])}\n`; });
+  t += `\ns/m medio ${rec.spm ?? '–'} · drag ${rec.drag ?? '–'}`;
   if (rec.wAvg) t += ` · ${rec.wAvg} W`;
   if (rec.cal) t += ` · ${rec.cal} cal`;
   if (rec.hrAvg) t += ` · FC ${rec.hrAvg}${rec.hrMax ? '/' + rec.hrMax : ''}`;
@@ -517,22 +542,31 @@ $('logoFile').onchange = e => {
 $('btnQuitarLogo').onclick = () => { CFG.logo = null; save(); pintaLogo(); };
 
 /* ================= pantalla PLAN ================= */
-const CHIPS = [500, 1000, 2000, 5000, 6000, 10000];
+const CHIPS = { dist:[500, 1000, 2000, 5000, 6000, 10000], tiempo:[60, 240, 600, 1200, 1800, 3600] };
+const SPLITS = { dist:[100, 250, 500, 1000, 2000], tiempo:[30, 60, 120, 300, 600] };
+const HINT_OBJ = { dist:'Escribí 313 para 3:13 · 728,4 para 7:28,4 · también vale 3:13 o 3 13', tiempo:'Escribí los metros que querés hacer en ese tiempo, ej. 5200' };
 function renderPlan(){
-  const P = prof(); normaliza(P); const tr = TR();
+  const P = prof(); normaliza(P); const tr = TR(), T = esT(P), mk = T ? 'tiempo' : 'dist';
   $('perfil').innerHTML = Object.keys(CFG.perfiles).map(n => `<option ${n===CFG.activo?'selected':''}>${esc(n)}</option>`).join('');
-  $('dist').value = P.dist; $('split').value = P.split;
-  $('chips').innerHTML = CHIPS.map(c => `<button class="chip" data-d="${c}">${mfmt(c)}</button>`).join('');
+  $('modo').value = mk;
+  $('distLbl').textContent = T ? 'Duración (ej. 2000 = 20:00)' : 'Distancia (metros)';
+  $('dist').value = T ? fmt(P.dist, 0) : P.dist;
+  const ops = SPLITS[mk].includes(P.split) ? SPLITS[mk] : [...SPLITS[mk], P.split];
+  $('split').innerHTML = ops.map(v => `<option value="${v}">${T ? fmt(v, 0) : mfmt(v) + ' m'}</option>`).join(''); $('split').value = P.split;
+  $('chips').innerHTML = CHIPS[mk].map(c => `<button class="chip" data-d="${c}">${T ? fmt(c, 0) : mfmt(c)}</button>`).join('');
+  $('objLbl').textContent = T ? 'Metros objetivo' : 'Tiempo objetivo total';
+  $('objetivo').placeholder = T ? 'ej. 5200' : 'ej. 313 = 3:13';
+  if (!$('objetivo').value.trim()) $('objPrev').textContent = HINT_OBJ[mk];
   let h = '';
   tr.forEach((x, i) => {
-    h += `<tr><td>${mfmt(x.b)}</td>
+    h += `<tr><td>${eje(tr, x.b)}</td>
       <td><input data-k="plan" data-i="${i}" value="${fmt(P.plan[i])}" inputmode="decimal"></td>
-      <td class="pp">${fmt(cumDe(P.plan, tr, x.b))}</td>
+      <td class="pp">${res(tr, cumDe(P.plan, tr, x.b))}</td>
       <td><input data-k="ant" data-i="${i}" value="${P.ant[i] ? fmt(P.ant[i]) : ''}" inputmode="decimal" placeholder="–"></td></tr>`;
   });
   $('tbPlan').innerHTML = h;
-  $('totPlan').textContent = fmt(planTotal());
-  $('totAnt').textContent = fmt(antTotal());
+  $('totPlan').textContent = res(tr, planTotal());
+  $('totAnt').textContent = res(tr, antTotal());
   $('wa').value = CFG.wa || '';
   $('autoProg').checked = !!CFG.autoProg;
 }
@@ -547,23 +581,38 @@ $('tbPlan').addEventListener('change', e => {
   P[el.dataset.k][+el.dataset.i] = v; aviso(''); save(); renderPlan(); renderVivo();
 });
 $('perfil').onchange = e => { CFG.activo = e.target.value; save(); cambioDistancia(); };
+$('modo').onchange = e => {
+  const P = prof(), T = e.target.value === 'tiempo'; if (esT(P) === T) return;
+  const ritmo = P.plan && P.plan.length ? P.plan[0] : 120;
+  P.modo = T ? 'tiempo' : 'dist'; P.dist = T ? 1200 : 2000; P.split = T ? 300 : 500; P.plan = [ritmo]; P.ant = [];
+  $('objetivo').value = ''; aviso(''); save(); cambioDistancia();
+};
 $('dist').onchange = e => {
-  const v = Math.round(+e.target.value);
-  if (!(v >= 100 && v <= 50000)) { aviso('La distancia tiene que estar entre 100 y 50.000 m.'); renderPlan(); return; }
-  const P = prof(); P.dist = v; if (P.split > v) P.split = [2000, 1000, 500, 250, 100].find(s => s <= v) || 100;
+  const P = prof(), T = esT(P), mk = T ? 'tiempo' : 'dist';
+  const v = T ? Math.round(parseT(e.target.value) || 0) : Math.round(+String(e.target.value).replace(/\D/g, ''));
+  if (T ? !(v >= 20 && v <= 36000) : !(v >= 100 && v <= 50000)) {
+    aviso(T ? 'La duración tiene que estar entre 0:20 y 10 horas. Ej.: 2000 = 20:00 · 400 = 4:00' : 'La distancia tiene que estar entre 100 y 50.000 m.'); renderPlan(); return;
+  }
+  P.dist = v; if (P.split > v) P.split = SPLITS[mk].slice().reverse().find(x => x <= v) || v;
   aviso(''); save(); cambioDistancia();
 };
-$('chips').onclick = e => { const d = +e.target.dataset.d; if (!d) return; $('dist').value = d; $('dist').onchange({ target:$('dist') }); };
+$('chips').onclick = e => { const d = +e.target.dataset.d; if (!d) return; $('dist').value = esT(prof()) ? fmt(d, 0) : d; $('dist').onchange({ target:$('dist') }); };
 $('split').onchange = e => { const P = prof(); P.split = Math.min(+e.target.value, P.dist); save(); cambioDistancia(); };
+function leeObjetivo(){   // devuelve el ritmo /500 que corresponde al objetivo escrito
+  const P = prof(), txt = $('objetivo').value;
+  if (esT(P)) { const m = +String(txt).replace(/[.\s]/g, '').replace(',', '.'); return m >= 50 ? { v:m, ritmo:P.dist / m * 500, txt:mfmt(m) + ' m' } : null; }
+  const v = parseT(txt); return v ? { v, ritmo:v / P.dist * 500, txt:fmt(v) } : null;
+}
 $('objetivo').oninput = () => {
-  const v = parseT($('objetivo').value), el = $('objPrev');
-  if (!$('objetivo').value.trim()) { el.className = 'prev'; el.textContent = 'Escribí 313 para 3:13 · 728,4 para 7:28,4 · también vale 3:13 o 3 13'; return; }
-  if (!v) { el.className = 'prev bad'; el.textContent = 'No lo entiendo. Ej.: 313 = 3:13 · 728,4 = 7:28,4'; return; }
-  el.className = 'prev ok'; el.textContent = `= ${fmt(v)} · ritmo ${fmt(v / prof().dist * 500)}/500 · tocá Repartir parejo`;
+  const el = $('objPrev'), T = esT(prof());
+  if (!$('objetivo').value.trim()) { el.className = 'prev'; el.textContent = HINT_OBJ[T ? 'tiempo' : 'dist']; return; }
+  const o = leeObjetivo();
+  if (!o) { el.className = 'prev bad'; el.textContent = T ? 'No lo entiendo. Escribí solo los metros, ej. 5200' : 'No lo entiendo. Ej.: 313 = 3:13 · 728,4 = 7:28,4'; return; }
+  el.className = 'prev ok'; el.textContent = `= ${o.txt} · ritmo ${fmt(o.ritmo)}/500 · tocá Repartir parejo`;
 };
 function repartir(){
-  const v = parseT($('objetivo').value); if (!v) { $('objetivo').oninput(); return; }
-  const P = prof(), p = Math.round(v / P.dist * 500 * 100) / 100;
+  const o = leeObjetivo(); if (!o) { $('objetivo').oninput(); return; }
+  const P = prof(), p = Math.round(o.ritmo * 100) / 100;
   P.plan = tramosDe(P.dist, P.split).map(() => p);
   $('objetivo').value = ''; $('objetivo').oninput(); aviso(''); save(); renderPlan(); renderVivo();
 }
@@ -615,7 +664,7 @@ function resetEv(){
 function sello(g, w, h, abajo){
   const fs = Math.max(14, Math.min(34, Math.round(Math.min(w, h) * 0.045))), pad = Math.round(fs * .45);
   g.font = `600 ${fs}px Roboto, system-ui, sans-serif`; g.textBaseline = 'middle';
-  const arriba = `${CFG.activo} · ${mfmt(prof().dist)} m · ${hoyStr()} ${horaStr()}`;
+  const arriba = `${CFG.activo} · ${tituloDe(prof())} · ${hoyStr()} ${horaStr()}`;
   g.fillStyle = 'rgba(0,0,0,.6)'; g.fillRect(0, 0, w, fs + pad*2);
   g.fillStyle = '#fff'; g.fillText(arriba, pad, pad + fs/2);
   const lines = Array.isArray(abajo) ? abajo : [abajo], bh = lines.length * (fs + pad) + pad;
@@ -730,14 +779,14 @@ function capturar(etiqueta, lineas, arch){
     renderEv(); res();
   }, 'image/jpeg', 0.88)));
 }
-function camSalida(){ capturar('Salida', [`SALIDA · ${mfmt(prof().dist)} m`, `${hoyStr()} ${horaStr()}`], '00000m_salida'); }
+function camSalida(){ capturar('Salida', [`SALIDA · ${tituloDe(prof())}`, `${hoyStr()} ${horaStr()}`], '00000m_salida'); }
 function camPaso(k, tc){
   const tr = TR(), n = tr.length, paso = Math.ceil(n / 8);
   const mark = tr[k].b, pace = ritmoTramo(R.cross, k, tr);
-  const txt = `PASO ${mfmt(mark)} m · ${fmt(tc)} · ritmo tramo ${fmt(pace)}`;
+  const txt = `PASO ${eje(tr, mark)}${esT(tr) ? '' : ' m'} · ${res(tr, tc)} · ritmo tramo ${fmt(pace)}`;
   CAM.flash = { txt, hasta: performance.now() + 2000 };
   if ((k + 1) % paso === 0 || k === n - 1)   // como máximo ~8 fotos de paso
-    capturar(`${mfmt(mark)} m`, [txt, `s/m ${R.spm ?? '–'} · ritmo ${fmt(R.pace)}`], String(Math.round(mark)).padStart(5,'0') + 'm');
+    capturar(`${eje(tr, mark)}${esT(tr) ? '' : ' m'}`, [txt, `s/m ${R.spm ?? '–'} · ritmo ${fmt(R.pace)}`], String(Math.round(mark)).padStart(5,'0') + 'm');
 }
 function camFinal(rec){
   if (!CAM.stream && !EV.photos.length) return;
@@ -757,7 +806,7 @@ function camFinal(rec){
   })().finally(() => { b.disabled = false; b.textContent = 'Compartir collage'; });
 }
 async function armarHoja(rec){
-  const tr = tramosDe(rec.dist, rec.split), n = tr.length, W = 1080, pad = 36, colW = (W - pad*3) / 2;
+  const tr = tramosDe(rec.dist, rec.split, rec.modo), n = tr.length, W = 1080, pad = 36, colW = (W - pad*3) / 2;
   const paso = Math.ceil(n / 8), filasT = tr.map((x, k) => k).filter(k => (k + 1) % paso === 0 || k === n - 1);
   const fotos = EV.photos.slice().sort((a, b) => a.name.localeCompare(b.name));
   const altoFoto = f => colW * f.c.height / f.c.width;
@@ -770,19 +819,19 @@ async function armarHoja(rec){
   let xT = pad;
   if (CFG.logo) { const im = new Image(); im.src = CFG.logo; await im.decode().catch(() => {}); if (im.width) { const s = 96 / Math.max(im.width, im.height); g.fillStyle = '#fff'; g.fillRect(pad, 17, 96, 96); g.drawImage(im, pad + (96 - im.width*s)/2, 17 + (96 - im.height*s)/2, im.width*s, im.height*s); xT = pad + 116; } }
   g.fillStyle = '#0b2545'; g.textBaseline = 'alphabetic';
-  g.font = '700 40px Roboto, system-ui, sans-serif'; g.fillText(`${rec.nombre} · ${mfmt(rec.dist)} m`, xT, 62);
-  g.font = '400 26px Roboto, system-ui, sans-serif'; g.fillText(`${hoyStr()} · arrastre ${rec.drag ?? '–'} · s/m medio ${rec.spm ?? '–'}`, xT, 104);
+  g.font = '700 40px Roboto, system-ui, sans-serif'; g.fillText(`${rec.nombre} · ${tituloDe(rec)}`, xT, 62);
+  g.font = '400 26px Roboto, system-ui, sans-serif'; g.fillText(`${hoyStr()} · drag ${rec.drag ?? '–'} · s/m medio ${rec.spm ?? '–'}`, xT, 104);
   const pt = cumDe(rec.plan, tr, rec.dist);
-  g.fillStyle = color(); g.font = '700 64px Roboto, system-ui, sans-serif'; g.fillText(fmt(rec.tiempo), pad, 210);
+  g.fillStyle = color(); g.font = '700 64px Roboto, system-ui, sans-serif'; g.fillText(res(tr, resultado(rec)), pad, 210);
   g.fillStyle = '#6b6f7a'; g.font = '400 26px Roboto, system-ui, sans-serif';
-  g.fillText(rec.distReal < rec.dist - 5 ? `incompleta: ${mfmt(rec.distReal)} m` : `objetivo ${fmt(pt)} (${fmtDif(rec.tiempo - pt)} s)`, pad + 330, 200);
+  g.fillText(incompleta(rec) ? `incompleta: ${mfmt(rec.distReal)} m en ${fmt(rec.tiempo)}` : `objetivo ${res(tr, pt)} (${difRes(tr, resultado(rec), pt)})`, pad + 360, 200);
   let y = 260; g.font = '600 24px Roboto, system-ui, sans-serif';
-  ['Metros','Plan /500','Real /500','Pasa por'].forEach((t, i) => g.fillText(t, pad + i*240, y)); y += 6;
+  [esT(tr) ? 'Tiempo' : 'Metros','Plan /500','Real /500','Pasa por'].forEach((t, i) => g.fillText(t, pad + i*240, y)); y += 6;
   g.font = '400 28px Roboto, system-ui, sans-serif';
   filasT.forEach(k => {
     y += 40;
-    g.fillStyle = '#1b1f2a'; [mfmt(tr[k].b), fmt(rec.plan[k]), fmt(ritmoTramo(rec.cross, k, tr))].forEach((t, i) => g.fillText(t, pad + i*240, y));
-    g.fillStyle = color(); g.fillText(fmt(rec.cross[k]), pad + 720, y);
+    g.fillStyle = '#1b1f2a'; [eje(tr, tr[k].b), fmt(rec.plan[k]), fmt(ritmoTramo(rec.cross, k, tr))].forEach((t, i) => g.fillText(t, pad + i*240, y));
+    g.fillStyle = color(); g.fillText(res(tr, rec.cross[k]), pad + 720, y);
   });
   y = y0;
   for (let i = 0; i < fotos.length; i += 2) {
@@ -834,9 +883,9 @@ $('btnShareAll').onclick = async () => {
 /* ================= estado de la remada ================= */
 let R, REC = null;
 function resetRun(){
-  R = { running:false, finished:false, tarde:false, t:0, d:0, lastT:0, lastD:0, pace:null, avg:null, spm:null, hr:null, w:null, sw:null, wAvg:null, cal:null, calh:null, dl:null, ratio:null, peak:null, strokes:null, fc:null, drag:null, wstate:0, cross:[], samples:[] };
+  R = { running:false, finished:false, tarde:false, t:0, d:0, lastT:0, lastD:0, pace:null, avg:null, spm:null, hr:null, w:null, sw:null, wAvg:null, cal:null, calh:null, dl:null, ratio:null, peak:null, strokes:null, fc:null, drag:null, wstate:0, cross:[], samples:[], spc:[] };
   REC = null;
-  $('fin').classList.add('hide'); $('lbVivo').innerHTML = '';
+  $('fin').classList.add('hide'); $('lbVivo').innerHTML = ''; $('finDlg').classList.add('hide');
   resetEv(); EV.finalP = null;
   if (CAM.stream) { if (CAM.rec) { CAM.keep = false; CAM.rec.stop(); } else armarRec(); }
 }
@@ -879,27 +928,35 @@ function ingestGeneral(t, d, wstate, drag){
     resetRun();
   }
   R.wstate = wstate;
-  const P = prof(), tr = TR(), n = tr.length, finPM = wstate >= 10 && wstate <= 12;
+  const P = prof(), tr = TR(), n = tr.length, T = esT(tr), finPM = wstate >= 10 && wstate <= 12;
   if (!R.running && !R.tarde && d > 0 && !finPM) {
     if (d > 30 && R.lastD === 0 && R.lastT === 0) R.tarde = true;           // se conectó con la remada ya empezada
     else { R.running = true; pedirWakeLock(); camSalida(); }
   }
   if (R.running) {
+    const a = T ? t : d, la = T ? R.lastT : R.lastD, o = T ? d : t, lo = T ? R.lastD : R.lastT;   // a: eje · o: valor que se anota
     while (R.cross.length < n) {
       const k = R.cross.length, mark = tr[k].b;
-      if (d >= mark && d > R.lastD) { const tc = R.lastT + (mark - R.lastD) * (t - R.lastT) / (d - R.lastD); R.cross.push(tc); camPaso(k, tc); }
+      if (a >= mark && a > la) { const c = lo + (mark - la) * (o - lo) / (a - la); R.cross.push(c); camPaso(k, c); }
       else break;
     }
     R.samples.push({ t, d, p:R.pace, spm:R.spm, w:R.w, hr:R.hr });
-    if (R.cross.length >= n) { finalizar(R.cross[n-1], P.dist); return; }
+    if (R.cross.length >= n) { T ? finalizar(P.dist, R.cross[n-1]) : finalizar(R.cross[n-1], P.dist); return; }
     if (finPM && d > 0) {   // el PM5 terminó su entrenamiento: la app termina con él
-      if (d > P.dist - 5) { while (R.cross.length < n) { const k = R.cross.length; R.cross.push(t); camPaso(k, t); } finalizar(t, P.dist); }
-      else finalizar(t, d);
+      if (T ? t > P.dist - 1.5 : d > P.dist - 5) {
+        while (R.cross.length < n) { const k = R.cross.length; R.cross.push(o); camPaso(k, o); }
+        T ? finalizar(P.dist, d) : finalizar(t, P.dist);
+      } else finalizar(t, d);
       return;
     }
   }
   R.lastT = t; R.lastD = d; R.t = t; R.d = d;
   schedule();
+}
+function parcialActual(tr, k){   // ritmo del tramo que se está remando
+  const x = tr[k], c0 = k ? R.cross[k-1] : 0;
+  if (esT(tr)) { const dt = R.t - x.a, dm = R.d - c0; return dt > 8 && dm > 5 ? dt / dm * 500 : null; }
+  const dd = R.d - x.a; return dd > 30 ? (R.t - c0) / dd * 500 : null;
 }
 
 /* ================= render en vivo ================= */
@@ -907,32 +964,38 @@ let pend = false;
 function schedule(){ if (!pend) { pend = true; requestAnimationFrame(() => { pend = false; renderVivo(); }); } }
 function renderVivo(){
   const P = prof(); normaliza(P);
-  const tr = TR(), n = tr.length, target = P.dist, col = color();
+  const tr = TR(), n = tr.length, target = P.dist, col = color(), T = esT(tr);
   $('band').style.background = col;
   $('bNombre').textContent = CFG.activo;
   const at = antTotal();
-  $('bObj').textContent = 'Objetivo ' + fmt(planTotal()) + (at ? ' · anterior ' + fmt(at) : '');
-  $('titulo').textContent = `IndoorIRT · ${mfmt(target)} m`;
+  $('bObj').textContent = 'Objetivo ' + res(tr, planTotal()) + (at ? ' · anterior ' + res(tr, at) : '');
+  $('titulo').textContent = `IndoorIRT · ${tituloDe(P)}`;
   $('lgPlan').style.borderColor = col; $('lgTr').style.borderColor = col;
+  document.querySelectorAll('.ejeH').forEach(e => e.textContent = T ? 'Tiempo' : 'Metros');
 
-  let i = tr.findIndex(x => R.d < x.b); if (i < 0) i = n - 1;
+  const A = T ? R.t : R.d;
+  let i = tr.findIndex(x => A < x.b); if (i < 0) i = n - 1;
   if (R.tarde) { $('delta').textContent = '–'; $('delta').className = 'delta'; $('deltaTxt').textContent = 'la remada ya había empezado: esperá la próxima'; }
   else if (R.d > 5) {
-    const dl = R.t - planCum(Math.min(R.d, target)), el = $('delta');
-    el.textContent = fmtDif(dl); el.className = 'delta ' + (dl <= 0 ? 'ok' : 'bad');
-    $('deltaTxt').textContent = dl <= 0 ? 'segundos adelante' : 'segundos atrás';
+    const el = $('delta'); let ok;
+    if (T) { const dm = R.d - planCum(Math.min(R.t, target)); ok = dm >= 0;
+      el.textContent = (dm >= 0.5 ? '+' : dm <= -0.5 ? '−' : '±') + Math.round(Math.abs(dm)); $('deltaTxt').textContent = ok ? 'metros adelante' : 'metros atrás'; }
+    else { const dl = R.t - planCum(Math.min(R.d, target)); ok = dl <= 0;
+      el.textContent = fmtDif(dl); $('deltaTxt').textContent = ok ? 'segundos adelante' : 'segundos atrás'; }
+    el.className = 'delta ' + (ok ? 'ok' : 'bad');
   } else { $('delta').textContent = '–'; $('delta').className = 'delta'; $('deltaTxt').textContent = 'esperando que empiece'; }
   $('pace').textContent = enUnidad(R.finished ? R.t / Math.max(1, R.d) * 500 : R.pace);
   $('paceLbl').textContent = UNI_LBL[CFG.unidad || 'ritmo'] + ' · tocá para cambiar';
-  $('planPace').textContent = R.finished ? 'media final' : `plan ${enUnidad(P.plan[i])} · hasta ${mfmt(tr[i].b)} m`;
+  $('planPace').textContent = R.finished ? 'media final' : `plan ${enUnidad(P.plan[i])} · hasta ${eje(tr, tr[i].b)}${T ? '' : ' m'}`;
 
   $('sT').textContent = fmt(R.t);
   $('sD').textContent = mfmt(Math.floor(R.d));
-  $('sR').textContent = mfmt(Math.max(0, Math.ceil(target - R.d)));
+  $('sR').textContent = T ? fmt(Math.max(0, target - R.t), 0) : mfmt(Math.max(0, Math.ceil(target - R.d)));
   $('sA').textContent = fmt(R.avg || (R.d > 20 ? R.t / R.d * 500 : null));
   $('sS').textContent = R.spm ?? '–';
   $('sW').textContent = R.w ?? '–';
-  $('sP').textContent = R.finished ? fmt(R.t) : (R.d > 50 ? fmt(R.t / R.d * target) : '–');
+  $('sP').textContent = T ? (R.finished ? mfmt(R.d) + ' m' : R.t > 15 ? mfmt(R.d / R.t * target) + ' m' : '–')
+                          : (R.finished ? fmt(R.t) : (R.d > 50 ? fmt(R.t / R.d * target) : '–'));
   $('sH').textContent = R.hr ?? '–';
   $('sF').textContent = R.drag ?? '–';
   $('sC').textContent = R.cal ?? '–';
@@ -946,25 +1009,45 @@ function renderVivo(){
   tr.forEach((x, k) => {
     const cumP = cumDe(P.plan, tr, x.b);
     let real = null, cls = '', pasa = '–', dif = null;
-    if (k < R.cross.length) { real = ritmoTramo(R.cross, k, tr); dif = real - P.plan[k]; pasa = fmt(R.cross[k]); }
-    else if (k === R.cross.length && R.running) {
-      const t0 = k ? R.cross[k-1] : 0, dd = R.d - x.a;
-      if (dd > 30) { real = (R.t - t0) / dd * 500; dif = real - P.plan[k]; cls = 'cur'; }
-    }
-    const pd = k < R.cross.length ? ` <span style="font-size:12px;color:${R.cross[k]-cumP<=0?'var(--ok)':'var(--bad)'}">${fmtDif(R.cross[k]-cumP)}</span>` : '';
-    h += `<tr><td>${mfmt(x.b)}</td><td>${fmt(P.plan[k])}</td><td class="${cls}">${fmt(real)}</td>
+    if (k < R.cross.length) { real = ritmoTramo(R.cross, k, tr); dif = real - P.plan[k]; pasa = res(tr, R.cross[k]); }
+    else if (k === R.cross.length && R.running) { real = parcialActual(tr, k); if (real) { dif = real - P.plan[k]; cls = 'cur'; } }
+    const pd = k < R.cross.length ? ` <span style="font-size:12px;color:${bien(tr, R.cross[k], cumP) ? 'var(--ok)' : 'var(--bad)'}">${difRes(tr, R.cross[k], cumP).replace(/ [sm]$/, '')}</span>` : '';
+    h += `<tr><td>${eje(tr, x.b)}</td><td>${fmt(P.plan[k])}</td><td class="${cls}">${fmt(real)}</td>
       <td class="${dif==null||Math.abs(dif)<0.05?'':(dif<0?'ok':'bad')}">${fmtDif(dif)}</td>
       <td class="pp">${pasa}${pd}</td><td style="color:var(--muted)">${P.ant[k] ? fmt(P.ant[k]) : '–'}</td></tr>`;
   });
   $('tbVivo').innerHTML = h;
   dibujaChart();
-  renderLand(i);
+  renderLand();
 }
 
-/* ================= modo horizontal: pantallas fijas, se cambian deslizando ================= */
-const NLAND = 6;
-let landOff = false, landS = Math.min(CFG.landS || 0, NLAND - 1);
-$('lDots').innerHTML = Array.from({ length:NLAND }, (_, k) => `<i data-s="${k}"></i>`).join('');
+/* ================= modo horizontal: misma disposición de pantallas que ErgData ================= */
+const NLAND = 7;
+let landOff = false, landS = Math.min(CFG.landS || 0, NLAND - 1), girado = false;
+(() => {
+  const menu = '<button class="em" data-menu="1" aria-label="Menú">☰</button>';
+  const tile = (k, lbl, cls = '') => `<div class="et box"><b data-v="${k}" class="${cls}"></b><span${lbl[0] === '@' ? ` data-v="${lbl.slice(1)}">` : '>' + lbl}</span></div>`;
+  const tileV = (k, lbl) => `<div class="etv box"><b data-v="${k}"></b><span>${lbl}</span></div>`;
+  const centro = extra => `<div class="ec box"><div class="ecp" data-uni="1"><b data-v="pace"></b><span data-v="paceU"></span></div>
+    <div class="ecb"><div><b data-v="avg"></b><span>Med. /500 m</span></div><div><b data-v="el"></b><span data-v="elU"></span></div>${extra}</div></div>`;
+  const metros = `<div class="lm"><b data-v="rest"></b><span data-v="restU"></span></div>`;
+  const metrosI = `<div class="lmI"><b data-v="rest"></b><span data-v="restU"></span></div>`;
+  const side = `<div class="es"><div class="etop">${menu}<button class="eu" data-uni="1"><span data-v="paceU"></span> ⇄</button></div>${metrosI}
+    ${tile('pace', '@paceU')}${tile('avg', 'Med. /500 m')}${tile('spm', 's/m')}</div>`;
+  const P = [
+    `<div class="e1"><div class="el">${menu}${metros}${tileV('spm', 's/m')}</div>${centro('<div><b data-v="plan" class="vp"></b><span data-v="planU"></span></div>')}</div>`,
+    `<div class="e2"><div class="el">${menu}${metros}${tileV('spm', 's/m')}</div>${centro('')}<div class="er">${tileV('w', 'vatios')}${tileV('hr', '♥ FC')}</div></div>`,
+    `<div class="e2"><div class="el">${menu}${metrosI}${tile('spm', 's/m')}${tile('plan', '@planU', 'vp')}${tile('split', 'Parcial /500 m')}</div>${centro('')}
+      <div class="er">${tile('w', 'vatios')}${tile('calh', 'Cal/h')}${tile('drag', 'Drag factor')}${tile('proj', 'Fin proyectado')}${tile('hr', '♥ FC')}</div></div>`,
+    `<div class="e3">${side}<div class="ex box"><div id="lChart"></div></div></div>`,
+    `<div class="e3">${side}<div class="ex box"><table><thead><tr><th>Núm</th><th>Tiempo</th><th>Metros</th><th>Med./500 m</th><th>s/m</th><th>♥</th></tr></thead><tbody id="lTb"></tbody></table></div></div>`,
+    `<div class="e3">${side}<div class="ex box"><div id="lFc"></div><div class="ef">${tile('pkN', 'Fuerza máxima (N)')}${tile('pkPos', 'Posición de fuerza máxima (%)')}${tile('dlcm', 'Longitud de impulso (cm)')}</div></div></div>`,
+    `<div class="lcam"><div id="lCam"><span id="lCamOff">Cámara apagada</span></div>
+      <div class="bt">${menu}<button class="pri" id="lCamBtn">Activar cámara</button><button id="lCamFlip">Frontal / trasera</button><button id="lCamRot">Rotar imagen</button></div></div>`
+  ];
+  $('lScreens').innerHTML = P.map((h, k) => `<div class="ls" data-s="${k}">${h}</div>`).join('');
+  $('lDots').innerHTML = P.map((_, k) => `<i data-s="${k}"></i>`).join('');
+})();
 const esLand = () => window.matchMedia('(orientation:landscape)').matches && window.innerHeight < 620;
 function landVis(){
   const on = esLand() && !landOff && !$('vVivo').classList.contains('hide');
@@ -975,23 +1058,49 @@ function landVis(){
   return on;
 }
 function irLand(d){ landS = (landS + d + NLAND) % NLAND; CFG.landS = landS; save(); schedule(); }
-function renderLand(i){
+function filasTabla(tr){   // parciales hechos (los últimos) y el que se está remando, resaltado
+  const T = esT(tr), n = tr.length, hechos = R.cross.length, av = (S, f) => { const v = S.map(f).filter(x => x); return v.length ? Math.round(v.reduce((a, b) => a + b, 0) / v.length) : null; };
+  R.spc = R.spc || [];
+  const fila = (k, cur) => {
+    const c0 = k ? R.cross[k-1] : 0; let dur, met, pace, spm, hr;
+    if (cur) { dur = T ? R.t - tr[k].a : R.t - c0; met = T ? R.d - c0 : R.d - tr[k].a; pace = parcialActual(tr, k); spm = R.spm; hr = R.hr; }
+    else {
+      dur = T ? tr[k].b - tr[k].a : R.cross[k] - c0; met = T ? R.cross[k] - c0 : tr[k].b - tr[k].a; pace = ritmoTramo(R.cross, k, tr);
+      if (!R.spc[k]) { const t0 = T ? tr[k].a : c0, t1 = T ? tr[k].b : R.cross[k], S = R.samples.filter(q => q.t > t0 && q.t <= t1 + .5); R.spc[k] = { spm:av(S, q => q.spm), hr:av(S, q => q.hr) }; }
+      spm = R.spc[k].spm; hr = R.spc[k].hr;
+    }
+    return `<tr class="${cur ? 'cur' : ''}"><td>${k + 1}</td><td>${fmt(Math.max(0, dur))}</td><td>${Math.max(0, Math.round(met))}</td><td>${fmt(pace)}</td><td>${spm ?? '–'}</td><td>${hr ?? '–'}</td></tr>`;
+  };
+  const conActual = hechos < n && !R.finished, max = conActual ? 3 : 4; let h = '';
+  for (let k = Math.max(0, hechos - max); k < hechos; k++) h += fila(k, false);
+  if (conActual) h += fila(hechos, true);
+  return h;
+}
+function renderLand(){
   if (!landVis()) return;
-  const L = $('land');
+  const L = $('land'), P = prof(), tr = TR(), T = esT(tr), n = tr.length, u = CFG.unidad || 'ritmo', k = R.cross.length;
   L.querySelectorAll('.ls').forEach(x => x.classList.toggle('on', +x.dataset.s === landS));
   L.querySelectorAll('.ln i').forEach(x => x.classList.toggle('on', +x.dataset.s === landS));
-  $('lNom').textContent = `${CFG.activo} · ${mfmt(prof().dist)} m`;
-  $('lObj').textContent = 'Objetivo ' + fmt(planTotal());
-  $('lEst').textContent = (R.finished ? `FINAL ${fmt(R.t)} · girá a vertical para enviar` : $('estado').textContent) + (CAM.stream ? (CAM.grabando ? ' · ● grabando' : ' · ● cámara') : '');
-  L.querySelectorAll('[data-from]').forEach(el => el.textContent = $(el.dataset.from).textContent);
-  const d = $('delta'); $('lDelta').textContent = d.textContent;
-  $('lDelta').className = 'ld ' + (d.classList.contains('ok') ? 'ok' : d.classList.contains('bad') ? 'bad' : '');
-  if (landS === 2) {
-    const rows = [...$('tbVivo').rows], max = 5, a = Math.max(0, Math.min((i || 0) - 2, rows.length - max));
-    $('lTb').innerHTML = rows.slice(a, a + max).map(r => r.outerHTML).join('');
-  } else if (landS === 3) { const b = $('lChart'); dibujaChart(b, Math.max(140, b.clientHeight - 8), 17); }
-  else if (landS === 4) $('lFc').innerHTML = FC.svg || '<div class="sub" style="padding:10px">La curva aparece al remar.</div>';
-  else if (landS === 5) { $('lCamBtn').textContent = $('btnCam').textContent; $('lCamOff').classList.toggle('hide', !!CAM.stream); }
+  const pNow = R.finished ? R.t / Math.max(1, R.d) * 500 : R.pace, d = $('delta');
+  const sp = k < n && R.running ? parcialActual(tr, k) : (k ? ritmoTramo(R.cross, k - 1, tr) : null);
+  const V = {
+    rest: T ? fmt(Math.max(0, P.dist - R.t), 0) : String(Math.max(0, Math.ceil(P.dist - R.d))), restU: T ? 'tiempo' : 'm',
+    pace: u === 'ritmo' ? fmt(pNow, 0) : enUnidad(pNow), paceU: { ritmo:'/500 m', watts:'vatios', cal:'Cal/h' }[u],
+    avg: $('sA').textContent, el: T ? String(Math.floor(R.d)) : fmt(R.t, 0), elU: T ? 'metros' : 'tiempo',
+    spm: R.spm ?? 0, w: R.w ?? 0, hr: R.hr ?? '– – –', split: fmt(sp),
+    calh: R.calh ?? (pNow ? Math.round(2.8 / Math.pow(pNow / 500, 3) * 4 * 0.8604 + 300) : 0),
+    drag: R.drag ?? '–', proj: T ? $('sP').textContent : (R.finished ? fmt(R.t, 0) : R.d > 50 ? fmt(R.t / R.d * P.dist, 0) : '–'), plan: d.textContent, planU: T ? 'm vs plan' : 's vs plan',
+    pkN: R.peak ? Math.round(R.peak / 0.4536 * 4.448) : 0,
+    pkPos: R.fc && R.fc.length > 3 ? Math.round(R.fc.indexOf(Math.max(...R.fc)) / (R.fc.length - 1) * 100) : 0,
+    dlcm: R.dl ? Math.round(R.dl * 100) : 0
+  };
+  L.querySelectorAll('[data-v]').forEach(el => { const v = V[el.dataset.v]; el.textContent = v == null ? '–' : v; });
+  L.querySelectorAll('.vp').forEach(el => { el.classList.toggle('ok', d.classList.contains('ok')); el.classList.toggle('bad', d.classList.contains('bad')); });
+  $('lRec').textContent = CAM.stream ? (CAM.grabando ? '● grabando' : '● cámara') : '';
+  if (landS === 3) { const b = $('lChart'); dibujaChart(b, Math.max(140, b.clientHeight - 8), 17); }
+  else if (landS === 4) $('lTb').innerHTML = filasTabla(tr);
+  else if (landS === 5) $('lFc').innerHTML = FC.svg || '';
+  else if (landS === 6) { $('lCamBtn').textContent = $('btnCam').textContent; $('lCamOff').classList.toggle('hide', !!CAM.stream); }
 }
 let tX = null, tY = 0;
 $('land').addEventListener('touchstart', e => { tX = e.touches[0].clientX; tY = e.touches[0].clientY; }, { passive:true });
@@ -1000,9 +1109,15 @@ $('land').addEventListener('touchend', e => {
   const dx = e.changedTouches[0].clientX - tX, dy = e.changedTouches[0].clientY - tY; tX = null;
   if (Math.abs(dx) > 45 && Math.abs(dx) > 1.5 * Math.abs(dy)) irLand(dx < 0 ? 1 : -1);
 }, { passive:true });
-$('lDots').onclick = e => { const v = e.target.dataset.s; if (v != null) irLand(+v - landS); };
-$('lSalir').onclick = () => { landOff = true; landVis(); };
-$('lPaceBox').onclick = () => $('paceCard').onclick();
+$('land').addEventListener('click', e => {
+  if (e.target.closest('[data-menu]')) { abrirMenu(); return; }
+  if (e.target.closest('[data-uni]')) { $('paceCard').onclick(); return; }
+  const dot = e.target.closest('#lDots i'); if (dot) irLand(+dot.dataset.s - landS);
+});
+async function salirLand(){
+  if (girado) { girado = false; try { screen.orientation.unlock(); } catch(e){} try { if (document.fullscreenElement) await document.exitFullscreen(); } catch(e){} }
+  else { landOff = true; landVis(); }
+}
 $('lCamBtn').onclick = async () => { await $('btnCam').onclick(); schedule(); };
 $('lCamFlip').onclick = () => $('btnFlip').onclick();
 $('lCamRot').onclick = rotarCam;
@@ -1010,18 +1125,24 @@ window.addEventListener('resize', () => { if (!esLand()) landOff = false; landVi
 
 /* ================= gráfico ================= */
 function dibujaChart(box = $('chart'), H = 240, fs = 11){
-  const P = prof(), tr = TR(), n = tr.length, target = P.dist, col = color();
+  const P = prof(), tr = TR(), n = tr.length, target = P.dist, col = color(), T = esT(tr);
   const W = Math.max(300, box.clientWidth || 340);
   const m = { l:Math.round(fs * 4.6), r:24, t:fs + 4, b:Math.round(fs * 2.5) }, iw = W - m.l - m.r, ih = H - m.t - m.b;
-  const reales = R.cross.map((c, k) => ritmoTramo(R.cross, k, tr));
-  let parcial = null;
-  if (R.running && R.cross.length < n) { const k = R.cross.length, dd = R.d - tr[k].a; if (dd > 30) parcial = (R.t - (k ? R.cross[k-1] : 0)) / dd * 500; }
-  const vals = [...P.plan, ...P.ant.filter(v => v), ...reales, ...(parcial ? [parcial] : [])];
+  const reales = R.cross.map((c, k) => ritmoTramo(R.cross, k, tr)).filter(v => v);
+  const parcial = R.running && R.cross.length < n ? parcialActual(tr, R.cross.length) : null;
+  // La escala sigue a lo que se está remando; el plan y el anterior entran solo si quedan cerca
+  const sp = R.samples.filter(q => q.p && q.d > 15).map(q => q.p).sort((a, b) => a - b);
+  let vals = [...reales, ...(parcial ? [parcial] : [])];
+  if (sp.length > 5) vals.push(sp[Math.floor(sp.length * .05)], sp[Math.floor(sp.length * .95)]);
+  const ref = [...P.plan, ...P.ant.filter(v => v)];
+  if (!vals.length) vals = ref.slice();
+  else { const c = vals.reduce((a, b) => a + b, 0) / vals.length; ref.forEach(v => { if (Math.abs(v - c) <= 20) vals.push(v); }); }
   let lo = Math.min(...vals) - 3, hi = Math.max(...vals) + 3;
   if (hi - lo < 10) { const c = (hi + lo) / 2; lo = c - 5; hi = c + 5; }
-  const step = hi - lo <= 14 ? 2 : hi - lo <= 35 ? 5 : 10;
+  const step = [1, 2, 5, 10, 15, 30, 60, 120, 300].find(x => (hi - lo) / x <= 6) || 600;
   lo = Math.floor(lo / step) * step; hi = Math.ceil(hi / step) * step;
-  const X = d => m.l + d / target * iw;
+  const dentro = v => v >= lo && v <= hi;
+  const X = v => m.l + Math.min(v, target) / target * iw;
   const Y = v => m.t + (Math.min(hi, Math.max(lo, v)) - lo) / (hi - lo) * ih;
   let s = `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" font-family="Roboto,system-ui,sans-serif" font-size="${fs}">`;
   for (let v = lo; v <= hi + 1e-6; v += step) {
@@ -1031,21 +1152,23 @@ function dibujaChart(box = $('chart'), H = 240, fs = 11){
   const lbl = Math.ceil((n + 1) / 7);
   [0, ...tr.map(x => x.b)].forEach((d, k) => {
     s += `<line x1="${X(d)}" x2="${X(d)}" y1="${m.t}" y2="${H-m.b}" stroke="#e8f0f7"/>`;
-    if (k % lbl === 0 || k === n) s += `<text x="${X(d)}" y="${H-m.b+fs+5}" text-anchor="middle" fill="#6b6f7a">${mfmt(d)}</text>`;
+    if ((k % lbl === 0 && n - k >= lbl * 0.7) || k === n) s += `<text x="${X(d)}" y="${H-m.b+fs+5}" text-anchor="${k === n ? 'end' : 'middle'}" fill="#6b6f7a">${eje(tr, d)}</text>`;
   });
-  const escalones = arr => arr.map((v, k) => v && tr[k] ? `M${X(tr[k].a)},${Y(v)}H${X(tr[k].b)}` : '').join('');
+  const escalones = arr => arr.map((v, k) => v && tr[k] && dentro(v) ? `M${X(tr[k].a)},${Y(v)}H${X(tr[k].b)}` : '').join('');
   if (R.samples.length > 2) {
     const every = Math.max(1, Math.floor(R.samples.length / 400)); let dp = '';
-    R.samples.forEach((q, j) => { if (q.p && q.d > 15 && j % every === 0) dp += (dp ? 'L' : 'M') + X(Math.min(q.d, target)).toFixed(1) + ',' + Y(q.p).toFixed(1); });
-    s += `<path d="${dp}" fill="none" stroke="${col}" stroke-opacity=".4" stroke-width="1.2"/>`;
+    R.samples.forEach((q, j) => { if (q.p && q.d > 15 && j % every === 0) dp += (dp ? 'L' : 'M') + X(T ? q.t : q.d).toFixed(1) + ',' + Y(q.p).toFixed(1); });
+    s += `<path d="${dp}" fill="none" stroke="${col}" stroke-opacity=".45" stroke-width="1.2"/>`;
   }
   if (P.ant.some(v => v)) s += `<path d="${escalones(P.ant)}" fill="none" stroke="#8a8f99" stroke-width="2" stroke-dasharray="6 5"/>`;
   s += `<path d="${escalones(P.plan)}" fill="none" stroke="${col}" stroke-width="3"/>`;
-  if (reales.length) {
-    s += `<path d="${escalones(reales)}" fill="none" stroke="#1b1f2a" stroke-width="3.5"/>`;
-    if (n <= 12) reales.forEach((v, k) => { s += `<text x="${X((tr[k].a + tr[k].b)/2)}" y="${Y(v)-6}" text-anchor="middle" font-weight="700" fill="#1b1f2a">${fmt(v)}</text>`; });
+  if (P.plan.some(v => !dentro(v))) s += `<text x="${W-m.r}" y="${m.t-3}" text-anchor="end" fill="${col}">plan ${fmt(P.plan[Math.min(R.cross.length, n-1)])} fuera de escala</text>`;
+  const rl = R.cross.map((c, k) => ritmoTramo(R.cross, k, tr));
+  if (rl.length) {
+    s += `<path d="${escalones(rl)}" fill="none" stroke="#1b1f2a" stroke-width="3.5"/>`;
+    if (n <= 12) rl.forEach((v, k) => { if (v) s += `<text x="${X((tr[k].a + tr[k].b)/2)}" y="${Y(v)-6}" text-anchor="middle" font-weight="700" fill="#1b1f2a">${fmt(v)}</text>`; });
   }
-  if (parcial) { const k = R.cross.length; s += `<path d="M${X(tr[k].a)},${Y(parcial)}H${X(Math.min(R.d, target))}" stroke="#1b1f2a" stroke-width="3" stroke-dasharray="2 3" fill="none"/>`; }
+  if (parcial) { const k = R.cross.length; s += `<path d="M${X(tr[k].a)},${Y(parcial)}H${X(T ? R.t : R.d)}" stroke="#1b1f2a" stroke-width="3" stroke-dasharray="2 3" fill="none"/>`; }
   s += `<text transform="translate(${fs+1} ${m.t+ih/2}) rotate(-90)" text-anchor="middle" fill="#6b6f7a">ritmo /500</text></svg>`;
   box.innerHTML = s;
 }
@@ -1054,63 +1177,92 @@ window.addEventListener('resize', () => schedule());
 /* ================= fin de la remada ================= */
 function terminar(){
   const P = prof(), spm = R.samples.filter(q => q.spm).map(q => q.spm);
-  REC = { id:Date.now().toString(36), fecha:new Date().toISOString(), nombre:CFG.activo, dist:P.dist, split:P.split,
+  REC = { id:Date.now().toString(36), fecha:new Date().toISOString(), nombre:CFG.activo, modo:P.modo === 'tiempo' ? 'tiempo' : 'dist', dist:P.dist, split:P.split,
     tiempo:Math.round(R.t*10)/10, distReal:Math.round(R.d), cross:R.cross.map(v => Math.round(v*10)/10),
     plan:P.plan.slice(), ant:P.ant.slice(), drag:R.drag, spm:spm.length ? Math.round(spm.reduce((a, b) => a + b, 0) / spm.length) : null,
     fotos:0, video:false, collage:false };
   const med = f => { const v = R.samples.map(f).filter(x => x); return v.length ? Math.round(v.reduce((a, b) => a + b, 0) / v.length) : null; };
   REC.cal = R.cal; REC.strokes = R.strokes; REC.wAvg = R.wAvg || med(q => q.w); REC.hrAvg = med(q => q.hr);
   REC.hrMax = R.samples.reduce((m, q) => q.hr && q.hr > m ? q.hr : m, 0) || null;
-  REC.sp = mediasTramos(R.samples, R.cross);
+  REC.sp = mediasTramos(R.samples, R.cross, TR());
   const H = loadHist(); H.unshift(REC); saveHist(H);
   const esPB = H.some(x => x.id !== REC.id && x.nombre === REC.nombre && x.dist === REC.dist) && esMejor(REC, H);
   try { const paso = Math.max(1, Math.ceil(R.samples.length / 1500)), r1 = v => v == null ? null : Math.round(v * 10) / 10;
     idb.put(REC.id + '_s', R.samples.filter((q, j) => j % paso === 0).map(q => [r1(q.t), r1(q.d), r1(q.p), q.spm, q.w, q.hr])).catch(() => {}); } catch(e){}
   try { navigator.storage && navigator.storage.persist && navigator.storage.persist(); } catch(e){}
-  const pt = planTotal(), at = antTotal();
+  const tr = TR(), pt = planTotal(), at = antTotal(), val = resultado(REC), inc = incompleta(REC);
   $('fin').classList.remove('hide');
-  $('finT').textContent = fmt(R.t);
-  let txt = REC.distReal < P.dist - 5 ? `Incompleta: el PM5 terminó en ${mfmt(REC.distReal)} m` : `${fmtDif(R.t - pt)} s vs objetivo ${fmt(pt)}`;
-  if (at && REC.distReal >= P.dist - 5) txt += ` · ${fmtDif(R.t - at)} s vs anterior ${fmt(at)}`;
+  $('finT').textContent = res(tr, val);
+  let txt = inc ? `Incompleta: el PM5 terminó en ${mfmt(REC.distReal)} m · ${fmt(REC.tiempo)}` : `${difRes(tr, val, pt)} vs objetivo ${res(tr, pt)}`;
+  if (at && !inc) txt += ` · ${difRes(tr, val, at)} vs anterior ${res(tr, at)}`;
   if (esPB) txt += ' · MEJOR MARCA';
   $('finTxt').textContent = txt;
+  abrirFin(res(tr, val), txt);
   soltarWakeLock();
   camFinal(REC);
 }
 $('btnWa').onclick = () => { if (REC) waDirecto(textoDe(REC)); };
 $('btnShare1').onclick = () => { if (REC) compartir(EV.sheet && EV.sheet.blob, EV.sheet ? EV.sheet.name : '', textoDe(REC)); };
 function csvDe(rec, samples){
-  const tr = tramosDe(rec.dist, rec.split), f = v => v == null ? '' : String(Math.round(v*10)/10).replace('.', ',');
+  const tr = tramosDe(rec.dist, rec.split, rec.modo), f = v => v == null ? '' : String(Math.round(v*10)/10).replace('.', ',');
   let c = `Remero/a;${rec.nombre}\nFecha;${new Date(rec.fecha).toLocaleString('es-AR')}\nDistancia;${rec.dist}\nTiempo;${fmt(rec.tiempo)}\nArrastre;${rec.drag ?? ''}\n\nMetros;Plan /500;Real /500;Dif;Pasa por\n`;
-  tr.forEach((x, k) => { const r = ritmoTramo(rec.cross, k, tr); c += `${x.b};${fmt(rec.plan[k])};${fmt(r)};${f(r != null ? r - rec.plan[k] : null)};${fmt(rec.cross[k])}\n`; });
+  tr.forEach((x, k) => { const r = ritmoTramo(rec.cross, k, tr); c += `${x.b};${fmt(rec.plan[k])};${fmt(r)};${f(r != null ? r - rec.plan[k] : null)};${res(tr, rec.cross[k])}\n`; });
   if (samples) { c += '\nt_s;metros;ritmo_s500;s/m;watts;fc\n'; samples.forEach(q => { c += `${f(q.t)};${f(q.d)};${f(q.p)};${q.spm ?? ''};${q.w ?? ''};${q.hr ?? ''}\n`; }); }
   return c;
 }
 function bajarTexto(txt, nombre){ bajar({ blob:new Blob(['﻿' + txt], { type:'text/csv' }), name:nombre }); }
 $('btnCsv').onclick = () => { if (REC) bajarTexto(csvDe(REC, R.samples), `ergo_${REC.nombre}_${REC.dist}_${REC.fecha.slice(0,10)}.csv`); };
 function usarComoAnterior(rec){
-  const P = CFG.perfiles[rec.nombre] || prof(); const tr = tramosDe(rec.dist, rec.split);
-  if (rec.distReal < rec.dist - 5) { aviso('Esa carrera está incompleta: no se puede usar como anterior.'); return; }
-  P.dist = rec.dist; P.split = rec.split; normaliza(P);
+  const P = CFG.perfiles[rec.nombre] || prof(); const tr = tramosDe(rec.dist, rec.split, rec.modo);
+  if (incompleta(rec)) { aviso('Esa carrera está incompleta: no se puede usar como anterior.'); return; }
+  P.modo = rec.modo === 'tiempo' ? 'tiempo' : 'dist'; P.dist = rec.dist; P.split = rec.split; normaliza(P);
   P.ant = tr.map((x, k) => Math.round(ritmoTramo(rec.cross, k, tr) * 10) / 10);
   save(); renderPlan(); renderVivo(); aviso(`Guardado como anterior de ${rec.nombre}.`);
 }
 $('btnAnt').onclick = () => { if (REC) usarComoAnterior(REC); };
 $('btnNuevo').onclick = () => { resetRun(); aviso(''); renderVivo(); };
+/* ---- diálogo al terminar ---- */
+function abrirMenu(){
+  abrirFin(`${CFG.activo} · ${tituloDe(prof())}`, `${$('estado').textContent} · Drag factor ${R.drag ?? '–'}`);
+  $('fdLbl').textContent = 'Menú'; $('fdWa').classList.toggle('hide', !REC); $('fdCerrar').textContent = 'Reanudar';
+}
+$('fdVert').onclick = () => { cerrarFin(); salirLand(); };
+function abrirFin(resTxt, det){ $('fdLbl').textContent = 'Guardado'; $('fdWa').classList.remove('hide'); $('fdCerrar').textContent = 'Volver'; $('fdVert').classList.toggle('hide', !esLand()); $('fdRes').textContent = resTxt; $('fdTxt').textContent = det; $('fdDesc').classList.toggle('hide', !(dev && dev.gatt.connected)); $('finDlg').classList.remove('hide'); }
+function cerrarFin(){ $('finDlg').classList.add('hide'); }
+$('fdCerrar').onclick = cerrarFin;
+$('fdWa').onclick = () => { if (REC) waDirecto(textoDe(REC)); };
+$('fdVer').onclick = () => { cerrarFin(); tab('hist'); const d = document.querySelector('#hLista details'); if (d) d.open = true; window.scrollTo(0, 0); };
+$('fdDesc').onclick = async () => { await desconectarPM5(); $('fdDesc').classList.add('hide'); };
+$('fdNuevo').onclick = async () => {
+  cerrarFin(); await liberarPM5(); resetRun(); aviso(''); tab('plan'); window.scrollTo(0, 0);
+  if (dev && dev.gatt.connected && CFG.autoProg) setTimeout(programarPM5, 900);
+};
+/* ---- girar la pantalla aunque el celular tenga la rotación apagada ---- */
+async function girarPantalla(aLand){
+  const o = screen.orientation, tipo = aLand ? 'landscape' : 'portrait';
+  try { await o.lock(tipo); return true; } catch(e){}
+  try { if (!document.fullscreenElement) await document.documentElement.requestFullscreen(); await o.lock(tipo); return true; } catch(e){}
+  return false;
+}
+$('btnGirar').onclick = async () => {
+  landOff = false;
+  girado = await girarPantalla(true);
+  if (!girado) aviso('Este celular no dejó girar la pantalla desde la app. Activá la rotación automática en los ajustes rápidos de Android.');
+};
 $('paceCard').onclick = () => { CFG.unidad = UNI[(UNI.indexOf(CFG.unidad || 'ritmo') + 1) % 3]; save(); renderVivo(); };
 $('btnReset').onclick = () => { pararDemo(); resetRun(); renderVivo(); };
 
 /* ================= carga manual en el Logbook de Concept2 ================= */
 const URL_LOG = 'https://log.concept2.com/log';
 function comentarioLb(rec){
-  const tr = tramosDe(rec.dist, rec.split);
-  return 'Parciales: ' + tr.map((x, k) => `${mfmt(x.b)} ${fmt(ritmoTramo(rec.cross, k, tr))}`).join(' · ')
-    + (rec.drag ? ` · arrastre ${rec.drag}` : '') + ' · IndoorIRT';
+  const tr = tramosDe(rec.dist, rec.split, rec.modo);
+  return 'Parciales: ' + tr.map((x, k) => `${eje(tr, x.b)} ${fmt(ritmoTramo(rec.cross, k, tr))}`).join(' · ')
+    + (rec.drag ? ` · drag ${rec.drag}` : '') + ' · IndoorIRT';
 }
 function panelLb(rec){
   const d = new Date(rec.fecha), z = n => String(n).padStart(2, '0');
   const t = Math.round(rec.tiempo * 10) / 10, h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), sg = Math.floor(t % 60), dc = Math.round((t * 10) % 10);
-  const dist = rec.distReal < rec.dist - 5 ? rec.distReal : rec.dist;
+  const dist = esT(rec) || incompleta(rec) ? rec.distReal : rec.dist;
   return `<div class="lb">
     <div class="lbl">Datos para el Logbook</div>
     <dl>
@@ -1138,20 +1290,22 @@ document.addEventListener('click', e => {
 });
 
 /* ================= análisis posterior ================= */
-function mediasTramos(samples, cross){
+function mediasTramos(samples, cross, tr){
   return cross.map((c, k) => {
-    const t0 = k ? cross[k-1] : 0, S = samples.filter(q => q.t > t0 && q.t <= c + 0.5);
+    const t0 = esT(tr) ? tr[k].a : (k ? cross[k-1] : 0), t1 = esT(tr) ? tr[k].b : c;
+    const S = samples.filter(q => q.t > t0 && q.t <= t1 + 0.5);
     const av = f => { const v = S.map(f).filter(x => x); return v.length ? Math.round(v.reduce((a, b) => a + b, 0) / v.length) : null; };
     return { spm:av(q => q.spm), w:av(q => q.w), hr:av(q => q.hr) };
   });
 }
 function esMejor(rec, H){
-  if (rec.distReal < rec.dist - 5) return false;
-  return !H.some(x => x.id !== rec.id && x.nombre === rec.nombre && x.dist === rec.dist && x.distReal >= x.dist - 5 && x.tiempo <= rec.tiempo);
+  if (incompleta(rec)) return false;
+  return !H.some(x => x.id !== rec.id && x.nombre === rec.nombre && esT(x) === esT(rec) && x.dist === rec.dist && !incompleta(x)
+    && (esT(rec) ? x.distReal >= rec.distReal : x.tiempo <= rec.tiempo));
 }
 // S: filas [t, d, ritmo, s/m, watts, fc]
 function grafCarrera(rec, S){
-  const tr = tramosDe(rec.dist, rec.split), W = 340, m = { l:40, r:8 }, iw = W - m.l - m.r, dMax = Math.max(rec.distReal || rec.dist, 1);
+  const tr = tramosDe(rec.dist, rec.split, rec.modo), W = 340, m = { l:40, r:8 }, iw = W - m.l - m.r, T = esT(rec), dMax = Math.max(T ? rec.tiempo : (rec.distReal || rec.dist), 1), ax = q => T ? q[0] : q[1];
   const P = S.filter(q => q[2] && q[1] > 15); if (P.length < 5) return '';
   const X = d => m.l + Math.min(d, dMax) / dMax * iw;
   const panel = (y0, h, vals, lo, hi, inv) => v => y0 + (inv ? (Math.min(hi, Math.max(lo, v)) - lo) : (hi - Math.min(hi, Math.max(lo, v)))) / (hi - lo) * h;
@@ -1162,19 +1316,19 @@ function grafCarrera(rec, S){
   let s = `<svg viewBox="0 0 ${W} 232" style="display:block;width:100%;margin-top:8px" font-family="Roboto,system-ui,sans-serif" font-size="10">`;
   [lo, (lo + hi) / 2, hi].forEach(v => { s += `<line x1="${m.l}" x2="${W-m.r}" y1="${Yp(v)}" y2="${Yp(v)}" stroke="#dbe7f2"/><text x="${m.l-4}" y="${Yp(v)+3}" text-anchor="end" fill="#5b6b7d">${fmt(v, 0)}</text>`; });
   s += `<path d="${tr.map((x, k) => rec.plan[k] ? `M${X(x.a)},${Yp(rec.plan[k])}H${X(x.b)}` : '').join('')}" fill="none" stroke="#8a8f99" stroke-width="1.5" stroke-dasharray="5 4"/>`;
-  s += `<path d="${P.map((q, j) => (j ? 'L' : 'M') + X(q[1]).toFixed(1) + ',' + Yp(q[2]).toFixed(1)).join('')}" fill="none" stroke="${color()}" stroke-width="1.6"/>`;
+  s += `<path d="${P.map((q, j) => (j ? 'L' : 'M') + X(ax(q)).toFixed(1) + ',' + Yp(q[2]).toFixed(1)).join('')}" fill="none" stroke="${color()}" stroke-width="1.6"/>`;
   s += `<text x="${m.l}" y="142" fill="#5b6b7d">ritmo /500 (línea) · plan (punteada)</text>`;
   const Q = S.filter(q => q[3] && q[1] > 15);
   if (Q.length > 4) {
     const sv = Q.map(q => q[3]), slo = Math.min(...sv) - 1, shi = Math.max(...sv) + 1, Ys = panel(154, 50, 0, slo, shi, false);
     [slo, shi].forEach(v => { s += `<line x1="${m.l}" x2="${W-m.r}" y1="${Ys(v)}" y2="${Ys(v)}" stroke="#dbe7f2"/><text x="${m.l-4}" y="${Ys(v)+3}" text-anchor="end" fill="#5b6b7d">${v}</text>`; });
-    s += `<path d="${Q.map((q, j) => (j ? 'L' : 'M') + X(q[1]).toFixed(1) + ',' + Ys(q[3]).toFixed(1)).join('')}" fill="none" stroke="#0b2545" stroke-width="1.4"/>`;
+    s += `<path d="${Q.map((q, j) => (j ? 'L' : 'M') + X(ax(q)).toFixed(1) + ',' + Ys(q[3]).toFixed(1)).join('')}" fill="none" stroke="#0b2545" stroke-width="1.4"/>`;
     const HR = S.filter(q => q[5] && q[1] > 15);
     if (HR.length > 4) { const hv = HR.map(q => q[5]), hlo = Math.min(...hv) - 2, hhi = Math.max(...hv) + 2, Yh = panel(154, 50, 0, hlo, hhi, false);
-      s += `<path d="${HR.map((q, j) => (j ? 'L' : 'M') + X(q[1]).toFixed(1) + ',' + Yh(q[5]).toFixed(1)).join('')}" fill="none" stroke="#b3261e" stroke-width="1.2"/>`; }
+      s += `<path d="${HR.map((q, j) => (j ? 'L' : 'M') + X(ax(q)).toFixed(1) + ',' + Yh(q[5]).toFixed(1)).join('')}" fill="none" stroke="#b3261e" stroke-width="1.2"/>`; }
     s += `<text x="${m.l}" y="218" fill="#5b6b7d">s/m (azul oscuro)${HR.length > 4 ? ' · FC (rojo, ' + Math.min(...HR.map(q => q[5])) + '–' + Math.max(...HR.map(q => q[5])) + ')' : ''}</text>`;
   }
-  [0, dMax / 2, dMax].forEach(d => { s += `<text x="${X(d)}" y="230" text-anchor="${d === 0 ? 'start' : d === dMax ? 'end' : 'middle'}" fill="#5b6b7d">${mfmt(d)} m</text>`; });
+  [0, dMax / 2, dMax].forEach(d => { s += `<text x="${X(d)}" y="230" text-anchor="${d === 0 ? 'start' : d === dMax ? 'end' : 'middle'}" fill="#5b6b7d">${T ? fmt(d, 0) : mfmt(d) + ' m'}</text>`; });
   return s + '</svg>';
 }
 
@@ -1187,16 +1341,16 @@ function renderHist(){
   const L = cur === '__todos' ? H : H.filter(r => r.nombre === cur);
   $('hInfo').textContent = H.length ? `${L.length} carrera${L.length===1?'':'s'} guardada${L.length===1?'':'s'} en este celular.` : 'Todavía no hay carreras guardadas. Se guardan solas al terminar cada remada.';
   $('hLista').innerHTML = L.map(r => {
-    const tr = tramosDe(r.dist, r.split), pt = cumDe(r.plan, tr, r.dist), inc = r.distReal < r.dist - 5;
+    const tr = tramosDe(r.dist, r.split, r.modo), pt = cumDe(r.plan, tr, r.dist), inc = incompleta(r);
     const fecha = new Date(r.fecha).toLocaleString('es-AR', { dateStyle:'short', timeStyle:'short', hour12:false });
     const sp = r.sp || [], pb = esMejor(r, H) && H.some(x => x.id !== r.id && x.nombre === r.nombre && x.dist === r.dist);
-    const filas = tr.map((x, k) => `<tr><td>${mfmt(x.b)}</td><td>${fmt(r.plan[k])}</td><td>${fmt(ritmoTramo(r.cross, k, tr))}</td><td>${(sp[k] && sp[k].spm) ?? '–'}</td><td>${(sp[k] && sp[k].w) ?? '–'}</td><td class="pp">${fmt(r.cross[k])}</td></tr>`).join('');
+    const filas = tr.map((x, k) => `<tr><td>${eje(tr, x.b)}</td><td>${fmt(r.plan[k])}</td><td>${fmt(ritmoTramo(r.cross, k, tr))}</td><td>${(sp[k] && sp[k].spm) ?? '–'}</td><td>${(sp[k] && sp[k].w) ?? '–'}</td><td class="pp">${res(tr, r.cross[k])}</td></tr>`).join('');
     return `<details class="h" data-id="${r.id}">
-      <summary><span>${esc(r.nombre)} · ${mfmt(r.dist)} m<br><small style="color:var(--muted)">${fecha}</small></span>
-        <span style="text-align:right"><b>${fmt(r.tiempo)}</b><br><small style="color:${inc?'var(--bad)':(r.tiempo-pt<=0?'var(--ok)':'var(--bad)')}">${inc ? 'incompleta' : fmtDif(r.tiempo - pt) + ' s vs obj.'}</small>${pb ? '<br><small style="color:var(--navy);font-weight:700">MEJOR MARCA</small>' : ''}</span></summary>
+      <summary><span>${esc(r.nombre)} · ${tituloDe(r)}<br><small style="color:var(--muted)">${fecha}</small></span>
+        <span style="text-align:right"><b>${res(tr, resultado(r))}</b><br><small style="color:${inc || !bien(tr, resultado(r), pt) ? 'var(--bad)' : 'var(--ok)'}">${inc ? 'incompleta' : difRes(tr, resultado(r), pt) + ' vs obj.'}</small>${pb ? '<br><small style="color:var(--navy);font-weight:700">MEJOR MARCA</small>' : ''}</span></summary>
       <div class="in">
-        <table><thead><tr><th>Metros</th><th>Plan</th><th>Real</th><th>s/m</th><th>W</th><th>Pasa por</th></tr></thead><tbody>${filas}</tbody></table>
-        <div class="note">s/m medio ${r.spm ?? '–'} · arrastre ${r.drag ?? '–'}${r.wAvg ? ` · ${r.wAvg} W` : ''}${r.cal ? ` · ${r.cal} cal` : ''}${r.strokes ? ` · ${r.strokes} paladas` : ''}${r.hrAvg ? ` · FC ${r.hrAvg}${r.hrMax ? '/' + r.hrMax : ''}` : ''}${r.fotos ? ` · ${r.fotos} fotos` : ''}</div>
+        <table><thead><tr><th>${esT(r) ? 'Tiempo' : 'Metros'}</th><th>Plan</th><th>Real</th><th>s/m</th><th>W</th><th>Pasa por</th></tr></thead><tbody>${filas}</tbody></table>
+        <div class="note">s/m medio ${r.spm ?? '–'} · drag ${r.drag ?? '–'}${r.wAvg ? ` · ${r.wAvg} W` : ''}${r.cal ? ` · ${r.cal} cal` : ''}${r.strokes ? ` · ${r.strokes} paladas` : ''}${r.hrAvg ? ` · FC ${r.hrAvg}${r.hrMax ? '/' + r.hrMax : ''}` : ''}${r.fotos ? ` · ${r.fotos} fotos` : ''}</div>
         <div class="graf"></div>
         <div class="lbh"></div>
         <div class="foto"></div>
@@ -1239,8 +1393,8 @@ $('btnHCsv').onclick = () => {
   const H = loadHist(); if (!H.length) return;
   let c = 'Fecha;Remero/a;Distancia;Tiempo;Ritmo medio /500;Objetivo;Dif objetivo;s/m;Arrastre;Parciales (pasa por)\n';
   H.forEach(r => {
-    const tr = tramosDe(r.dist, r.split), pt = cumDe(r.plan, tr, r.dist);
-    c += `${new Date(r.fecha).toLocaleString('es-AR')};${r.nombre};${r.distReal < r.dist - 5 ? r.distReal + ' (incompleta)' : r.dist};${fmt(r.tiempo)};${fmt(r.tiempo / Math.max(1, r.distReal) * 500)};${fmt(pt)};${fmtDif(r.tiempo - pt)};${r.spm ?? ''};${r.drag ?? ''};${r.cross.map(v => fmt(v)).join(' | ')}\n`;
+    const tr = tramosDe(r.dist, r.split, r.modo), pt = cumDe(r.plan, tr, r.dist);
+    c += `${new Date(r.fecha).toLocaleString('es-AR')};${r.nombre};${incompleta(r) ? r.distReal + ' (incompleta)' : esT(r) ? r.distReal : r.dist};${fmt(r.tiempo)};${fmt(r.tiempo / Math.max(1, r.distReal) * 500)};${res(tr, pt)};${difRes(tr, resultado(r), pt)};${r.spm ?? ''};${r.drag ?? ''};${r.cross.map(v => res(tr, v)).join(' | ')}\n`;
   });
   bajarTexto(c, `IndoorIRT_carreras_${new Date().toISOString().slice(0,10)}.csv`);
 };
@@ -1274,7 +1428,7 @@ function onForce(v){
 function onMux(v){
   const id = v.getUint8(0), d = new DataView(v.buffer, v.byteOffset + 1, v.byteLength - 1);
   if (id === 0x31) onGeneral(d); else if (id === 0x32) onAdd1(d); else if (id === 0x33) onAdd2(d);
-  else if (id === 0x35) onStroke(d); else if (id === 0x36) onStroke2(d); else if (id === 0x3D) onForce(d);
+  else if (id === 0x35) onStroke(d); else if (id === 0x36) onStroke2(d); else if (id === 0x3D) onForce(d); else if (id === 0x39) onFin(d);
 }
 function estado(t){ $('estado').textContent = t; }
 function pmEst(t){ $('pmEst').textContent = t; }
@@ -1297,17 +1451,47 @@ function frameDistancia(dist, split){
   ];
   return csafeFrame([0x76, cmds.length, ...cmds]);
 }
+function frameTiempo(seg, split){
+  const cmds = [
+    0x01, 0x01, 0x05,                           // tipo: tiempo fijo con parciales
+    0x03, 0x05, 0x00, ...u32be(seg * 100),      // duración: tiempo en centésimas
+    0x05, 0x05, 0x00, ...u32be(split * 100),    // parcial: tiempo en centésimas
+    0x14, 0x01, 0x01,
+    0x13, 0x02, 0x01, 0x01
+  ];
+  return csafeFrame([0x76, cmds.length, ...cmds]);
+}
+async function escribirPM5(f){ for (let i = 0; i < f.length; i += 20) await ctrlCh.writeValue(f.slice(i, i + 20)); }
 async function programarPM5(){
   if (!dev || !dev.gatt.connected) return;
   if (R.running) { pmEst('No se puede programar con la remada en curso.'); return; }
-  if (!ctrlCh) { pmEst('Este PM5 no aceptó control remoto: programá la distancia a mano.'); return; }
-  const P = prof();
-  let sp = P.split; if (P.dist / sp > 30) sp = Math.ceil(P.dist / 30 / 100) * 100; sp = Math.max(100, Math.min(sp, P.dist));
+  if (!ctrlCh) { pmEst('Este PM5 no aceptó control remoto: programá el entrenamiento a mano.'); return; }
+  const P = prof(), T = esT(P);
+  let sp = P.split;
+  if (T) { if (P.dist / sp > 30) sp = Math.ceil(P.dist / 30 / 10) * 10; sp = Math.max(20, Math.min(sp, P.dist)); }
+  else { if (P.dist / sp > 30) sp = Math.ceil(P.dist / 30 / 100) * 100; sp = Math.max(100, Math.min(sp, P.dist)); }
   try {
-    const f = frameDistancia(P.dist, sp);
-    for (let i = 0; i < f.length; i += 20) await ctrlCh.writeValue(f.slice(i, i + 20));
-    pmEst(`PM5 programado: ${mfmt(P.dist)} m · revisá que la pantalla del PM5 muestre esa distancia`);
-  } catch(e) { pmEst('El PM5 no aceptó la programación: programá la distancia a mano.'); }
+    await escribirPM5(T ? frameTiempo(P.dist, sp) : frameDistancia(P.dist, sp));
+    pmEst(`PM5 programado: ${tituloDe(P)} · revisá que el monitor lo muestre`);
+  } catch(e) { pmEst('El PM5 no aceptó la programación: programá el entrenamiento a mano.'); }
+}
+// Libera el PM5: termina el entrenamiento en el monitor para que no quede trabado
+async function liberarPM5(){
+  if (!dev || !dev.gatt.connected || !ctrlCh) return;
+  try { await escribirPM5(csafeFrame([0x76, 0x04, 0x13, 0x02, 0x01, 0x02])); await new Promise(r => setTimeout(r, 350)); } catch(e){}
+}
+async function desconectarPM5(){
+  if (!(dev && dev.gatt.connected)) { estado('Desconectado'); return; }
+  await liberarPM5();
+  manual = true; try { dev.gatt.disconnect(); } catch(e){}
+  dev = null; ctrlCh = null; soltarWakeLock(); estado('Desconectado');
+  $('btnCon').textContent = 'Conectar PM5'; $('pmBar').classList.add('hide'); schedule();
+}
+function onFin(v){   // resumen de fin de entrenamiento: trae el drag factor medio
+  if (v.byteLength < 16) return; const df = v.getUint8(15); if (!df) return;
+  if (!R.drag) R.drag = df;
+  if (REC && !REC.drag) { REC.drag = df; const H = loadHist(), i = H.findIndex(x => x.id === REC.id); if (i >= 0) { H[i].drag = df; saveHist(H); } }
+  schedule();
 }
 $('btnProg').onclick = programarPM5;
 
@@ -1324,7 +1508,7 @@ async function abrirGatt(){
   let mux = false;
   try { await suscribir(svc, '0031', onGeneral); await suscribir(svc, '0032', onAdd1); await suscribir(svc, '0033', onAdd2); }
   catch(e) { mux = true; await suscribir(svc, '0080', onMux); }
-  if (!mux) for (const [id, fn] of [['0035', onStroke], ['0036', onStroke2], ['003d', onForce]]) { try { await suscribir(svc, id, fn); } catch(e){} }
+  if (!mux) for (const [id, fn] of [['0035', onStroke], ['0036', onStroke2], ['003d', onForce], ['0039', onFin]]) { try { await suscribir(svc, id, fn); } catch(e){} }
   try { const cs = await server.getPrimaryService(SVC_CTRL); ctrlCh = await cs.getCharacteristic(U('0021')); } catch(e) { ctrlCh = null; }
   intentos = 0;
   estado('Conectado · ' + (dev.name || 'PM5'));
@@ -1361,10 +1545,8 @@ async function alDesconectar(){
   }
   estado('Desconectado'); aviso('Se perdió la conexión con el PM5. Tocá Conectar PM5 de nuevo.');
 }
-$('btnCon').onclick = () => {
-  if (dev && dev.gatt.connected) { manual = true; dev.gatt.disconnect(); dev = null; ctrlCh = null; soltarWakeLock(); estado('Desconectado'); $('btnCon').textContent = 'Conectar PM5'; $('pmBar').classList.add('hide'); }
-  else conectar();
-};
+$('btnCon').onclick = () => { if (dev && dev.gatt.connected) desconectarPM5(); else conectar(); };
+$('btnDesc').onclick = desconectarPM5;
 
 /* ================= demo sin ergo ================= */
 let demo = null;
@@ -1376,7 +1558,7 @@ $('btnDemo').onclick = () => {
   demo = setInterval(() => {
     let pace = 0;
     for (let k = 0; k < 10; k++) {
-      let i = tr.findIndex(x => d < x.b); if (i < 0) i = tr.length - 1;
+      let i = tr.findIndex(x => (esT(tr) ? t : d) < x.b); if (i < 0) i = tr.length - 1;
       pace = t < 8 ? P.plan[i] - 6 + t*0.75 : P.plan[i] + 1.3*Math.sin(t/9) + (Math.random() - .5) * 1.5;
       t += 0.1; d += 500 / pace * 0.1;
     }
