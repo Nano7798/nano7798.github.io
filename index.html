@@ -165,6 +165,21 @@ details.h img{width:100%;display:block;margin-top:8px}
 .guia b{display:block;font-size:16px}
 .guia .det{font-size:14px;color:var(--muted);margin-top:3px;line-height:1.4}
 .guia button{margin-top:6px}
+.rk{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.rk .r{position:relative;background:#e6f0f9;border:1px solid var(--line);padding:9px 10px;overflow:hidden;display:flex;justify-content:space-between;align-items:center;gap:8px;font-weight:700}
+.rk .r i{position:absolute;left:0;top:0;bottom:0;background:var(--cel);opacity:.6;z-index:0;transition:width .8s linear}
+.rk .r>span{position:relative;z-index:1}
+.rk .r small{font-weight:400;color:var(--muted);margin-left:6px}
+.rk .r.yo{border:2px solid var(--acc)}
+.rk .r.off{opacity:.55}
+.cod{font-size:44px;font-weight:800;letter-spacing:.18em;text-align:center;color:var(--navy);padding:4px 0}
+#cuenta{position:fixed;inset:0;z-index:80;background:rgba(11,37,69,.92);color:#fff;display:flex;align-items:center;justify-content:center;font-size:42vmin;font-weight:800;pointer-events:none}
+.lcomp{height:100%;display:flex;gap:1vw}
+.lcomp .rk{flex:1;margin:0;justify-content:center;min-width:0}
+.lcomp .rk .r{font-size:min(6.6vh,3vw);padding:1.6vh 1.2vw}
+.lcomp .bt{flex:none;width:12%}
+#lDots i[data-s="7"]{display:none}
+body.enSala #lDots i[data-s="7"]{display:block}
 .note{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.4}
 </style>
 </head>
@@ -180,9 +195,11 @@ details.h img{width:100%;display:block;margin-top:8px}
   <div class="fdT"><span class="lbl" id="fdLbl">Guardado</span><b id="fdRes"></b><span id="fdTxt"></span></div>
   <div class="fdB">
     <button class="pri" id="fdNuevo">Crear nuevo entrenamiento</button>
+    <button class="pri hide" id="fdComp">Ver ranking de la competencia</button>
     <button class="pri" id="fdVer">Ver resultados</button>
     <button class="pri" id="fdWa">Enviar por WhatsApp</button>
     <button class="pri" id="fdDesc">Desconectar PM5</button>
+    <button id="fdHr">Pulsómetro</button>
     <button id="fdVert">Poner vertical</button>
   </div>
   <button id="fdCerrar">Volver</button>
@@ -191,12 +208,14 @@ details.h img{width:100%;display:block;margin-top:8px}
   <div class="lb2" id="lScreens"></div>
   <div class="ln"><span id="lDots" style="display:flex;gap:1.3vw;align-items:center"></span><em id="lRec"></em></div>
 </div>
-<nav><button id="tabPlan">Plan</button><button id="tabVivo" class="on">En vivo</button><button id="tabHist">Carreras</button></nav>
+<nav><button id="tabPlan">Plan</button><button id="tabVivo" class="on">En vivo</button><button id="tabHist">Carreras</button><button id="tabComp">Compe</button></nav>
 <main>
 <div class="msg" id="msg"></div>
+<div id="cuenta" class="hide"></div>
 
 <!-- ============ EN VIVO ============ -->
 <section id="vVivo">
+  <div class="card hide" id="compVivo"><div class="lbl" id="cvT">Competencia</div><div class="rk" id="cvRank"></div></div>
   <div class="card guia hide" id="guia">
     <div class="lbl">Primeros pasos · solo la primera vez</div>
     <ol>
@@ -209,6 +228,7 @@ details.h img{width:100%;display:block;margin-top:8px}
   <div class="band" id="band"><span id="bNombre">–</span><small id="bObj">Objetivo –</small></div>
   <div class="pmbar hide" id="pmBar"><span id="pmEst">PM5 conectado</span><span style="display:flex;gap:6px;flex:none"><button id="btnProg">Programar</button><button id="btnDesc">Desconectar</button></span></div>
 
+  <div class="pmbar"><span id="hrEst">Pulsómetro: sin conectar</span><span style="display:flex;gap:6px;flex:none"><button id="btnHr">Conectar pulsómetro</button><button id="btnHrAll" class="hide">Ver todos</button></span></div>
   <div class="pmbar"><span>Vista para remar</span><button id="btnGirar">Poner horizontal</button></div>
 
   <div class="card fin hide" id="fin">
@@ -302,6 +322,26 @@ details.h img{width:100%;display:block;margin-top:8px}
 </section>
 
 <!-- ============ PLAN ============ -->
+<section id="vComp" class="hide">
+  <div class="card" id="cSin">
+    <div class="lbl">Competencia en vivo</div>
+    <div class="note" id="cInfo"></div>
+    <div class="row"><button class="pri" id="cCrear">Crear competencia</button></div>
+    <div class="row"><div><span class="lbl">Código de sala</span><input id="cCod" maxlength="4" autocapitalize="characters" autocomplete="off" placeholder="Ej: K7QM"></div></div>
+    <div class="row"><button class="pri" id="cUnir">Unirme</button><button id="cMirar">Solo mirar</button></div>
+  </div>
+  <div class="card hide" id="cEn">
+    <div class="lbl">Sala</div>
+    <div class="cod" id="cCode"></div>
+    <div class="note" id="cCfg" style="text-align:center"></div>
+    <div class="row"><button class="pri" id="cWa">Invitar por WhatsApp</button><button id="cCopia">Copiar link</button></div>
+    <div class="rk" id="cRank"></div>
+    <div class="note" id="cNota"></div>
+    <div class="row"><button class="pri" id="cListo">Estoy listo</button><button class="pri hide" id="cLargar">Largar (cuenta de 10 s)</button></div>
+    <div class="row"><button id="cWaRes" class="hide">Enviar resultados por WhatsApp</button><button id="cSalir">Salir de la sala</button></div>
+  </div>
+</section>
+
 <section id="vPlan" class="hide">
   <div class="card">
     <div class="row" style="margin-top:0">
@@ -377,7 +417,7 @@ details.h img{width:100%;display:block;margin-top:8px}
 
 <script>
 'use strict';
-const APP_V = 14;
+const APP_V = 16;
 const KEY = 'ergoVivo.v2', KEYH = 'ergoVivo.hist';
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -637,15 +677,16 @@ $('btnBorrar').onclick = () => {
 
 /* ================= pestañas ================= */
 function tab(w){
-  ['plan','vivo','hist'].forEach(x => {
-    $({ plan:'vPlan', vivo:'vVivo', hist:'vHist' }[x]).classList.toggle('hide', w !== x);
-    $({ plan:'tabPlan', vivo:'tabVivo', hist:'tabHist' }[x]).classList.toggle('on', w === x);
+  ['plan','vivo','hist','comp'].forEach(x => {
+    $({ plan:'vPlan', vivo:'vVivo', hist:'vHist', comp:'vComp' }[x]).classList.toggle('hide', w !== x);
+    $({ plan:'tabPlan', vivo:'tabVivo', hist:'tabHist', comp:'tabComp' }[x]).classList.toggle('on', w === x);
   });
+  if (w === 'comp' && typeof compRender === 'function') compRender();
   if (w === 'vivo') renderVivo();
   if (w === 'hist') renderHist();
   landVis();
 }
-$('tabPlan').onclick = () => tab('plan'); $('tabVivo').onclick = () => tab('vivo'); $('tabHist').onclick = () => tab('hist');
+$('tabPlan').onclick = () => tab('plan'); $('tabVivo').onclick = () => tab('vivo'); $('tabHist').onclick = () => tab('hist'); $('tabComp').onclick = () => tab('comp');
 
 /* ================= cámara y registro ================= */
 const CAM = { stream:null, facing:'user', raf:0, rec:null, chunks:[], keep:false, recWall:0, grabando:false, flash:null };
@@ -892,7 +933,7 @@ function resetRun(){
 }
 function ingestAdd1(pace, avg, spm, hr){
   R.pace = pace > 0 ? pace : null; R.avg = avg > 0 ? avg : null;
-  R.spm = spm || null; R.hr = (hr && hr < 255) ? hr : null;
+  R.spm = spm || null; R.hr = hrExtVivo() ? HRX.v : ((hr && hr < 255) ? hr : null);
 }
 function ingestAdd2(w, cal){ R.wAvg = w || null; if (cal != null) R.cal = cal; R.w = R.sw || R.wAvg; }
 function ingestStroke(dl, dt, rec, peakLb, count){
@@ -919,7 +960,7 @@ function enUnidad(p){
 }
 function finalizar(t, d){
   R.finished = true; R.running = false; R.t = t; R.d = d; R.lastT = t; R.lastD = d;
-  terminar(); schedule();
+  terminar(); if (typeof compFin === 'function') compFin(); schedule();
 }
 function ingestGeneral(t, d, wstate, drag){
   if (drag) R.drag = drag;
@@ -964,6 +1005,7 @@ function parcialActual(tr, k){   // ritmo del tramo que se está remando
 let pend = false;
 function schedule(){ if (!pend) { pend = true; requestAnimationFrame(() => { pend = false; renderVivo(); }); } }
 function renderVivo(){
+  if (typeof compVivoRender === 'function') compVivoRender();
   const P = prof(); normaliza(P);
   const tr = TR(), n = tr.length, target = P.dist, col = color(), T = esT(tr);
   $('band').style.background = col;
@@ -1044,7 +1086,8 @@ let landOff = false, landS = Math.min(CFG.landS || 0, NLAND - 1), girado = false
     `<div class="e3">${side}<div class="ex box"><table><thead><tr><th>Núm</th><th>Tiempo</th><th>Metros</th><th>Med./500 m</th><th>s/m</th><th>♥</th></tr></thead><tbody id="lTb"></tbody></table></div></div>`,
     `<div class="e3">${side}<div class="ex box"><div id="lFc"></div><div class="ef">${tile('pkN', 'Fuerza máxima (N)')}${tile('pkPos', 'Posición de fuerza máxima (%)')}${tile('dlcm', 'Longitud de impulso (cm)')}</div></div></div>`,
     `<div class="lcam"><div id="lCam"><span id="lCamOff">Cámara apagada</span></div>
-      <div class="bt">${menu}<button class="pri" id="lCamBtn">Activar cámara</button><button id="lCamFlip">Frontal / trasera</button><button id="lCamRot">Rotar imagen</button></div></div>`
+      <div class="bt">${menu}<button class="pri" id="lCamBtn">Activar cámara</button><button id="lCamFlip">Frontal / trasera</button><button id="lCamRot">Rotar imagen</button></div></div>`,
+    `<div class="lcomp"><div class="bt">${menu}</div><div class="rk" id="lRank"></div></div>`
   ];
   $('lScreens').innerHTML = P.map((h, k) => `<div class="ls" data-s="${k}">${h}</div>`).join('');
   $('lDots').innerHTML = P.map((_, k) => `<i data-s="${k}"></i>`).join('');
@@ -1058,7 +1101,8 @@ function landVis(){
   else if (!on && c.parentNode.id === 'lCam') $('camCard').insertBefore(c, $('camVideo'));
   return on;
 }
-function irLand(d){ landS = (landS + d + NLAND) % NLAND; CFG.landS = landS; save(); schedule(); }
+const nLand = () => (typeof COMP !== 'undefined' && COMP.sala) ? NLAND + 1 : NLAND;
+function irLand(d){ const N = nLand(); landS = (landS + d + N) % N; CFG.landS = landS; save(); schedule(); }
 function filasTabla(tr){   // parciales hechos (los últimos) y el que se está remando, resaltado
   const T = esT(tr), n = tr.length, hechos = R.cross.length, av = (S, f) => { const v = S.map(f).filter(x => x); return v.length ? Math.round(v.reduce((a, b) => a + b, 0) / v.length) : null; };
   R.spc = R.spc || [];
@@ -1098,6 +1142,8 @@ function renderLand(){
   L.querySelectorAll('[data-v]').forEach(el => { const v = V[el.dataset.v]; el.textContent = v == null ? '–' : v; });
   L.querySelectorAll('.vp').forEach(el => { el.classList.toggle('ok', d.classList.contains('ok')); el.classList.toggle('bad', d.classList.contains('bad')); });
   $('lRec').textContent = CAM.stream ? (CAM.grabando ? '● grabando' : '● cámara') : '';
+  if (landS >= nLand()) landS = 0;
+  if (landS === 7) $('lRank').innerHTML = compRankHtml();
   if (landS === 3) { const b = $('lChart'); dibujaChart(b, Math.max(140, b.clientHeight - 8), 17); }
   else if (landS === 4) $('lTb').innerHTML = filasTabla(tr);
   else if (landS === 5) $('lFc').innerHTML = FC.svg || '';
@@ -1228,9 +1274,10 @@ function abrirMenu(){
   $('fdLbl').textContent = 'Menú'; $('fdWa').classList.toggle('hide', !REC); $('fdCerrar').textContent = 'Reanudar';
 }
 $('fdVert').onclick = () => { cerrarFin(); salirLand(); };
-function abrirFin(resTxt, det){ $('fdLbl').textContent = 'Guardado'; $('fdWa').classList.remove('hide'); $('fdCerrar').textContent = 'Volver'; $('fdVert').classList.toggle('hide', !esLand()); $('fdRes').textContent = resTxt; $('fdTxt').textContent = det; $('fdDesc').classList.toggle('hide', !(dev && dev.gatt.connected)); $('finDlg').classList.remove('hide'); }
+function abrirFin(resTxt, det){ $('fdLbl').textContent = 'Guardado'; $('fdWa').classList.remove('hide'); $('fdCerrar').textContent = 'Volver'; $('fdVert').classList.toggle('hide', !esLand()); $('fdComp').classList.toggle('hide', !(typeof COMP !== 'undefined' && COMP.sala)); $('fdRes').textContent = resTxt; $('fdTxt').textContent = det; $('fdDesc').classList.toggle('hide', !(dev && dev.gatt.connected)); $('finDlg').classList.remove('hide'); }
 function cerrarFin(){ $('finDlg').classList.add('hide'); }
 $('fdCerrar').onclick = cerrarFin;
+$('fdComp').onclick = () => { cerrarFin(); tab('comp'); };
 $('fdWa').onclick = () => { if (REC) waDirecto(textoDe(REC)); };
 $('fdVer').onclick = () => { cerrarFin(); tab('hist'); const d = document.querySelector('#hLista details'); if (d) d.open = true; window.scrollTo(0, 0); };
 $('fdDesc').onclick = async () => { await desconectarPM5(); $('fdDesc').classList.add('hide'); };
@@ -1549,6 +1596,277 @@ async function alDesconectar(){
 $('btnCon').onclick = () => { if (dev && dev.gatt.connected) desconectarPM5(); else conectar(); };
 $('btnDesc').onclick = desconectarPM5;
 
+
+/* ================= pulsómetro Bluetooth (perfil estándar 0x180D) ================= */
+// Sirve para bandas (Garmin HRM-Dual/Pro, Polar H10/H9/OH1, Wahoo Tickr, Coospo, Magene…) y relojes que "transmitan pulso".
+const HRX = { dev:null, v:null, ts:0, manual:false, intentos:0 };
+const hrExtVivo = () => HRX.v && Date.now() - HRX.ts < 6000;
+function hrEst(t){ $('hrEst').textContent = t; }
+function onHrExt(v){
+  const fl = v.getUint8(0); const bpm = (fl & 1) ? u16(v,1) : v.getUint8(1);
+  if (!bpm || bpm > 250) return;                       // 0 = sin contacto con la piel
+  HRX.v = bpm; HRX.ts = Date.now();
+  if (R) R.hr = bpm;
+  hrEst(`Pulsómetro: ${HRX.dev && HRX.dev.name || 'conectado'} · ${bpm} lpm`);
+  if (typeof schedule === 'function') schedule();
+}
+async function hrAbrir(){
+  hrEst('Pulsómetro: conectando…');
+  const server = await HRX.dev.gatt.connect();
+  const svc = await server.getPrimaryService('heart_rate');
+  const ch = await svc.getCharacteristic('heart_rate_measurement');
+  ch.addEventListener('characteristicvaluechanged', e => onHrExt(e.target.value));
+  await ch.startNotifications();
+  HRX.intentos = 0; HRX.ts = 0;
+  hrEst(`Pulsómetro: ${HRX.dev.name || 'conectado'} · esperando pulso…`);
+  $('btnHr').textContent = 'Desconectar pulso'; $('btnHrAll').classList.add('hide');
+}
+async function hrConectar(todos){
+  if (!navigator.bluetooth) { aviso('Este navegador no tiene Bluetooth. Abrí la app desde Chrome.'); return; }
+  aviso('');
+  try {
+    HRX.dev = await navigator.bluetooth.requestDevice(todos
+      ? { acceptAllDevices:true, optionalServices:['heart_rate'] }
+      : { filters:[{ services:['heart_rate'] }] });
+    HRX.manual = false;
+    HRX.dev.addEventListener('gattserverdisconnected', hrAlCortar);
+    await hrAbrir();
+  } catch(e) {
+    if (e.name === 'NotFoundError') { hrEst('Pulsómetro: no se encontró'); $('btnHrAll').classList.remove('hide'); aviso('No apareció ningún pulsómetro. Ponete la banda (humedecé los contactos) o activá "transmitir pulso" en el reloj y tocá de nuevo. Si no figura, probá "Ver todos". Si la banda ya está conectada al PM5 u otra app, desconectala primero.'); }
+    else { hrEst('Pulsómetro: sin conectar'); aviso('No se pudo conectar el pulsómetro: ' + (e.name === 'NetworkError' ? 'ya está conectado a otro aparato (PM5, reloj o app). Desconectalo de ahí.' : e.message)); }
+    if (HRX.dev && !(HRX.dev.gatt && HRX.dev.gatt.connected)) HRX.dev = null;
+  }
+}
+async function hrAlCortar(){
+  HRX.v = null; $('btnHr').textContent = 'Conectar pulsómetro';
+  if (HRX.manual || !HRX.dev) { hrEst('Pulsómetro: sin conectar'); return; }
+  while (HRX.intentos < 5 && !HRX.manual && HRX.dev) {
+    HRX.intentos++; hrEst(`Pulsómetro: se cortó · reconectando (${HRX.intentos}/5)…`);
+    await new Promise(r => setTimeout(r, 1500));
+    try { await hrAbrir(); return; } catch(e){}
+  }
+  hrEst('Pulsómetro: sin conectar'); aviso('Se perdió el pulsómetro. Tocá "Conectar pulsómetro" para volver a enlazarlo.');
+}
+function hrDesconectar(){
+  HRX.manual = true; try { HRX.dev && HRX.dev.gatt.disconnect(); } catch(e){}
+  HRX.dev = null; HRX.v = null; hrEst('Pulsómetro: sin conectar'); $('btnHr').textContent = 'Conectar pulsómetro';
+}
+$('btnHr').onclick = () => { if (HRX.dev && HRX.dev.gatt.connected) hrDesconectar(); else hrConectar(false); };
+$('btnHrAll').onclick = () => hrConectar(true);
+$('fdHr').onclick = () => { cerrarFin(); if (HRX.dev && HRX.dev.gatt.connected) hrDesconectar(); else hrConectar(false); };
+
+
+/* ================= competencia en vivo (Firebase Realtime Database por REST) ================= */
+const FB_URL = 'https://indoorirt-default-rtdb.firebaseio.com';
+const COMP = { sala:null, host:false, mirar:false, data:null, off:0, rtt:0, timer:null, tc:null, busy:false, prev:null, go:false, tStart:null, finData:null, err:0, ya:false, beep:-1 };
+const nuevoId = () => Math.random().toString(36).slice(2, 10);
+try { COMP.id = localStorage.getItem('ergoVivo.cid') || nuevoId(); localStorage.setItem('ergoVivo.cid', COMP.id); } catch(e){ COMP.id = nuevoId(); }
+const escH = x => String(x).replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
+const srvNow = () => Date.now() + COMP.off;
+const pmOn = () => !!(dev && dev.gatt && dev.gatt.connected);
+async function fb(m, path, body){
+  const r = await fetch(`${FB_URL}/salas/${path}.json`, { method:m, body: body === undefined ? undefined : JSON.stringify(body) });
+  if (!r.ok) throw new Error('HTTP ' + r.status);
+  return r.json();
+}
+function compMsg(t){ aviso(t); }
+async function compSync(){   // hora del servidor: mejor de 3 mediciones
+  let best = null;
+  for (let i = 0; i < 3; i++) {
+    const a = Date.now(), ts = await fb('PUT', `_t/${COMP.id}`, { '.sv':'timestamp' }), b = Date.now();
+    if (typeof ts !== 'number') throw new Error('el servidor no devolvió la hora');
+    if (!best || b - a < best.rtt) best = { rtt:b - a, off:ts - (a + b) / 2 };
+  }
+  COMP.off = best.off; COMP.rtt = best.rtt;
+  fb('DELETE', `_t/${COMP.id}`).catch(() => {});
+}
+const ALF = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+const errFb = e => /HTTP 40[13]/.test(e.message) ? 'La base de datos no deja escribir: revisá las reglas en Firebase.' : 'No hay conexión con el servidor de competencias (' + e.message + ').';
+async function compCrear(){
+  const P = prof(); compMsg('');
+  try {
+    await compSync();
+    let code = '', libre = false;
+    for (let i = 0; i < 8 && !libre; i++) { code = Array.from({ length:4 }, () => ALF[Math.floor(Math.random() * ALF.length)]).join(''); libre = (await fb('GET', code + '/modo')) == null; }
+    if (!libre) throw new Error('no se pudo generar un código libre');
+    await fb('PUT', code, { modo: esT(P) ? 'tiempo' : 'dist', dist:P.dist, split:P.split, estado:'espera', host:COMP.id, creada:{ '.sv':'timestamp' },
+      rem:{ [COMP.id]:{ n:CFG.activo, listo:false, pm:pmOn(), ts:{ '.sv':'timestamp' } } } });
+    COMP.host = true; COMP.mirar = false; compEntrar(code);
+  } catch(e){ compMsg(errFb(e)); }
+}
+function compAplica(s){   // la prueba de la sala pasa a ser el plan activo (se restaura al salir)
+  const P = prof();
+  COMP.prev = { nombre:CFG.activo, modo:P.modo, dist:P.dist, split:P.split };
+  P.modo = s.modo; P.dist = s.dist; P.split = Math.min(s.split || 500, s.dist); normaliza(P); save(); cambioDistancia();
+  if (pmOn() && CFG.autoProg && !R.running) programarPM5();
+}
+async function compUnir(code, mirar){
+  code = (code || '').trim().toUpperCase(); compMsg('');
+  if (code.length !== 4) { compMsg('El código tiene 4 letras o números.'); return; }
+  try {
+    await compSync();
+    const s = await fb('GET', code);
+    if (!s || !s.modo) { compMsg('No existe la sala ' + code + '. Revisá el código.'); return; }
+    const tarde = s.t0 && srvNow() > s.t0 - 1000;
+    COMP.host = s.host === COMP.id; COMP.mirar = !!mirar || (tarde && !COMP.host);
+    if (tarde && !mirar && !COMP.host) compMsg('La carrera ya largó: entrás como espectador.');
+    if (!COMP.mirar) {
+      if (!(s.rem && s.rem[COMP.id])) compAplica(s);
+      await fb('PATCH', `${code}/rem/${COMP.id}`, { n:CFG.activo, listo:false, pm:pmOn(), ts:{ '.sv':'timestamp' } });
+    }
+    compEntrar(code);
+  } catch(e){ compMsg(errFb(e)); }
+}
+function compEntrar(code){
+  COMP.sala = code; COMP.data = null; COMP.go = false; COMP.tStart = null; COMP.finData = null; COMP.err = 0; COMP.beep = -1; COMP.ya = false;
+  document.body.classList.add('enSala');
+  clearInterval(COMP.timer); clearInterval(COMP.tc);
+  COMP.timer = setInterval(compTick, 1000); COMP.tc = setInterval(compCuenta, 200);
+  compTick(); compRender();
+}
+async function compSalir(silencio, msg){
+  const code = COMP.sala; clearInterval(COMP.timer); clearInterval(COMP.tc); COMP.timer = COMP.tc = null;
+  if (code && !silencio) { try { if (COMP.host) await fb('DELETE', code); else if (!COMP.mirar) await fb('DELETE', `${code}/rem/${COMP.id}`); } catch(e){} }
+  if (COMP.prev) { const P = CFG.perfiles[COMP.prev.nombre]; if (P) { P.modo = COMP.prev.modo; P.dist = COMP.prev.dist; P.split = COMP.prev.split; normaliza(P); save(); cambioDistancia(); } COMP.prev = null; }
+  COMP.sala = null; COMP.data = null; COMP.host = false; COMP.mirar = false; COMP.go = false; COMP.tStart = null; COMP.finData = null;
+  document.body.classList.remove('enSala'); $('cuenta').classList.add('hide'); $('compVivo').classList.add('hide');
+  if (landS >= NLAND) landS = 0;
+  compRender(); schedule(); if (msg) compMsg(msg);
+}
+async function compTick(){
+  if (!COMP.sala || COMP.busy) return; COMP.busy = true;
+  try {
+    const s = await fb('GET', COMP.sala);
+    if (!COMP.sala) return;
+    if (!s || !s.modo) { await compSalir(true, 'La sala se cerró.'); return; }
+    COMP.data = s; COMP.err = 0;
+    if (s.t0 && srvNow() >= s.t0) COMP.go = true;
+    if (COMP.go && COMP.tStart == null && R.running) COMP.tStart = srvNow() - R.t * 1000;
+    const yo = s.rem && s.rem[COMP.id];
+    if (!COMP.mirar && yo) {
+      const pa = { pm:pmOn(), ts:{ '.sv':'timestamp' } };
+      if (COMP.go && (R.running || R.finished)) Object.assign(pa, { d:Math.round(R.d), t:Math.round(R.t * 10) / 10, p:R.pace ? Math.round(R.pace * 10) / 10 : null, spm:R.spm || null, hr:R.hr || null });
+      if (COMP.finData && !yo.fin) Object.assign(pa, COMP.finData);
+      await fb('PATCH', `${COMP.sala}/rem/${COMP.id}`, pa);
+    }
+  } catch(e){ COMP.err++; }
+  finally { COMP.busy = false; }
+  compRender(); schedule();
+}
+function compFin(){
+  if (!COMP.sala || COMP.mirar || !COMP.go || COMP.finData) return;
+  const s = COMP.data || {}, T = s.modo === 'tiempo', t0 = s.t0 || 0;
+  const tStart = COMP.tStart != null ? COMP.tStart : srvNow() - R.t * 1000;
+  const pen = Math.max(0, (tStart - t0) / 1000), ant = tStart < t0 - 300;
+  let of, dnf = false;
+  if (T) { const lim = (s.dist || 0) - pen; let d = 0; for (const q of R.samples) { if (q.t <= lim) d = q.d; else break; } of = Math.round(d); }
+  else { dnf = R.d < (s.dist || 0) - 5; of = Math.round((R.t + pen) * 10) / 10; }
+  COMP.finData = { fin:true, of, dnf, pen:Math.round(pen * 10) / 10, ant, d:Math.round(R.d), t:Math.round(R.t * 10) / 10 };
+  compTick();
+}
+function beep(f, ms){
+  try { const A = COMP.ac || (COMP.ac = new (window.AudioContext || window.webkitAudioContext)()); const o = A.createOscillator(), g = A.createGain();
+    o.frequency.value = f; g.gain.value = .25; o.connect(g); g.connect(A.destination); o.start(); o.stop(A.currentTime + ms / 1000); } catch(e){}
+}
+function compCuenta(){
+  const s = COMP.data, el = $('cuenta'); if (!s || !s.t0) { el.classList.add('hide'); return; }
+  const rest = s.t0 - srvNow();
+  if (rest > 0 && rest <= 10000) {
+    const n = Math.ceil(rest / 1000); el.textContent = n; el.classList.remove('hide');
+    if (n !== COMP.beep) { COMP.beep = n; if (n <= 3) beep(660, 120); if (n === 10 && !COMP.mirar) { if (R.running) compMsg('Parate: el ergo ya está en marcha. Esperá la señal.'); if ($('vComp').classList.contains('hide') === false) tab('vivo'); } }
+  } else if (rest <= 0 && rest > -1500) {
+    el.textContent = '¡YA!'; el.classList.remove('hide'); if (!COMP.ya) { COMP.ya = true; beep(990, 500); }
+  } else el.classList.add('hide');
+}
+// Ordena a los participantes: primero los que terminaron (por resultado), después por avance
+function compLista(){
+  const s = COMP.data; if (!s || !s.rem) return [];
+  const T = s.modo === 'tiempo', arr = Object.entries(s.rem).map(([id, e]) => ({ id, ...e }));
+  const val = e => e.fin && !e.dnf ? e.of : null;
+  arr.sort((a, b) => {
+    if (!COMP.go) return (b.listo ? 1 : 0) - (a.listo ? 1 : 0) || String(a.n).localeCompare(b.n);
+    const va = val(a), vb = val(b);
+    if (T) return (b.fin ? b.of : b.d || 0) - (a.fin ? a.of : a.d || 0);
+    if (va != null && vb != null) return va - vb;
+    if (va != null) return -1; if (vb != null) return 1;
+    return (b.d || 0) - (a.d || 0);
+  });
+  return arr;
+}
+function compRankHtml(){
+  const s = COMP.data; if (!s) return '<div class="note">Conectando con la sala…</div>';
+  const L = compLista(), T = s.modo === 'tiempo', now = srvNow();
+  if (!L.length) return '<div class="note">Todavía no hay nadie.</div>';
+  const maxD = Math.max(s.dist && !T ? s.dist : 100, ...L.map(e => e.d || 0));
+  const lead = L[0], ld = lead ? (lead.fin ? (T ? lead.of : s.dist) : lead.d || 0) : 0;
+  return L.map((e, i) => {
+    const yo = e.id === COMP.id, sin = COMP.go && !e.fin && e.ts && now - e.ts > 8000;
+    let der = '', pct = 0;
+    if (!COMP.go) der = e.listo ? '✓ listo' + (e.pm ? '' : ' · sin PM5') : 'esperando';
+    else if (e.fin) {
+      pct = 100; const v = T ? mfmt(e.of) + ' m' : (e.dnf ? 'no terminó' : fmt(e.of));
+      const dif = !T && !e.dnf && L[0].fin && !L[0].dnf && i > 0 ? ' <small>+' + (e.of - L[0].of).toFixed(1).replace('.', ',') + '</small>' : '';
+      der = v + dif + (e.ant ? ' ⚠' : '') + (e.pen > 0.5 ? ` <small>(+${String(e.pen).replace('.', ',')} s salida)</small>` : '');
+    } else {
+      const d = e.d || 0; pct = Math.min(100, d / (T ? Math.max(maxD, 1) : s.dist) * 100);
+      const gap = i === 0 ? '' : ` <small>−${Math.max(0, Math.round(ld - d))} m</small>`;
+      der = `${d} m${gap} <small>${e.p ? fmt(e.p, 0) : ''}</small>`;
+    }
+    return `<div class="r${yo ? ' yo' : ''}${sin ? ' off' : ''}"><i style="width:${pct}%"></i><span>${COMP.go ? (i + 1) + '. ' : ''}${escH(e.n)}${sin ? ' <small>sin señal</small>' : ''}</span><span>${der}</span></div>`;
+  }).join('');
+}
+function compRender(){
+  const en = !!COMP.sala;
+  $('cSin').classList.toggle('hide', en); $('cEn').classList.toggle('hide', !en);
+  const P = prof();
+  $('cInfo').textContent = `Competís como ${CFG.activo}. La prueba que creás es la del Plan: ${tituloDe(P)}. Para invitar a otros: creá la sala y mandales el link. Para ver a otros en vivo: ingresá el código y tocá "Solo mirar".`;
+  if (!en) return;
+  const s = COMP.data;
+  $('cCode').textContent = COMP.sala;
+  $('cCfg').textContent = s ? `${s.modo === 'tiempo' ? 'Por tiempo' : 'Por distancia'}: ${tituloDe({ modo:s.modo, dist:s.dist, split:s.split })}${COMP.mirar ? ' · mirando' : ''}${COMP.err > 2 ? ' · sin conexión, reintentando…' : ''}` : 'Conectando…';
+  $('cRank').innerHTML = compRankHtml();
+  const L = compLista(), listos = L.filter(e => e.listo).length, yo = s && s.rem && s.rem[COMP.id];
+  const sinPm = !COMP.mirar && !pmOn();
+  $('cNota').textContent = !s ? '' : COMP.go ? (L.some(e => e.listo && !e.fin) ? 'Carrera en curso.' : 'Carrera terminada.') : (sinPm ? 'Conectá tu PM5 (botón de arriba) antes de tocar "Estoy listo".' : COMP.mirar ? 'Estás mirando: no corrés.' : `Listos: ${listos} de ${L.length}.`);
+  $('cListo').classList.toggle('hide', COMP.mirar || COMP.go);
+  $('cListo').textContent = yo && yo.listo ? 'Ya no estoy listo' : 'Estoy listo';
+  $('cLargar').classList.toggle('hide', !COMP.host || COMP.go || !!(s && s.t0));
+  const fin = COMP.go && L.length && !L.some(e => e.listo && !e.fin);
+  $('cWaRes').classList.toggle('hide', !fin);
+}
+function compVivoRender(){
+  const c = $('compVivo'); if (!COMP.sala || !COMP.data || !COMP.go) { c.classList.add('hide'); return; }
+  c.classList.remove('hide'); $('cvT').textContent = 'Competencia · sala ' + COMP.sala; $('cvRank').innerHTML = compRankHtml();
+}
+function compTextoRes(){
+  const s = COMP.data, L = compLista(), T = s.modo === 'tiempo';
+  return `🏁 Competencia IndoorIRT · ${tituloDe({ modo:s.modo, dist:s.dist, split:s.split })}\n` + L.filter(e => e.listo).map((e, i) => `${i + 1}. ${e.n} — ${e.fin ? (T ? mfmt(e.of) + ' m' : (e.dnf ? 'no terminó' : fmt(e.of))) : '–'}${e.ant ? ' ⚠ salida anticipada' : ''}`).join('\n');
+}
+$('cCrear').onclick = compCrear;
+$('cUnir').onclick = () => compUnir($('cCod').value, false);
+$('cMirar').onclick = () => compUnir($('cCod').value, true);
+$('cSalir').onclick = () => compSalir(false);
+$('cListo').onclick = async () => {
+  const yo = COMP.data && COMP.data.rem && COMP.data.rem[COMP.id], v = !(yo && yo.listo);
+  if (v && !pmOn()) { compMsg('Primero conectá tu PM5 con el botón de arriba.'); return; }
+  compMsg(''); beep(1, 1);
+  try { await fb('PATCH', `${COMP.sala}/rem/${COMP.id}`, { listo:v, pm:pmOn(), n:CFG.activo }); } catch(e){ compMsg(errFb(e)); }
+  compTick();
+};
+$('cLargar').onclick = async () => {
+  const L = compLista(); if (L.filter(e => e.listo).length < 1) { compMsg('Nadie está listo todavía.'); return; }
+  beep(1, 1);
+  try { await compSync(); await fb('PATCH', COMP.sala, { estado:'cuenta', t0:Math.round(srvNow() + 10500) }); } catch(e){ compMsg(errFb(e)); }
+  compTick();
+};
+$('cWa').onclick = () => {
+  const url = URL_APP + '?sala=' + COMP.sala, s = COMP.data;
+  const txt = `Te invito a competir en IndoorIRT${s ? ' (' + tituloDe({ modo:s.modo, dist:s.dist, split:s.split }) + ')' : ''}.\nEntrá con este link desde Chrome, conectá tu PM5 y tocá "Estoy listo":\n${url}\nCódigo de sala: ${COMP.sala}`;
+  window.open('https://wa.me/?text=' + encodeURIComponent(txt), '_blank');
+};
+$('cCopia').onclick = async () => { const url = URL_APP + '?sala=' + COMP.sala; try { await navigator.clipboard.writeText(url); compMsg('Link copiado: ' + url); } catch(e){ compMsg(url); } };
+$('cWaRes').onclick = () => window.open('https://wa.me/?text=' + encodeURIComponent(compTextoRes()), '_blank');
+
 /* ================= demo sin ergo ================= */
 let demo = null;
 function pararDemo(){ if (demo) { clearInterval(demo); demo = null; $('btnDemo').textContent = 'Probar sin ergo (demo ×10)'; if (!dev) estado('Desconectado'); } }
@@ -1630,6 +1948,12 @@ if (location.protocol !== 'https:' && !['localhost','127.0.0.1'].includes(locati
   m.style.display = 'block';
 }
 else if (!navigator.bluetooth) estado('Desconectado · sin Bluetooth en este navegador');
+(() => {   // link de invitación: ?sala=ABCD
+  const q = new URLSearchParams(location.search).get('sala');
+  if (!q) return;
+  try { history.replaceState(null, '', location.pathname); } catch(e){}
+  $('cCod').value = q.toUpperCase().slice(0, 4); tab('comp'); compUnir(q, false);
+})();
 </script>
 </body>
 </html>
