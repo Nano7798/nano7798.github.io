@@ -86,59 +86,64 @@ details.h img{width:100%;display:block;margin-top:8px}
 .fdB button{padding:15px 8px;font-size:17px}
 #fdCerrar{padding:12px}
 @media (orientation:portrait){.fdB{grid-template-columns:1fr}.fdB button{padding:18px 8px}}
-#land{position:fixed;inset:0;z-index:50;background:var(--paper);display:flex;flex-direction:column;overflow:hidden;touch-action:pan-y;user-select:none;color:var(--navy)}
+#land{container-type:size;position:fixed;inset:0;z-index:50;background:var(--paper);display:flex;flex-direction:column;overflow:hidden;touch-action:pan-y;user-select:none;color:var(--navy)}
+body.forzado #land{inset:auto;top:0;left:0;width:100vh;height:100vw;transform-origin:0 0;transform:translateX(100vw) rotate(90deg)}
+body.forzado.inv #land{transform:translateY(100vh) rotate(-90deg)}
+body.forzado #cuenta>div{transform:rotate(90deg)}
+body.forzado.inv #cuenta>div{transform:rotate(-90deg)}
+#lInv{display:none}body.forzado #lInv{display:block}
 .lb2{flex:1;min-height:0;position:relative}
-.ls{position:absolute;inset:0;padding:2vh 1.2vw 0;display:none}
+.ls{position:absolute;inset:0;padding:2cqh 1.2cqw 0;display:none}
 .ls.on{display:block}
-.e1,.e2,.e3{height:100%;display:grid;gap:1vw}
+.e1,.e2,.e3{height:100%;display:grid;gap:1cqw}
 .e1{grid-template-columns:27% 1fr}.e2{grid-template-columns:27% 1fr 25%}.e3{grid-template-columns:30% 1fr}
-.el,.er,.es{display:flex;flex-direction:column;gap:1.6vh;min-height:0;min-width:0}
-.em{border:0;background:none;font-size:8vh;line-height:1;padding:0 1.4vw;color:var(--navy);align-self:flex-start;font-weight:400}
-.etop{display:flex;align-items:center;justify-content:space-between;gap:1vw}
-.eu{font-size:4.4vh;padding:1.2vh 1.6vw;border:1px solid var(--line);background:var(--card);color:var(--muted)}
+.el,.er,.es{display:flex;flex-direction:column;gap:1.6cqh;min-height:0;min-width:0}
+.em{border:0;background:none;font-size:8cqh;line-height:1;padding:0 1.4cqw;color:var(--navy);align-self:flex-start;font-weight:400}
+.etop{display:flex;align-items:center;justify-content:space-between;gap:1cqw}
+.eu{font-size:4.4cqh;padding:1.2cqh 1.6cqw;border:1px solid var(--line);background:var(--card);color:var(--muted)}
 .lm{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.lm b{font-size:min(21vh,7.4vw);font-weight:700;line-height:1}
-.lm span{font-size:6vh;line-height:1.3}
-.lmI{display:flex;align-items:baseline;justify-content:center;gap:.6vw;padding:1vh 0}
-.lmI b{font-size:min(17vh,6.6vw);font-weight:700;line-height:1}
-.lmI span{font-size:4vh}
+.lm b{font-size:min(21cqh,7.4cqw);font-weight:700;line-height:1}
+.lm span{font-size:6cqh;line-height:1.3}
+.lmI{display:flex;align-items:baseline;justify-content:center;gap:.6cqw;padding:1cqh 0}
+.lmI b{font-size:min(17cqh,6.6cqw);font-weight:700;line-height:1}
+.lmI span{font-size:4cqh}
 .box{background:var(--card);border:1px solid var(--line)}
 .etv{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:0}
 .el .etv{flex:none;height:35%}.er .etv{flex:1}
-.etv b{font-size:min(16vh,6.4vw);font-weight:700;line-height:1.05}
-.etv span{font-size:5vh}
+.etv b{font-size:min(16cqh,6.4cqw);font-weight:700;line-height:1.05}
+.etv span{font-size:5cqh}
 .et{flex:1;min-height:0;display:flex;align-items:center}
-.et b{flex:1;text-align:right;font-size:min(11.5vh,4.5vw);font-weight:700;line-height:1;padding-right:.9vw;white-space:nowrap}
-.et span{width:41%;flex:none;font-size:3.7vh;line-height:1.12}
+.et b{flex:1;text-align:right;font-size:min(11.5cqh,4.5cqw);font-weight:700;line-height:1;padding-right:.9cqw;white-space:nowrap}
+.et span{width:41%;flex:none;font-size:3.7cqh;line-height:1.12}
 .ec{display:flex;flex-direction:column;min-width:0;min-height:0}
-.ecp{flex:1.55;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;border-bottom:2px solid var(--line);margin:0 2vw}
-.ecp b{font-size:min(40vh,15.5vw);line-height:.95;font-weight:700;white-space:nowrap}
-.ecp span{font-size:5.6vh}
-.ecb{flex:1;min-height:0;display:flex;padding:2vh 0}
+.ecp{flex:1.55;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;border-bottom:2px solid var(--line);margin:0 2cqw}
+.ecp b{font-size:min(40cqh,15.5cqw);line-height:.95;font-weight:700;white-space:nowrap}
+.ecp span{font-size:5.6cqh}
+.ecb{flex:1;min-height:0;display:flex;padding:2cqh 0}
 .ecb>div{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
 .ecb>div+div{border-left:2px solid var(--line)}
-.ecb b{font-size:min(17vh,6.2vw);font-weight:700;line-height:1.05;white-space:nowrap}
-.ecb span{font-size:4.6vh}
+.ecb b{font-size:min(17cqh,6.2cqw);font-weight:700;line-height:1.05;white-space:nowrap}
+.ecb span{font-size:4.6cqh}
 .vp.ok{color:var(--ok)}.vp.bad{color:var(--bad)}
 .ex{min-width:0;min-height:0;display:flex;flex-direction:column;overflow:hidden}
 #lChart{flex:1;min-height:0;padding:4px}
 #lChart svg,#lFc svg{display:block;width:100%;height:100%}
-#land table{font-size:min(7.4vh,3.1vw);width:100%;border-collapse:collapse}
-#land th{font-size:4.2vh;text-transform:none;letter-spacing:0;text-align:center;padding:2.4vh 0;color:var(--navy);background:#e6f0f9;border:0}
-#land td{text-align:center;padding:2.6vh 0;border:0}
+#land table{font-size:min(7.4cqh,3.1cqw);width:100%;border-collapse:collapse}
+#land th{font-size:4.2cqh;text-transform:none;letter-spacing:0;text-align:center;padding:2.4cqh 0;color:var(--navy);background:#e6f0f9;border:0}
+#land td{text-align:center;padding:2.6cqh 0;border:0}
 #land tr.cur td{background:var(--cel);font-weight:700}
 #lFc{flex:1;min-height:0;padding:6px;border-bottom:2px solid var(--line)}
-.ef{flex:none;height:27%;display:flex;gap:1vw;padding:1.4vh 1vw}
+.ef{flex:none;height:27%;display:flex;gap:1cqw;padding:1.4cqh 1cqw}
 .ef .et{background:#e6f0f9}
-.lcam{height:100%;display:flex;gap:1vw}
+.lcam{height:100%;display:flex;gap:1cqw}
 #lCam{flex:1;min-width:0;background:#000;display:flex;align-items:center;justify-content:center;color:#fff;font-size:16px}
 #lCam canvas{width:auto;max-width:100%;height:auto;max-height:100%;margin:0}
-.lcam .bt{flex:none;width:28%;display:flex;flex-direction:column;gap:1.6vh}
-.lcam .bt button{flex:1;font-size:min(6vh,2.6vw);padding:4px}
-.ln{display:flex;height:6vh;min-height:16px;flex:none;align-items:center;justify-content:center;gap:1.3vw;position:relative}
-.ln i{width:1.1vw;height:1.1vw;min-width:8px;min-height:8px;border-radius:50%;background:var(--line)}
+.lcam .bt{flex:none;width:28%;display:flex;flex-direction:column;gap:1.6cqh}
+.lcam .bt button{flex:1;font-size:min(6cqh,2.6cqw);padding:4px}
+.ln{display:flex;height:6cqh;min-height:16px;flex:none;align-items:center;justify-content:center;gap:1.3cqw;position:relative}
+.ln i{width:1.1cqw;height:1.1cqw;min-width:8px;min-height:8px;border-radius:50%;background:var(--line)}
 .ln i.on{background:var(--acc)}
-#lRec{position:absolute;right:1.4vw;font-size:3.6vh;font-style:normal;color:var(--bad);font-weight:700}
+#lRec{position:absolute;right:1.4cqw;font-size:3.6cqh;font-style:normal;color:var(--bad);font-weight:700}
 @media (orientation:landscape) and (min-width:560px) and (min-height:620px){
   main{max-width:1200px}
   #vVivo{display:grid;grid-template-columns:1fr 1fr;gap:0 12px;align-items:start}
@@ -182,14 +187,19 @@ details.h img{width:100%;display:block;margin-top:8px}
 .lane .dd small{font-weight:400;color:var(--muted)}
 .lane.dq .bote{color:#b23a3a;opacity:.55}.lane.dq .dd{color:#b23a3a}
 .lane.off{opacity:.5}
-.lcomp .boats,.lcomp .rk{flex:1;margin:0;min-width:0}
+.lcomp .lmain{flex:1;display:flex;flex-direction:column;min-width:0;min-height:0}
+.lcomp .rk{flex:1;margin:0;min-height:0;justify-content:center}
+.lcomp .boats{flex:1;margin:0;min-height:0}
+.lmis{flex:none;display:flex;justify-content:space-around;padding:.6cqh 0 2.4cqh}
+.lmis b{display:block;font-size:min(10cqh,7cqw);line-height:1;color:var(--navy);text-align:center}
+.lmis span{display:block;font-size:2.4cqh;color:var(--muted);text-align:center}
 .lcomp .lane{flex:1}
-.lcomp .lane .nm{width:16%;font-size:min(5vh,2.4vw)}.lcomp .lane .dd{width:20%;font-size:min(5vh,2.4vw)}
+.lcomp .lane .nm{width:16%;font-size:min(5cqh,2.4cqw)}.lcomp .lane .dd{width:20%;font-size:min(5cqh,2.4cqw)}
 .cod{font-size:44px;font-weight:800;letter-spacing:.18em;text-align:center;color:var(--navy);padding:4px 0}
 #cuenta{position:fixed;inset:0;z-index:80;background:rgba(11,37,69,.92);color:#fff;display:flex;align-items:center;justify-content:center;font-size:42vmin;font-weight:800;pointer-events:none}
-.lcomp{height:100%;display:flex;gap:1vw}
+.lcomp{height:100%;display:flex;gap:1cqw}
 .lcomp .rk{flex:1;margin:0;justify-content:center;min-width:0}
-.lcomp .rk .r{font-size:min(6.6vh,3vw);padding:1.6vh 1.2vw}
+.lcomp .rk .r{font-size:min(6.6cqh,3cqw);padding:1.6cqh 1.2cqw}
 .lcomp .bt{flex:none;width:12%}
 #lDots i[data-s="7"]{display:none}
 body.enSala #lDots i[data-s="7"]{display:block}
@@ -219,7 +229,7 @@ body.enSala #lDots i[data-s="7"]{display:block}
 </div></div>
 <div id="land" class="hide">
   <div class="lb2" id="lScreens"></div>
-  <div class="ln"><span id="lDots" style="display:flex;gap:1.3vw;align-items:center"></span><em id="lRec"></em></div>
+  <div class="ln"><span id="lDots" style="display:flex;gap:1.3cqw;align-items:center"></span><em id="lRec"></em></div>
 </div>
 <nav><button id="tabPlan">Plan</button><button id="tabVivo" class="on">En vivo</button><button id="tabHist">Carreras</button><button id="tabComp">Compe</button></nav>
 <main>
@@ -339,6 +349,12 @@ body.enSala #lDots i[data-s="7"]{display:block}
   <div class="card" id="cSin">
     <div class="lbl">Competencia en vivo</div>
     <div class="note" id="cInfo"></div>
+    <div class="row"><div><span class="lbl">Tipo de carrera</span><select id="cModo"><option value="dist">Por distancia</option><option value="tiempo">Por tiempo</option></select></div></div>
+    <div class="row">
+      <div><span class="lbl" id="cDistLbl">Distancia (metros)</span><input id="cDist" type="text" inputmode="decimal"></div>
+      <div><span class="lbl">Parcial cada</span><select id="cSplit"></select></div>
+    </div>
+    <div class="chips" id="cChips"></div>
     <div class="row"><button class="pri" id="cCrear">Crear competencia</button></div>
     <div class="row"><div><span class="lbl">Código de sala</span><input id="cCod" maxlength="4" autocapitalize="characters" autocomplete="off" placeholder="Ej: K7QM"></div></div>
     <div class="row"><button class="pri" id="cUnir">Unirme</button><button id="cMirar">Solo mirar</button></div>
@@ -431,7 +447,7 @@ body.enSala #lDots i[data-s="7"]{display:block}
 
 <script>
 'use strict';
-const APP_V = 18;
+const APP_V = 20;
 const KEY = 'ergoVivo.v2', KEYH = 'ergoVivo.hist';
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -1102,21 +1118,24 @@ let landOff = false, landS = Math.min(CFG.landS || 0, NLAND - 1), girado = false
     `<div class="e3">${side}<div class="ex box"><div id="lFc"></div><div class="ef">${tile('pkN', 'Fuerza máxima (N)')}${tile('pkPos', 'Posición de fuerza máxima (%)')}${tile('dlcm', 'Longitud de impulso (cm)')}</div></div></div>`,
     `<div class="lcam"><div id="lCam"><span id="lCamOff">Cámara apagada</span></div>
       <div class="bt">${menu}<button class="pri" id="lCamBtn">Activar cámara</button><button id="lCamFlip">Frontal / trasera</button><button id="lCamRot">Rotar imagen</button></div></div>`,
-    `<div class="lcomp"><div class="bt">${menu}</div><div id="lRank" style="flex:1;min-width:0;display:flex"></div></div>`
+    `<div class="lcomp"><div class="bt">${menu}<button class="em" id="lInv" style="font-size:5cqh" aria-label="Girar 180">⟲</button></div><div class="lmain"><div class="rk" id="lRank"></div><div class="lmis" id="lMis"></div></div></div>`
   ];
   $('lScreens').innerHTML = P.map((h, k) => `<div class="ls" data-s="${k}">${h}</div>`).join('');
   $('lDots').innerHTML = P.map((_, k) => `<i data-s="${k}"></i>`).join('');
 })();
 const esLand = () => window.matchMedia('(orientation:landscape)').matches && window.innerHeight < 620;
+// En competencia, si el celular no gira, la pantalla de botes se muestra horizontal igual (girada por la app)
+const forz = () => { try { return !esLand() && compForzar(); } catch(e){ return false; } };
 function landVis(){
-  const on = esLand() && !landOff && !$('vVivo').classList.contains('hide');
+  const fz = forz(), on = (esLand() || fz) && !landOff && !$('vVivo').classList.contains('hide');
+  document.body.classList.toggle('forzado', fz && on);
   $('land').classList.toggle('hide', !on); document.body.style.overflow = on ? 'hidden' : '';
   const c = $('camCanvas');   // la vista de la cámara acompaña al modo activo
   if (on && c.parentNode.id !== 'lCam') $('lCam').appendChild(c);
   else if (!on && c.parentNode.id === 'lCam') $('camCard').insertBefore(c, $('camVideo'));
   return on;
 }
-const nLand = () => (typeof COMP !== 'undefined' && COMP.sala) ? NLAND + 1 : NLAND;
+const nLand = () => document.body.classList.contains('enSala') ? NLAND + 1 : NLAND;
 function irLand(d){ const N = nLand(); landS = (landS + d + N) % N; CFG.landS = landS; save(); schedule(); }
 function filasTabla(tr){   // parciales hechos (los últimos) y el que se está remando, resaltado
   const T = esT(tr), n = tr.length, hechos = R.cross.length, av = (S, f) => { const v = S.map(f).filter(x => x); return v.length ? Math.round(v.reduce((a, b) => a + b, 0) / v.length) : null; };
@@ -1138,6 +1157,7 @@ function filasTabla(tr){   // parciales hechos (los últimos) y el que se está 
 }
 function renderLand(){
   if (!landVis()) return;
+  if (document.body.classList.contains('forzado')) landS = 7;
   const L = $('land'), P = prof(), tr = TR(), T = esT(tr), n = tr.length, u = CFG.unidad || 'ritmo', k = R.cross.length;
   L.querySelectorAll('.ls').forEach(x => x.classList.toggle('on', +x.dataset.s === landS));
   L.querySelectorAll('.ln i').forEach(x => x.classList.toggle('on', +x.dataset.s === landS));
@@ -1158,7 +1178,10 @@ function renderLand(){
   L.querySelectorAll('.vp').forEach(el => { el.classList.toggle('ok', d.classList.contains('ok')); el.classList.toggle('bad', d.classList.contains('bad')); });
   $('lRec').textContent = CAM.stream ? (CAM.grabando ? '● grabando' : '● cámara') : '';
   if (landS >= nLand()) landS = 0;
-  if (landS === 7) $('lRank').innerHTML = compRankHtml();
+  if (landS === 7) {
+    $('lRank').innerHTML = compRankHtml();
+    $('lMis').innerHTML = `<div><b>${fmt(R.t, 0)}</b><span>tiempo</span></div><div><b>${fmt(pNow, 0)}</b><span>/500 m</span></div><div><b>${Math.round(R.d)}</b><span>metros</span></div>`;
+  }
   if (landS === 3) { const b = $('lChart'); dibujaChart(b, Math.max(140, b.clientHeight - 8), 17); }
   else if (landS === 4) $('lTb').innerHTML = filasTabla(tr);
   else if (landS === 5) $('lFc').innerHTML = FC.svg || '';
@@ -1167,6 +1190,7 @@ function renderLand(){
 let tX = null, tY = 0;
 $('land').addEventListener('touchstart', e => { tX = e.touches[0].clientX; tY = e.touches[0].clientY; }, { passive:true });
 $('land').addEventListener('touchend', e => {
+  if (document.body.classList.contains('forzado')) return;
   if (tX == null) return;
   const dx = e.changedTouches[0].clientX - tX, dy = e.changedTouches[0].clientY - tY; tX = null;
   if (Math.abs(dx) > 45 && Math.abs(dx) > 1.5 * Math.abs(dy)) irLand(dx < 0 ? 1 : -1);
@@ -1709,16 +1733,35 @@ function compThumb(){
 }
 async function compSubeFoto(){ const f = compThumb(); if (f && COMP.sala && !COMP.mirar) { try { await fb('PUT', `${COMP.sala}_f/${COMP.id}`, f); } catch(e){} } }
 async function compFotos(){ if (!COMP.sala) return; try { COMP.fotos = (await fb('GET', COMP.sala + '_f')) || {}; } catch(e){ COMP.fotos = COMP.fotos || {}; } }
+// Prueba de la competencia (se elige acá, no depende del Plan)
+const CC = { modo:null, dist:null, split:null };
+function ccRender(){
+  if (!CC.modo) { const P = prof(); CC.modo = esT(P) ? 'tiempo' : 'dist'; CC.dist = P.dist; CC.split = P.split; }
+  const mk = CC.modo, T = mk === 'tiempo';
+  $('cModo').value = mk; $('cDistLbl').textContent = T ? 'Duración (ej. 2000 = 20:00)' : 'Distancia (metros)';
+  $('cDist').value = T ? fmt(CC.dist, 0) : CC.dist;
+  const ops = SPLITS[mk].includes(CC.split) ? SPLITS[mk] : [...SPLITS[mk], CC.split];
+  $('cSplit').innerHTML = ops.map(v => `<option value="${v}">${T ? fmt(v, 0) : mfmt(v) + ' m'}</option>`).join(''); $('cSplit').value = CC.split;
+  $('cChips').innerHTML = CHIPS[mk].map(c => `<button class="chip" data-d="${c}">${T ? fmt(c, 0) : mfmt(c)}</button>`).join('');
+}
+$('cModo').onchange = e => { const T = e.target.value === 'tiempo'; CC.modo = e.target.value; CC.dist = T ? 1200 : 2000; CC.split = T ? 300 : 500; ccRender(); };
+$('cDist').onchange = e => {
+  const T = CC.modo === 'tiempo', v = T ? Math.round(parseT(e.target.value) || 0) : Math.round(+String(e.target.value).replace(/\D/g, ''));
+  if (T ? !(v >= 20 && v <= 36000) : !(v >= 100 && v <= 50000)) { compMsg(T ? 'La duración tiene que estar entre 0:20 y 10 horas. Ej.: 2000 = 20:00' : 'La distancia tiene que estar entre 100 y 50.000 m.'); ccRender(); return; }
+  compMsg(''); CC.dist = v; if (CC.split > v) CC.split = SPLITS[CC.modo].slice().reverse().find(x => x <= v) || v; ccRender();
+};
+$('cChips').onclick = e => { const d = +e.target.dataset.d; if (!d) return; CC.dist = d; if (CC.split > d) CC.split = SPLITS[CC.modo].slice().reverse().find(x => x <= d) || d; ccRender(); };
+$('cSplit').onchange = e => { CC.split = Math.min(+e.target.value, CC.dist); ccRender(); };
 async function compCrear(){
-  const P = prof(); compMsg('');
+  compMsg(''); $('cDist').blur();
   try {
     await compSync();
     let code = '', libre = false;
     for (let i = 0; i < 8 && !libre; i++) { code = Array.from({ length:4 }, () => ALF[Math.floor(Math.random() * ALF.length)]).join(''); libre = (await fb('GET', code + '/modo')) == null; }
     if (!libre) throw new Error('no se pudo generar un código libre');
-    await fb('PUT', code, { modo: esT(P) ? 'tiempo' : 'dist', dist:P.dist, split:P.split, estado:'espera', host:COMP.id, creada:{ '.sv':'timestamp' },
+    await fb('PUT', code, { modo:CC.modo, dist:CC.dist, split:CC.split, estado:'espera', host:COMP.id, creada:{ '.sv':'timestamp' },
       rem:{ [COMP.id]:{ n:CFG.activo, listo:false, pm:pmOn(), ts:{ '.sv':'timestamp' } } } });
-    COMP.host = true; COMP.mirar = false; compEntrar(code);
+    COMP.host = true; COMP.mirar = false; compAplica({ modo:CC.modo, dist:CC.dist, split:CC.split }); compEntrar(code);
   } catch(e){ compMsg(errFb(e)); }
 }
 function compAplica(s){   // la prueba de la sala pasa a ser el plan activo (se restaura al salir)
@@ -1746,7 +1789,7 @@ async function compUnir(code, mirar){
 }
 function compEntrar(code){
   COMP.sala = code; COMP.data = null; COMP.go = false; COMP.tStart = null; COMP.finData = null; COMP.err = 0; COMP.fase = ''; COMP.dq = false;
-  COMP.finSnap = null; COMP.fotos = null; COMP.cerrada = false; COMP.salirArm = false;
+  COMP.finSnap = null; COMP.fotos = null; COMP.cerrada = false; COMP.salirArm = false; COMP.libre = false;
   document.body.classList.add('enSala');
   clearInterval(COMP.timer); clearInterval(COMP.tc);
   COMP.timer = setInterval(compTick, 1000); COMP.tc = setInterval(compCuenta, 150);
@@ -1754,6 +1797,7 @@ function compEntrar(code){
 }
 async function compSalir(silencio, msg){
   const code = COMP.sala; clearInterval(COMP.timer); clearInterval(COMP.tc); COMP.timer = COMP.tc = null;
+  if (!COMP.mirar) await liberarPM5();
   if (code && !silencio) { try { if (COMP.host) { await fb('DELETE', code); await fb('DELETE', code + '_f'); } else if (!COMP.mirar) { await fb('DELETE', `${code}/rem/${COMP.id}`); await fb('DELETE', `${code}_f/${COMP.id}`); } } catch(e){} }
   if (COMP.prev) { const P = CFG.perfiles[COMP.prev.nombre]; if (P) { P.modo = COMP.prev.modo; P.dist = COMP.prev.dist; P.split = COMP.prev.split; normaliza(P); save(); cambioDistancia(); } COMP.prev = null; }
   COMP.sala = null; COMP.data = null; COMP.host = false; COMP.mirar = false; COMP.go = false; COMP.tStart = null; COMP.finData = null; COMP.dq = false; COMP.finSnap = null; COMP.cerrada = false;
@@ -1766,6 +1810,11 @@ function compTerminada(s){
   const L = Object.values(s.rem).filter(e => e.listo);
   return !!(s.t0 && srvNow() >= s.t0 && L.length && !L.some(e => !e.fin && !e.dq));
 }
+// Pantalla de botes forzada en horizontal: desde la preparación de la largada hasta que termino mi carrera
+function compForzar(){
+  const s = COMP.data; return !!(COMP.sala && !COMP.mirar && s && s.t1 && !R.finished && !compTerminada(s) && !COMP.cerrada);
+}
+$('lInv').onclick = () => { document.body.classList.toggle('inv'); };
 // Salida anticipada: descalificado
 function compDq(motivo){
   if (COMP.dq) return; COMP.dq = true;
@@ -1793,6 +1842,7 @@ async function compTick(){
     if (s.t0 && n >= s.t0) COMP.go = true;
     if (COMP.go && COMP.tStart == null && R.running) COMP.tStart = n - R.t * 1000;
     if (!COMP.mirar && !COMP.dq && s.t1 && n >= s.t1 && n < s.t0 - tolMs() && mvAhora()) compDq('salida anticipada');
+    if (compTerminada(s) && !COMP.libre && !COMP.mirar) { COMP.libre = true; setTimeout(() => liberarPM5(), 3500); }   // la carrera terminó: el PM5 vuelve a quedar libre
     if (compTerminada(s) && !COMP.finSnap) { COMP.finSnap = JSON.parse(JSON.stringify(s)); await compFotos(); }
     const yo = s.rem && s.rem[COMP.id];
     if (!COMP.mirar && yo) {
@@ -1816,6 +1866,7 @@ async function compFin(){
   if (T) { const lim = (s.dist || 0) - pen; let d = 0; for (const q of R.samples) { if (q.t <= lim) d = q.d; else break; } of = Math.round(d); }
   else { dnf = R.d < (s.dist || 0) - 5; of = Math.round((R.t + pen) * 10) / 10; }
   COMP.finData = { fin:true, of, dnf, pen:Math.round(pen * 10) / 10, dq:COMP.dq, d:Math.round(R.d), t:Math.round(R.t * 10) / 10 };
+  setTimeout(() => liberarPM5(), 4000);   // termina el entrenamiento en el monitor para que no quede trabado
   await compSubeFoto(); compTick();
 }
 function beep(f, ms){
@@ -1836,7 +1887,7 @@ function compCuenta(){
   el.innerHTML = `<div style="text-align:center;line-height:1.05">${big}<div style="font-size:3.4vmin;font-weight:600;margin-top:2vmin;padding:0 6vmin">${escH(sub)}</div></div>`;
   if (fase !== COMP.fase) {
     COMP.fase = fase;
-    if (fase === 'prep' && !COMP.mirar && !$('vComp').classList.contains('hide')) tab('vivo');
+    if (fase === 'prep') { landS = 7; landOff = false; if (!COMP.mirar) tab('vivo'); landVis(); schedule(); }
     if (fase === 'sit') beep(440, 220); if (fase === 'att') beep(660, 220); if (fase === 'go') beep(1000, 900);
   }
 }
@@ -1899,8 +1950,8 @@ function compRender(){
   const en = !!COMP.sala;
   $('cSin').classList.toggle('hide', en); $('cEn').classList.toggle('hide', !en);
   const P = prof();
-  $('cInfo').textContent = `Competís como ${CFG.activo}. La prueba que creás es la del Plan: ${tituloDe(P)}. Para invitar a otros: creá la sala y mandales el link. Para ver a otros en vivo: ingresá el código y tocá "Solo mirar".`;
-  if (!en) return;
+  $('cInfo').textContent = `Competís como ${CFG.activo}. Elegí la prueba, creá la sala y mandales el link a los demás. Para ver una carrera sin remar: ingresá el código y tocá "Solo mirar".`;
+  if (!en) { ccRender(); return; }
   const s = COMP.data;
   $('cCode').textContent = COMP.sala;
   $('cCfg').textContent = s ? `${s.modo === 'tiempo' ? 'Por tiempo' : 'Por distancia'}: ${tituloDe({ modo:s.modo, dist:s.dist, split:s.split })}${COMP.mirar ? ' · mirando' : ''}${COMP.err > 2 ? ' · sin conexión, reintentando…' : ''}` : 'Conectando…';
@@ -1966,6 +2017,7 @@ $('cListo').onclick = async () => {
   const yo = COMP.data && COMP.data.rem && COMP.data.rem[COMP.id], v = !(yo && yo.listo);
   if (v && !pmOn()) { compMsg('Primero conectá tu PM5 con el botón de arriba.'); return; }
   compMsg(''); beep(1, 1);
+  if (v) { landOff = false; girarPantalla(true).then(ok => { girado = ok; }).catch(() => {}); }   // pone la pantalla horizontal si el celular lo permite
   if (v && (R.running || R.finished)) resetRun();   // ergo en cero antes de largar
   try { await fb('PATCH', `${COMP.sala}/rem/${COMP.id}`, { listo:v, pm:pmOn(), n:CFG.activo }); if (v) compSubeFoto(); } catch(e){ compMsg(errFb(e)); }
   compTick();
