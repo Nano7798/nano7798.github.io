@@ -172,6 +172,19 @@ details.h img{width:100%;display:block;margin-top:8px}
 .rk .r small{font-weight:400;color:var(--muted);margin-left:6px}
 .rk .r.yo{border:2px solid var(--acc)}
 .rk .r.off{opacity:.55}
+.boats{display:flex;flex-direction:column;gap:3px;margin-top:8px}
+.lane{display:flex;align-items:center;gap:6px;height:36px;min-height:0}
+.lane .nm{flex:none;width:88px;font-weight:700;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lane .pista{position:relative;flex:1;height:100%;background:repeating-linear-gradient(180deg,#e6f0f9 0 6px,#dcebf7 6px 12px);border-right:6px solid var(--navy)}
+.lane .bote{position:absolute;top:3px;bottom:3px;width:46px;color:#74acdf;transition:left .9s linear}
+.lane.yo .bote{color:#2f6ea8}.lane.yo .nm{color:#2f6ea8}
+.lane .dd{flex:none;width:96px;text-align:right;font-weight:700;font-size:13px}
+.lane .dd small{font-weight:400;color:var(--muted)}
+.lane.dq .bote{color:#b23a3a;opacity:.55}.lane.dq .dd{color:#b23a3a}
+.lane.off{opacity:.5}
+.lcomp .boats,.lcomp .rk{flex:1;margin:0;min-width:0}
+.lcomp .lane{flex:1}
+.lcomp .lane .nm{width:16%;font-size:min(5vh,2.4vw)}.lcomp .lane .dd{width:20%;font-size:min(5vh,2.4vw)}
 .cod{font-size:44px;font-weight:800;letter-spacing:.18em;text-align:center;color:var(--navy);padding:4px 0}
 #cuenta{position:fixed;inset:0;z-index:80;background:rgba(11,37,69,.92);color:#fff;display:flex;align-items:center;justify-content:center;font-size:42vmin;font-weight:800;pointer-events:none}
 .lcomp{height:100%;display:flex;gap:1vw}
@@ -337,8 +350,9 @@ body.enSala #lDots i[data-s="7"]{display:block}
     <div class="row"><button class="pri" id="cWa">Invitar por WhatsApp</button><button id="cCopia">Copiar link</button></div>
     <div class="rk" id="cRank"></div>
     <div class="note" id="cNota"></div>
-    <div class="row"><button class="pri" id="cListo">Estoy listo</button><button class="pri hide" id="cLargar">Largar (cuenta de 10 s)</button></div>
-    <div class="row"><button id="cWaRes" class="hide">Enviar resultados por WhatsApp</button><button id="cSalir">Salir de la sala</button></div>
+    <div class="row"><button class="pri" id="cListo">Estoy listo</button><button class="pri hide" id="cLargar">Largar</button><button class="hide" id="cFinal">Dar por terminada</button></div>
+    <div class="row"><button class="pri hide" id="cImg">Imagen de resultados (con fotos)</button><button id="cWaRes" class="hide">Resultados por WhatsApp (texto)</button></div>
+    <div class="row"><button id="cSalir">Salir de la sala</button></div>
   </div>
 </section>
 
@@ -417,7 +431,7 @@ body.enSala #lDots i[data-s="7"]{display:block}
 
 <script>
 'use strict';
-const APP_V = 16;
+const APP_V = 18;
 const KEY = 'ergoVivo.v2', KEYH = 'ergoVivo.hist';
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -963,6 +977,7 @@ function finalizar(t, d){
   terminar(); if (typeof compFin === 'function') compFin(); schedule();
 }
 function ingestGeneral(t, d, wstate, drag){
+  if (typeof compMov === 'function') compMov(d, R.lastD);
   if (drag) R.drag = drag;
   if (R.finished) {
     if (t < R.lastT - 1 && d > 0 && d < 60) resetRun(); else { schedule(); return; }
@@ -1087,7 +1102,7 @@ let landOff = false, landS = Math.min(CFG.landS || 0, NLAND - 1), girado = false
     `<div class="e3">${side}<div class="ex box"><div id="lFc"></div><div class="ef">${tile('pkN', 'Fuerza máxima (N)')}${tile('pkPos', 'Posición de fuerza máxima (%)')}${tile('dlcm', 'Longitud de impulso (cm)')}</div></div></div>`,
     `<div class="lcam"><div id="lCam"><span id="lCamOff">Cámara apagada</span></div>
       <div class="bt">${menu}<button class="pri" id="lCamBtn">Activar cámara</button><button id="lCamFlip">Frontal / trasera</button><button id="lCamRot">Rotar imagen</button></div></div>`,
-    `<div class="lcomp"><div class="bt">${menu}</div><div class="rk" id="lRank"></div></div>`
+    `<div class="lcomp"><div class="bt">${menu}</div><div id="lRank" style="flex:1;min-width:0;display:flex"></div></div>`
   ];
   $('lScreens').innerHTML = P.map((h, k) => `<div class="ls" data-s="${k}">${h}</div>`).join('');
   $('lDots').innerHTML = P.map((_, k) => `<i data-s="${k}"></i>`).join('');
@@ -1657,13 +1672,17 @@ $('fdHr').onclick = () => { cerrarFin(); if (HRX.dev && HRX.dev.gatt.connected) 
 
 
 /* ================= competencia en vivo (Firebase Realtime Database por REST) ================= */
+// Largada igual que ErgRace/Venue Race: PREPARATE -> SIT READY -> ATTENTION -> GO. El reloj oficial arranca en GO.
+// Mover el ergo desde SIT READY hasta GO = descalificado.
 const FB_URL = 'https://indoorirt-default-rtdb.firebaseio.com';
-const COMP = { sala:null, host:false, mirar:false, data:null, off:0, rtt:0, timer:null, tc:null, busy:false, prev:null, go:false, tStart:null, finData:null, err:0, ya:false, beep:-1 };
+const COMP = { sala:null, host:false, mirar:false, data:null, off:0, rtt:0, timer:null, tc:null, busy:false, prev:null, go:false, tStart:null, finData:null, err:0, fase:'', dq:false, lastMove:0, finSnap:null, fotos:null, cerrada:false, salirArm:false };
 const nuevoId = () => Math.random().toString(36).slice(2, 10);
 try { COMP.id = localStorage.getItem('ergoVivo.cid') || nuevoId(); localStorage.setItem('ergoVivo.cid', COMP.id); } catch(e){ COMP.id = nuevoId(); }
 const escH = x => String(x).replace(/[&<>"]/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;' }[c]));
 const srvNow = () => Date.now() + COMP.off;
 const pmOn = () => !!(dev && dev.gatt && dev.gatt.connected);
+const mvAhora = () => Date.now() - COMP.lastMove < 2000;
+const tolMs = () => Math.max(250, COMP.rtt / 2 + 100);   // margen por la precisión del reloj
 async function fb(m, path, body){
   const r = await fetch(`${FB_URL}/salas/${path}.json`, { method:m, body: body === undefined ? undefined : JSON.stringify(body) });
   if (!r.ok) throw new Error('HTTP ' + r.status);
@@ -1682,6 +1701,14 @@ async function compSync(){   // hora del servidor: mejor de 3 mediciones
 }
 const ALF = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
 const errFb = e => /HTTP 40[13]/.test(e.message) ? 'La base de datos no deja escribir: revisá las reglas en Firebase.' : 'No hay conexión con el servidor de competencias (' + e.message + ').';
+// miniatura de la cara (de la cámara de la app) para la imagen final
+function compThumb(){
+  const c = $('camCanvas'); if (!CAM.stream || !c || !c.width || !c.height) return null;
+  try { const w = 200, h = Math.round(w * c.height / c.width), t = document.createElement('canvas'); t.width = w; t.height = h;
+    t.getContext('2d').drawImage(c, 0, 0, w, h); return t.toDataURL('image/jpeg', .6); } catch(e){ return null; }
+}
+async function compSubeFoto(){ const f = compThumb(); if (f && COMP.sala && !COMP.mirar) { try { await fb('PUT', `${COMP.sala}_f/${COMP.id}`, f); } catch(e){} } }
+async function compFotos(){ if (!COMP.sala) return; try { COMP.fotos = (await fb('GET', COMP.sala + '_f')) || {}; } catch(e){ COMP.fotos = COMP.fotos || {}; } }
 async function compCrear(){
   const P = prof(); compMsg('');
   try {
@@ -1707,7 +1734,7 @@ async function compUnir(code, mirar){
     await compSync();
     const s = await fb('GET', code);
     if (!s || !s.modo) { compMsg('No existe la sala ' + code + '. Revisá el código.'); return; }
-    const tarde = s.t0 && srvNow() > s.t0 - 1000;
+    const tarde = s.t1 && srvNow() > s.t1 - 1000;
     COMP.host = s.host === COMP.id; COMP.mirar = !!mirar || (tarde && !COMP.host);
     if (tarde && !mirar && !COMP.host) compMsg('La carrera ya largó: entrás como espectador.');
     if (!COMP.mirar) {
@@ -1718,72 +1745,108 @@ async function compUnir(code, mirar){
   } catch(e){ compMsg(errFb(e)); }
 }
 function compEntrar(code){
-  COMP.sala = code; COMP.data = null; COMP.go = false; COMP.tStart = null; COMP.finData = null; COMP.err = 0; COMP.beep = -1; COMP.ya = false;
+  COMP.sala = code; COMP.data = null; COMP.go = false; COMP.tStart = null; COMP.finData = null; COMP.err = 0; COMP.fase = ''; COMP.dq = false;
+  COMP.finSnap = null; COMP.fotos = null; COMP.cerrada = false; COMP.salirArm = false;
   document.body.classList.add('enSala');
   clearInterval(COMP.timer); clearInterval(COMP.tc);
-  COMP.timer = setInterval(compTick, 1000); COMP.tc = setInterval(compCuenta, 200);
+  COMP.timer = setInterval(compTick, 1000); COMP.tc = setInterval(compCuenta, 150);
   compTick(); compRender();
 }
 async function compSalir(silencio, msg){
   const code = COMP.sala; clearInterval(COMP.timer); clearInterval(COMP.tc); COMP.timer = COMP.tc = null;
-  if (code && !silencio) { try { if (COMP.host) await fb('DELETE', code); else if (!COMP.mirar) await fb('DELETE', `${code}/rem/${COMP.id}`); } catch(e){} }
+  if (code && !silencio) { try { if (COMP.host) { await fb('DELETE', code); await fb('DELETE', code + '_f'); } else if (!COMP.mirar) { await fb('DELETE', `${code}/rem/${COMP.id}`); await fb('DELETE', `${code}_f/${COMP.id}`); } } catch(e){} }
   if (COMP.prev) { const P = CFG.perfiles[COMP.prev.nombre]; if (P) { P.modo = COMP.prev.modo; P.dist = COMP.prev.dist; P.split = COMP.prev.split; normaliza(P); save(); cambioDistancia(); } COMP.prev = null; }
-  COMP.sala = null; COMP.data = null; COMP.host = false; COMP.mirar = false; COMP.go = false; COMP.tStart = null; COMP.finData = null;
+  COMP.sala = null; COMP.data = null; COMP.host = false; COMP.mirar = false; COMP.go = false; COMP.tStart = null; COMP.finData = null; COMP.dq = false; COMP.finSnap = null; COMP.cerrada = false;
   document.body.classList.remove('enSala'); $('cuenta').classList.add('hide'); $('compVivo').classList.add('hide');
   if (landS >= NLAND) landS = 0;
   compRender(); schedule(); if (msg) compMsg(msg);
 }
+function compTerminada(s){
+  if (!s || !s.rem) return false; if (s.estado === 'fin') return true;
+  const L = Object.values(s.rem).filter(e => e.listo);
+  return !!(s.t0 && srvNow() >= s.t0 && L.length && !L.some(e => !e.fin && !e.dq));
+}
+// Salida anticipada: descalificado
+function compDq(motivo){
+  if (COMP.dq) return; COMP.dq = true;
+  try { navigator.vibrate && navigator.vibrate([300, 100, 300]); } catch(e){} beep(180, 700);
+  compMsg('DESCALIFICADO: ' + motivo + '. Podés seguir remando, pero no cuenta en el ranking.');
+  if (COMP.sala) fb('PATCH', `${COMP.sala}/rem/${COMP.id}`, { dq:true, dqm:motivo }).catch(() => {});
+  compRender(); schedule();
+}
+function compMov(d, ld){   // lo llama ingestGeneral con cada dato del PM5
+  if (d > ld + 0.3) COMP.lastMove = Date.now();
+  const s = COMP.data; if (!COMP.sala || COMP.mirar || COMP.dq || !s || !s.t1) return;
+  const n = srvNow(); if (n >= s.t1 && n < s.t0 - tolMs() && d > ld + 0.3) compDq('salida anticipada');
+}
 async function compTick(){
-  if (!COMP.sala || COMP.busy) return; COMP.busy = true;
+  if (!COMP.sala || COMP.busy || COMP.cerrada) return; COMP.busy = true;
   try {
     const s = await fb('GET', COMP.sala);
     if (!COMP.sala) return;
-    if (!s || !s.modo) { await compSalir(true, 'La sala se cerró.'); return; }
+    if (!s || !s.modo) {
+      if (COMP.finSnap) { COMP.data = COMP.finSnap; COMP.cerrada = true; clearInterval(COMP.timer); compMsg('El organizador cerró la sala. Guardá la imagen de resultados antes de salir.'); compRender(); return; }
+      await compSalir(true, 'La sala se cerró.'); return;
+    }
     COMP.data = s; COMP.err = 0;
-    if (s.t0 && srvNow() >= s.t0) COMP.go = true;
-    if (COMP.go && COMP.tStart == null && R.running) COMP.tStart = srvNow() - R.t * 1000;
+    const n = srvNow();
+    if (s.t0 && n >= s.t0) COMP.go = true;
+    if (COMP.go && COMP.tStart == null && R.running) COMP.tStart = n - R.t * 1000;
+    if (!COMP.mirar && !COMP.dq && s.t1 && n >= s.t1 && n < s.t0 - tolMs() && mvAhora()) compDq('salida anticipada');
+    if (compTerminada(s) && !COMP.finSnap) { COMP.finSnap = JSON.parse(JSON.stringify(s)); await compFotos(); }
     const yo = s.rem && s.rem[COMP.id];
     if (!COMP.mirar && yo) {
-      const pa = { pm:pmOn(), ts:{ '.sv':'timestamp' } };
+      const pa = { pm:pmOn(), mv:mvAhora(), ts:{ '.sv':'timestamp' } };
       if (COMP.go && (R.running || R.finished)) Object.assign(pa, { d:Math.round(R.d), t:Math.round(R.t * 10) / 10, p:R.pace ? Math.round(R.pace * 10) / 10 : null, spm:R.spm || null, hr:R.hr || null });
       if (COMP.finData && !yo.fin) Object.assign(pa, COMP.finData);
+      if (COMP.dq && !yo.dq) Object.assign(pa, { dq:true, dqm:'salida anticipada' });
       await fb('PATCH', `${COMP.sala}/rem/${COMP.id}`, pa);
     }
   } catch(e){ COMP.err++; }
   finally { COMP.busy = false; }
   compRender(); schedule();
 }
-function compFin(){
+async function compFin(){
   if (!COMP.sala || COMP.mirar || !COMP.go || COMP.finData) return;
   const s = COMP.data || {}, T = s.modo === 'tiempo', t0 = s.t0 || 0;
   const tStart = COMP.tStart != null ? COMP.tStart : srvNow() - R.t * 1000;
-  const pen = Math.max(0, (tStart - t0) / 1000), ant = tStart < t0 - 300;
+  if (tStart < t0 - tolMs() - 300) compDq('salida anticipada');
+  const pen = Math.max(0, (tStart - t0) / 1000);   // el reloj oficial arranca en GO, no con la primera palada
   let of, dnf = false;
   if (T) { const lim = (s.dist || 0) - pen; let d = 0; for (const q of R.samples) { if (q.t <= lim) d = q.d; else break; } of = Math.round(d); }
   else { dnf = R.d < (s.dist || 0) - 5; of = Math.round((R.t + pen) * 10) / 10; }
-  COMP.finData = { fin:true, of, dnf, pen:Math.round(pen * 10) / 10, ant, d:Math.round(R.d), t:Math.round(R.t * 10) / 10 };
-  compTick();
+  COMP.finData = { fin:true, of, dnf, pen:Math.round(pen * 10) / 10, dq:COMP.dq, d:Math.round(R.d), t:Math.round(R.t * 10) / 10 };
+  await compSubeFoto(); compTick();
 }
 function beep(f, ms){
   try { const A = COMP.ac || (COMP.ac = new (window.AudioContext || window.webkitAudioContext)()); const o = A.createOscillator(), g = A.createGain();
-    o.frequency.value = f; g.gain.value = .25; o.connect(g); g.connect(A.destination); o.start(); o.stop(A.currentTime + ms / 1000); } catch(e){}
+    o.frequency.value = f; g.gain.value = .3; o.connect(g); g.connect(A.destination); o.start(); o.stop(A.currentTime + ms / 1000); } catch(e){}
 }
 function compCuenta(){
   const s = COMP.data, el = $('cuenta'); if (!s || !s.t0) { el.classList.add('hide'); return; }
-  const rest = s.t0 - srvNow();
-  if (rest > 0 && rest <= 10000) {
-    const n = Math.ceil(rest / 1000); el.textContent = n; el.classList.remove('hide');
-    if (n !== COMP.beep) { COMP.beep = n; if (n <= 3) beep(660, 120); if (n === 10 && !COMP.mirar) { if (R.running) compMsg('Parate: el ergo ya está en marcha. Esperá la señal.'); if ($('vComp').classList.contains('hide') === false) tab('vivo'); } }
-  } else if (rest <= 0 && rest > -1500) {
-    el.textContent = '¡YA!'; el.classList.remove('hide'); if (!COMP.ya) { COMP.ya = true; beep(990, 500); }
-  } else el.classList.add('hide');
+  const n = srvNow(), t1 = s.t1 || s.t0 - 5000, t2 = s.t2 || s.t0 - 2000;
+  let fase = '', big = '', sub = '', bg = '';
+  if (n < t1) { fase = 'prep'; big = Math.max(1, Math.ceil((t1 - n) / 1000)); sub = 'Soltá el mango y no tires. La largada es en cuenta regresiva.'; bg = '#0b2545'; }
+  else if (n < t2) { fase = 'sit'; big = 'SIT READY'; sub = 'Agarrá el mango. No tires hasta el GO.'; bg = '#2f6ea8'; }
+  else if (n < s.t0) { fase = 'att'; big = 'ATTENTION'; sub = 'Esperá la señal…'; bg = '#74acdf'; }
+  else if (n < s.t0 + 1800) { fase = 'go'; big = 'GO!'; sub = ''; bg = '#2e9e5b'; }
+  if (!fase) { el.classList.add('hide'); return; }
+  if (COMP.dq && fase !== 'go') sub = 'DESCALIFICADO · salida anticipada';
+  el.classList.remove('hide'); el.style.background = bg; el.style.fontSize = typeof big === 'number' ? '42vmin' : (fase === 'go' ? '34vmin' : '15vmin');
+  el.innerHTML = `<div style="text-align:center;line-height:1.05">${big}<div style="font-size:3.4vmin;font-weight:600;margin-top:2vmin;padding:0 6vmin">${escH(sub)}</div></div>`;
+  if (fase !== COMP.fase) {
+    COMP.fase = fase;
+    if (fase === 'prep' && !COMP.mirar && !$('vComp').classList.contains('hide')) tab('vivo');
+    if (fase === 'sit') beep(440, 220); if (fase === 'att') beep(660, 220); if (fase === 'go') beep(1000, 900);
+  }
 }
-// Ordena a los participantes: primero los que terminaron (por resultado), después por avance
+// Orden de llegada: primero los que terminaron, después por avance; los descalificados al final
 function compLista(){
   const s = COMP.data; if (!s || !s.rem) return [];
   const T = s.modo === 'tiempo', arr = Object.entries(s.rem).map(([id, e]) => ({ id, ...e }));
-  const val = e => e.fin && !e.dnf ? e.of : null;
+  const val = e => e.fin && !e.dnf && !e.dq ? e.of : null;
   arr.sort((a, b) => {
+    if (!!a.dq !== !!b.dq) return a.dq ? 1 : -1;
     if (!COMP.go) return (b.listo ? 1 : 0) - (a.listo ? 1 : 0) || String(a.n).localeCompare(b.n);
     const va = val(a), vb = val(b);
     if (T) return (b.fin ? b.of : b.d || 0) - (a.fin ? a.of : a.d || 0);
@@ -1793,27 +1856,44 @@ function compLista(){
   });
   return arr;
 }
+const BOTE = '<svg viewBox="0 0 46 14" width="100%" height="100%" preserveAspectRatio="xMidYMid meet"><path d="M1 7 Q9 1.5 24 2.2 L45 6 L45 8 L24 11.8 Q9 12.5 1 7Z" fill="currentColor" stroke="#0b2545" stroke-width="1"/><path d="M14 1 L20 13 M30 1 L24 13" stroke="#0b2545" stroke-width="1.2" stroke-linecap="round"/></svg>';
+// Pista con botecitos, un carril por remero (como el display de ErgRace)
+function compBoatsHtml(){
+  const s = COMP.data, T = s.modo === 'tiempo', now = srvNow();
+  const L = compLista(), pos = {}; L.forEach((e, i) => pos[e.id] = i + 1);
+  const lane = L.filter(e => e.listo || e.id === COMP.id).sort((a, b) => String(a.n).localeCompare(b.n) || (a.id < b.id ? -1 : 1));
+  const dv = e => e.fin ? (T ? e.of : (e.dnf ? e.d || 0 : s.dist)) : e.d || 0;
+  const lead = Math.max(0, ...lane.filter(e => !e.dq).map(dv));
+  const el = s.t0 ? Math.max(0, (now - s.t0) / 1000) : 0;
+  const meta = T ? Math.max(lead * 1.05, el > 10 ? lead / el * s.dist : 0, 100) : s.dist;
+  return '<div class="boats">' + lane.map(e => {
+    const yo = e.id === COMP.id, d = dv(e), pct = e.dq ? 0 : Math.max(0, Math.min(1, d / meta));
+    const sin = COMP.go && !e.fin && !e.dq && e.ts && now - e.ts > 8000;
+    let der = '';
+    if (e.dq) der = 'DESCALIF.';
+    else if (e.fin) der = T ? mfmt(e.of) + ' m' : (e.dnf ? 'no terminó' : fmt(e.of));
+    else if (COMP.go) { const g = Math.max(0, Math.round(lead - d)); der = d + ' m' + (g > 0 ? ` <small>−${g}</small>` : ''); }
+    else der = e.listo ? '✓' : '…';
+    return `<div class="lane${yo ? ' yo' : ''}${e.dq ? ' dq' : ''}${sin ? ' off' : ''}"><span class="nm">${COMP.go && !e.dq ? pos[e.id] + '. ' : ''}${escH(e.n)}</span><div class="pista"><div class="bote" style="left:calc((100% - 46px) * ${pct.toFixed(4)})">${BOTE}</div></div><span class="dd">${der}</span></div>`;
+  }).join('') + '</div>';
+}
+function compListaHtml(){   // resultados finales / sala de espera
+  const s = COMP.data, L = compLista().filter(e => e.listo || !COMP.go), T = s.modo === 'tiempo';
+  if (!L.length) return '<div class="note">Todavía no hay nadie.</div>';
+  const fin = L.filter(e => e.fin && !e.dnf && !e.dq);
+  return L.map((e, i) => {
+    const yo = e.id === COMP.id; let der = '';
+    if (!COMP.go) der = e.listo ? '✓ listo' + (e.pm ? '' : ' · sin PM5') : 'esperando';
+    else if (e.dq) der = 'DESCALIFICADO';
+    else if (e.fin) { const v = T ? mfmt(e.of) + ' m' : (e.dnf ? 'no terminó' : fmt(e.of)); const dif = !T && !e.dnf && fin.length && e !== fin[0] ? ' <small>+' + (e.of - fin[0].of).toFixed(1).replace('.', ',') + '</small>' : ''; der = v + dif; }
+    else der = (e.d || 0) + ' m';
+    return `<div class="r${yo ? ' yo' : ''}${e.dq ? ' off' : ''}"><i style="width:${e.fin && !e.dq ? 100 : 0}%"></i><span>${COMP.go && !e.dq ? (i + 1) + '. ' : ''}${escH(e.n)}</span><span>${der}</span></div>`;
+  }).join('');
+}
 function compRankHtml(){
   const s = COMP.data; if (!s) return '<div class="note">Conectando con la sala…</div>';
-  const L = compLista(), T = s.modo === 'tiempo', now = srvNow();
-  if (!L.length) return '<div class="note">Todavía no hay nadie.</div>';
-  const maxD = Math.max(s.dist && !T ? s.dist : 100, ...L.map(e => e.d || 0));
-  const lead = L[0], ld = lead ? (lead.fin ? (T ? lead.of : s.dist) : lead.d || 0) : 0;
-  return L.map((e, i) => {
-    const yo = e.id === COMP.id, sin = COMP.go && !e.fin && e.ts && now - e.ts > 8000;
-    let der = '', pct = 0;
-    if (!COMP.go) der = e.listo ? '✓ listo' + (e.pm ? '' : ' · sin PM5') : 'esperando';
-    else if (e.fin) {
-      pct = 100; const v = T ? mfmt(e.of) + ' m' : (e.dnf ? 'no terminó' : fmt(e.of));
-      const dif = !T && !e.dnf && L[0].fin && !L[0].dnf && i > 0 ? ' <small>+' + (e.of - L[0].of).toFixed(1).replace('.', ',') + '</small>' : '';
-      der = v + dif + (e.ant ? ' ⚠' : '') + (e.pen > 0.5 ? ` <small>(+${String(e.pen).replace('.', ',')} s salida)</small>` : '');
-    } else {
-      const d = e.d || 0; pct = Math.min(100, d / (T ? Math.max(maxD, 1) : s.dist) * 100);
-      const gap = i === 0 ? '' : ` <small>−${Math.max(0, Math.round(ld - d))} m</small>`;
-      der = `${d} m${gap} <small>${e.p ? fmt(e.p, 0) : ''}</small>`;
-    }
-    return `<div class="r${yo ? ' yo' : ''}${sin ? ' off' : ''}"><i style="width:${pct}%"></i><span>${COMP.go ? (i + 1) + '. ' : ''}${escH(e.n)}${sin ? ' <small>sin señal</small>' : ''}</span><span>${der}</span></div>`;
-  }).join('');
+  if (s.t1 && !compTerminada(s) && !COMP.cerrada) return compBoatsHtml();
+  return compListaHtml();
 }
 function compRender(){
   const en = !!COMP.sala;
@@ -1826,39 +1906,83 @@ function compRender(){
   $('cCfg').textContent = s ? `${s.modo === 'tiempo' ? 'Por tiempo' : 'Por distancia'}: ${tituloDe({ modo:s.modo, dist:s.dist, split:s.split })}${COMP.mirar ? ' · mirando' : ''}${COMP.err > 2 ? ' · sin conexión, reintentando…' : ''}` : 'Conectando…';
   $('cRank').innerHTML = compRankHtml();
   const L = compLista(), listos = L.filter(e => e.listo).length, yo = s && s.rem && s.rem[COMP.id];
-  const sinPm = !COMP.mirar && !pmOn();
-  $('cNota').textContent = !s ? '' : COMP.go ? (L.some(e => e.listo && !e.fin) ? 'Carrera en curso.' : 'Carrera terminada.') : (sinPm ? 'Conectá tu PM5 (botón de arriba) antes de tocar "Estoy listo".' : COMP.mirar ? 'Estás mirando: no corrés.' : `Listos: ${listos} de ${L.length}.`);
-  $('cListo').classList.toggle('hide', COMP.mirar || COMP.go);
+  const sinPm = !COMP.mirar && !pmOn(), term = compTerminada(s);
+  $('cNota').textContent = !s ? '' : COMP.dq ? 'Quedaste descalificado: saliste antes de la señal.' : COMP.cerrada ? 'Sala cerrada.' : term ? 'Carrera terminada.' : COMP.go ? 'Carrera en curso.' : s.t1 ? 'Largando…' : (sinPm ? 'Conectá tu PM5 (botón de arriba) antes de tocar "Estoy listo".' : COMP.mirar ? 'Estás mirando: no corrés.' : `Listos: ${listos} de ${L.length}. Después de "Estoy listo" no muevas el ergo hasta que largue.`);
+  $('cListo').classList.toggle('hide', COMP.mirar || !!(s && s.t1) || COMP.cerrada);
   $('cListo').textContent = yo && yo.listo ? 'Ya no estoy listo' : 'Estoy listo';
-  $('cLargar').classList.toggle('hide', !COMP.host || COMP.go || !!(s && s.t0));
-  const fin = COMP.go && L.length && !L.some(e => e.listo && !e.fin);
-  $('cWaRes').classList.toggle('hide', !fin);
+  $('cLargar').classList.toggle('hide', !COMP.host || !!(s && s.t1) || COMP.cerrada);
+  $('cFinal').classList.toggle('hide', !COMP.host || !COMP.go || term || COMP.cerrada);
+  $('cWaRes').classList.toggle('hide', !term); $('cImg').classList.toggle('hide', !term);
+  $('cSalir').textContent = COMP.salirArm ? 'Tocá de nuevo: se cierra la sala para todos' : 'Salir de la sala';
 }
 function compVivoRender(){
-  const c = $('compVivo'); if (!COMP.sala || !COMP.data || !COMP.go) { c.classList.add('hide'); return; }
+  const c = $('compVivo'); if (!COMP.sala || !COMP.data || !COMP.data.t1) { c.classList.add('hide'); return; }
   c.classList.remove('hide'); $('cvT').textContent = 'Competencia · sala ' + COMP.sala; $('cvRank').innerHTML = compRankHtml();
 }
 function compTextoRes(){
-  const s = COMP.data, L = compLista(), T = s.modo === 'tiempo';
-  return `🏁 Competencia IndoorIRT · ${tituloDe({ modo:s.modo, dist:s.dist, split:s.split })}\n` + L.filter(e => e.listo).map((e, i) => `${i + 1}. ${e.n} — ${e.fin ? (T ? mfmt(e.of) + ' m' : (e.dnf ? 'no terminó' : fmt(e.of))) : '–'}${e.ant ? ' ⚠ salida anticipada' : ''}`).join('\n');
+  const s = COMP.data, L = compLista().filter(e => e.listo), T = s.modo === 'tiempo';
+  return `🏁 Competencia IndoorIRT · ${tituloDe({ modo:s.modo, dist:s.dist, split:s.split })}\n` + L.map((e, i) => `${e.dq ? '✖' : (i + 1) + '.'} ${e.n} — ${e.dq ? 'descalificado (salida anticipada)' : e.fin ? (T ? mfmt(e.of) + ' m' : (e.dnf ? 'no terminó' : fmt(e.of))) : '–'}`).join('\n');
+}
+// Imagen final para compartir: caras, posiciones y tiempos de todos
+async function compImagen(){
+  const s = COMP.data; if (!s) return; compMsg('Armando la imagen…');
+  if (!COMP.fotos) await compFotos();
+  const L = compLista().filter(e => e.listo), T = s.modo === 'tiempo', fot = COMP.fotos || {};
+  const W = 1080, RH = 190, HD = 250, FT = 100, H = HD + RH * L.length + FT;
+  const c = document.createElement('canvas'); c.width = W; c.height = H; const g = c.getContext('2d');
+  const img = u => new Promise(r => { if (!u) return r(null); const im = new Image(); im.onload = () => r(im); im.onerror = () => r(null); im.src = u; });
+  g.fillStyle = '#fff'; g.fillRect(0, 0, W, H);
+  g.fillStyle = '#74acdf'; g.fillRect(0, 0, W, 90); g.fillRect(0, HD - 90, W, 90);
+  g.fillStyle = '#fff'; g.font = '700 54px system-ui, sans-serif'; g.textBaseline = 'middle'; g.fillText('IndoorIRT', 40, 45);
+  g.fillStyle = '#0b2545'; g.font = '700 64px system-ui, sans-serif'; g.fillText('Resultados · ' + tituloDe({ modo:s.modo, dist:s.dist, split:s.split }), 40, 125);
+  g.fillStyle = '#fff'; g.font = '500 34px system-ui, sans-serif'; g.fillText(new Date().toLocaleDateString('es-AR') + ' · Sala ' + COMP.sala, 40, HD - 45);
+  const fin = L.filter(e => e.fin && !e.dnf && !e.dq);
+  for (let i = 0; i < L.length; i++) {
+    const e = L[i], y = HD + i * RH;
+    g.fillStyle = i % 2 ? '#fff' : '#f3f8fc'; g.fillRect(0, y, W, RH);
+    g.fillStyle = e.dq ? '#b23a3a' : '#0b2545'; g.font = '800 72px system-ui, sans-serif'; g.textAlign = 'center'; g.fillText(e.dq ? '✖' : String(i + 1), 70, y + RH / 2); g.textAlign = 'left';
+    const im = await img(fot[e.id]), fx = 130, fw = 200, fh = 150, fy = y + (RH - fh) / 2;
+    if (im) { g.drawImage(im, fx, fy, fw, fh); g.strokeStyle = '#74acdf'; g.lineWidth = 4; g.strokeRect(fx, fy, fw, fh); }
+    else { g.fillStyle = '#d6e6f4'; g.fillRect(fx, fy, fw, fh); g.fillStyle = '#2f6ea8'; g.font = '800 80px system-ui, sans-serif'; g.textAlign = 'center'; g.fillText(String(e.n).slice(0, 1).toUpperCase(), fx + fw / 2, fy + fh / 2); g.textAlign = 'left'; }
+    g.fillStyle = '#0b2545'; g.font = '700 50px system-ui, sans-serif'; g.fillText(String(e.n).slice(0, 18), 360, y + RH / 2 - 26);
+    let t1 = '', t2 = '';
+    if (e.dq) { t1 = 'DESCALIFICADO'; t2 = 'salida anticipada'; }
+    else if (e.fin) { t1 = T ? mfmt(e.of) + ' m' : (e.dnf ? 'no terminó' : fmt(e.of)); t2 = !T && !e.dnf && e.of ? fmt(e.of / s.dist * 500) + ' /500 m' : (T && e.of ? fmt(s.dist / e.of * 500) + ' /500 m' : ''); if (!T && !e.dnf && fin.length && e !== fin[0]) t2 += '  ·  +' + (e.of - fin[0].of).toFixed(1).replace('.', ',') + ' s'; }
+    g.fillStyle = e.dq ? '#b23a3a' : '#0b2545'; g.font = '800 64px system-ui, sans-serif'; g.textAlign = 'right'; g.fillText(t1, W - 40, y + RH / 2 - 22);
+    g.fillStyle = '#5b7288'; g.font = '500 36px system-ui, sans-serif'; g.fillText(t2, W - 40, y + RH / 2 + 38); g.textAlign = 'left';
+  }
+  g.fillStyle = '#74acdf'; g.fillRect(0, H - FT, W, FT); g.fillStyle = '#fff'; g.font = '600 34px system-ui, sans-serif'; g.textBaseline = 'middle'; g.fillText('Competencia en vivo · IndoorIRT', 40, H - FT / 2);
+  compMsg('');
+  c.toBlob(b => compartir(b, `resultados_${COMP.sala}.jpg`, compTextoRes()), 'image/jpeg', .9);
 }
 $('cCrear').onclick = compCrear;
 $('cUnir').onclick = () => compUnir($('cCod').value, false);
 $('cMirar').onclick = () => compUnir($('cCod').value, true);
-$('cSalir').onclick = () => compSalir(false);
+$('cSalir').onclick = () => {
+  if (COMP.host && !COMP.cerrada && !COMP.salirArm) { COMP.salirArm = true; compRender(); setTimeout(() => { COMP.salirArm = false; compRender(); }, 4000); return; }
+  compSalir(false);
+};
 $('cListo').onclick = async () => {
   const yo = COMP.data && COMP.data.rem && COMP.data.rem[COMP.id], v = !(yo && yo.listo);
   if (v && !pmOn()) { compMsg('Primero conectá tu PM5 con el botón de arriba.'); return; }
   compMsg(''); beep(1, 1);
-  try { await fb('PATCH', `${COMP.sala}/rem/${COMP.id}`, { listo:v, pm:pmOn(), n:CFG.activo }); } catch(e){ compMsg(errFb(e)); }
+  if (v && (R.running || R.finished)) resetRun();   // ergo en cero antes de largar
+  try { await fb('PATCH', `${COMP.sala}/rem/${COMP.id}`, { listo:v, pm:pmOn(), n:CFG.activo }); if (v) compSubeFoto(); } catch(e){ compMsg(errFb(e)); }
   compTick();
 };
 $('cLargar').onclick = async () => {
-  const L = compLista(); if (L.filter(e => e.listo).length < 1) { compMsg('Nadie está listo todavía.'); return; }
+  const L = compLista().filter(e => e.listo);
+  if (!L.length) { compMsg('Nadie está listo todavía.'); return; }
+  const mueve = L.find(e => e.mv && e.ts && srvNow() - e.ts < 5000);
+  if (mueve) { compMsg(`${mueve.n} se está moviendo. Todos tienen que estar quietos para largar.`); return; }
   beep(1, 1);
-  try { await compSync(); await fb('PATCH', COMP.sala, { estado:'cuenta', t0:Math.round(srvNow() + 10500) }); } catch(e){ compMsg(errFb(e)); }
+  try {
+    await compSync(); const t1 = Math.round(srvNow() + 6000), t2 = t1 + 3000, t0 = t2 + 1500 + Math.round(Math.random() * 1500);   // ATTENTION dura entre 1,5 y 3 s para que nadie adivine
+    await fb('PATCH', COMP.sala, { estado:'cuenta', t1, t2, t0 });
+  } catch(e){ compMsg(errFb(e)); }
   compTick();
 };
+$('cFinal').onclick = async () => { try { await fb('PATCH', COMP.sala, { estado:'fin' }); } catch(e){ compMsg(errFb(e)); } compTick(); };
 $('cWa').onclick = () => {
   const url = URL_APP + '?sala=' + COMP.sala, s = COMP.data;
   const txt = `Te invito a competir en IndoorIRT${s ? ' (' + tituloDe({ modo:s.modo, dist:s.dist, split:s.split }) + ')' : ''}.\nEntrá con este link desde Chrome, conectá tu PM5 y tocá "Estoy listo":\n${url}\nCódigo de sala: ${COMP.sala}`;
@@ -1866,6 +1990,7 @@ $('cWa').onclick = () => {
 };
 $('cCopia').onclick = async () => { const url = URL_APP + '?sala=' + COMP.sala; try { await navigator.clipboard.writeText(url); compMsg('Link copiado: ' + url); } catch(e){ compMsg(url); } };
 $('cWaRes').onclick = () => window.open('https://wa.me/?text=' + encodeURIComponent(compTextoRes()), '_blank');
+$('cImg').onclick = compImagen;
 
 /* ================= demo sin ergo ================= */
 let demo = null;
