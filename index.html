@@ -195,6 +195,19 @@ body.forzado.inv #cuenta>div{transform:rotate(-90deg)}
 .lmis span{display:block;font-size:2.4cqh;color:var(--muted);text-align:center}
 .lcomp .lane{flex:1}
 .lcomp .lane .nm{width:16%;font-size:min(5cqh,2.4cqw)}.lcomp .lane .dd{width:20%;font-size:min(5cqh,2.4cqw)}
+.pod{display:grid;gap:6px;margin-top:10px}
+.pod>div{border:1px solid var(--line);border-top:5px solid var(--cel);background:#fff;padding:8px 10px}
+.pod .p1{border-top-color:var(--navy)}.pod .p3{border-top-color:#9db8d3}
+.pod .pn{font-size:30px;font-weight:800;color:var(--navy);line-height:1}
+.pod .pm{font-weight:700;margin:2px 0 6px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pod .pl{font-size:10px;text-transform:uppercase;color:var(--muted)}
+.pod .pt{font-size:20px;font-weight:800;color:var(--navy)}.pod .pr{font-size:14px;color:var(--navy)}
+.tw{overflow-x:auto;margin-top:6px}
+table.rs{border-collapse:collapse;font-size:13px;white-space:nowrap;width:100%}
+.rs th{font-size:11px;text-transform:none;letter-spacing:0;color:var(--muted);padding:6px 8px;text-align:center;background:#e6f0f9;border:0}
+.rs td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:center}
+.rs td:nth-child(2),.rs th:nth-child(2){text-align:left}
+.rs tr.yo td{background:#e6f0f9}.rs tr.off td{color:#b23a3a}
 .cod{font-size:44px;font-weight:800;letter-spacing:.18em;text-align:center;color:var(--navy);padding:4px 0}
 #cuenta{position:fixed;inset:0;z-index:80;background:rgba(11,37,69,.92);color:#fff;display:flex;align-items:center;justify-content:center;font-size:42vmin;font-weight:800;pointer-events:none}
 .lcomp{height:100%;display:flex;gap:1cqw}
@@ -367,6 +380,7 @@ body.enSala #lDots i[data-s="7"]{display:block}
     <div class="rk" id="cRank"></div>
     <div class="note" id="cNota"></div>
     <div class="row"><button class="pri" id="cListo">Estoy listo</button><button class="pri hide" id="cLargar">Largar</button><button class="hide" id="cFinal">Dar por terminada</button></div>
+    <div class="row"><button class="pri hide" id="cXls">Planilla de resultados (Excel)</button></div>
     <div class="row"><button class="pri hide" id="cImg">Imagen de resultados (con fotos)</button><button id="cWaRes" class="hide">Resultados por WhatsApp (texto)</button></div>
     <div class="row"><button id="cSalir">Salir de la sala</button></div>
   </div>
@@ -447,7 +461,7 @@ body.enSala #lDots i[data-s="7"]{display:block}
 
 <script>
 'use strict';
-const APP_V = 20;
+const APP_V = 21;
 const KEY = 'ergoVivo.v2', KEYH = 'ergoVivo.hist';
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -1350,7 +1364,7 @@ function panelLb(rec){
   const d = new Date(rec.fecha), z = n => String(n).padStart(2, '0');
   const t = Math.round(rec.tiempo * 10) / 10, h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), sg = Math.floor(t % 60), dc = Math.round((t * 10) % 10);
   const dist = esT(rec) || incompleta(rec) ? rec.distReal : rec.dist;
-  return `<div class="lb">
+  return `<div class="pl">
     <div class="lbl">Datos para el Logbook</div>
     <dl>
       <dt>Fecha</dt><dd>${z(d.getDate())}/${z(d.getMonth()+1)}/${d.getFullYear()} · ${z(d.getHours())}:${z(d.getMinutes())}</dd>
@@ -1865,7 +1879,8 @@ async function compFin(){
   let of, dnf = false;
   if (T) { const lim = (s.dist || 0) - pen; let d = 0; for (const q of R.samples) { if (q.t <= lim) d = q.d; else break; } of = Math.round(d); }
   else { dnf = R.d < (s.dist || 0) - 5; of = Math.round((R.t + pen) * 10) / 10; }
-  COMP.finData = { fin:true, of, dnf, pen:Math.round(pen * 10) / 10, dq:COMP.dq, d:Math.round(R.d), t:Math.round(R.t * 10) / 10 };
+  const cx = (R.cross || []).map(x => Math.round((x + (T ? 0 : pen)) * 10) / 10);   // parciales de cada tramo (desde el GO)
+  COMP.finData = { fin:true, of, dnf, pen:Math.round(pen * 10) / 10, dq:COMP.dq, d:Math.round(R.d), t:Math.round(R.t * 10) / 10, cx };
   setTimeout(() => liberarPM5(), 4000);   // termina el entrenamiento en el monitor para que no quede trabado
   await compSubeFoto(); compTick();
 }
@@ -1941,6 +1956,38 @@ function compListaHtml(){   // resultados finales / sala de espera
     return `<div class="r${yo ? ' yo' : ''}${e.dq ? ' off' : ''}"><i style="width:${e.fin && !e.dq ? 100 : 0}%"></i><span>${COMP.go && !e.dq ? (i + 1) + '. ' : ''}${escH(e.n)}</span><span>${der}</span></div>`;
   }).join('');
 }
+// Resultados finales como ErgRace: podio + tabla completa con parciales
+function compTramos(){ const s = COMP.data; return tramosDe(s.dist, s.split, s.modo); }
+function compSegs(e, tr, T){ return tr.map((x, k) => { const c = e.cx || [], a = c[k], b = k ? c[k - 1] : 0; return a == null || b == null ? null : a - b; }); }
+function compPodioHtml(){
+  const s = COMP.data, T = s.modo === 'tiempo', L = compLista().filter(e => e.listo && e.fin && !e.dnf && !e.dq).slice(0, 3);
+  if (!L.length) return '';
+  const pace = e => T ? (e.of ? fmt(s.dist / e.of * 500) : '–') : fmt(e.of / s.dist * 500);
+  return `<div class="pod" style="grid-template-columns:repeat(${L.length},1fr)">` + L.map((e, i) => `<div class="p${i + 1}"><div class="pn">${i + 1}</div><div class="pm">${escH(e.n)}</div><div class="pl">${T ? 'Metros' : 'Tiempo'}</div><div class="pt">${T ? mfmt(e.of) : fmt(e.of)}</div><div class="pl">/500 m</div><div class="pr">${pace(e)}</div></div>`).join('') + '</div>';
+}
+function compTablaHtml(){
+  const s = COMP.data, T = s.modo === 'tiempo', tr = compTramos(), L = compLista().filter(e => e.listo);
+  const pace = e => !e.fin || e.dnf || e.dq || !e.of ? '' : (T ? fmt(s.dist / e.of * 500) : fmt(e.of / s.dist * 500));
+  const th = tr.map(x => `<th>${eje(tr, x.b)}</th>`).join('');
+  const rows = L.map((e, i) => {
+    const seg = compSegs(e, tr, T).map(v => `<td>${v == null || e.dq ? '' : (T ? mfmt(v) : fmt(v))}</td>`).join('');
+    const res = e.dq ? 'DESCALIF.' : e.fin ? (T ? mfmt(e.of) : (e.dnf ? 'no terminó' : fmt(e.of))) : '–';
+    return `<tr class="${e.id === COMP.id ? 'yo' : ''}${e.dq ? ' off' : ''}"><td>${e.dq ? '✖' : i + 1}</td><td>${escH(e.n)}</td><td><b>${res}</b></td><td>${pace(e)}</td>${seg}</tr>`;
+  }).join('');
+  return `<div class="lbl" style="margin-top:12px">Resultados completos</div><div class="tw"><table class="rs"><thead><tr><th>Pos.</th><th>Nombre</th><th>${T ? 'Metros' : 'Tiempo'}</th><th>/500 m</th>${th}</tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+function compCsv(){
+  const s = COMP.data, T = s.modo === 'tiempo', tr = compTramos(), L = compLista().filter(e => e.listo), f = v => v == null ? '' : String(Math.round(v * 10) / 10).replace('.', ',');
+  let c = `Competencia IndoorIRT;${tituloDe({ modo:s.modo, dist:s.dist, split:s.split })}\nSala;${COMP.sala}\nFecha;${new Date().toLocaleString('es-AR')}\n\n`;
+  c += `Posición;Nombre;Estado;${T ? 'Metros' : 'Tiempo'};${T ? 'Metros (num)' : 'Tiempo (s)'};Ritmo /500 m;Salida tardía (s)` + tr.map(x => ';' + eje(tr, x.b) + (T ? '' : ' (tiempo)')).join('') + '\n';
+  L.forEach((e, i) => {
+    const est = e.dq ? 'Descalificado (salida anticipada)' : e.fin ? (e.dnf ? 'No terminó' : 'Terminó') : 'Sin terminar';
+    const val = e.fin && !e.dq ? (T ? mfmt(e.of) : fmt(e.of)) : '', num = e.fin && !e.dq ? f(e.of) : '';
+    const pr = e.fin && !e.dnf && !e.dq && e.of ? (T ? fmt(s.dist / e.of * 500) : fmt(e.of / s.dist * 500)) : '';
+    c += `${e.dq ? '' : i + 1};${e.n};${est};${val};${num};${pr};${f(e.pen)}` + compSegs(e, tr, T).map(v => ';' + (v == null || e.dq ? '' : (T ? f(v) : fmt(v)))).join('') + '\n';
+  });
+  return c;
+}
 function compRankHtml(){
   const s = COMP.data; if (!s) return '<div class="note">Conectando con la sala…</div>';
   if (s.t1 && !compTerminada(s) && !COMP.cerrada) return compBoatsHtml();
@@ -1955,7 +2002,7 @@ function compRender(){
   const s = COMP.data;
   $('cCode').textContent = COMP.sala;
   $('cCfg').textContent = s ? `${s.modo === 'tiempo' ? 'Por tiempo' : 'Por distancia'}: ${tituloDe({ modo:s.modo, dist:s.dist, split:s.split })}${COMP.mirar ? ' · mirando' : ''}${COMP.err > 2 ? ' · sin conexión, reintentando…' : ''}` : 'Conectando…';
-  $('cRank').innerHTML = compRankHtml();
+  $('cRank').innerHTML = compTerminada(s) ? compPodioHtml() + compTablaHtml() : compRankHtml();
   const L = compLista(), listos = L.filter(e => e.listo).length, yo = s && s.rem && s.rem[COMP.id];
   const sinPm = !COMP.mirar && !pmOn(), term = compTerminada(s);
   $('cNota').textContent = !s ? '' : COMP.dq ? 'Quedaste descalificado: saliste antes de la señal.' : COMP.cerrada ? 'Sala cerrada.' : term ? 'Carrera terminada.' : COMP.go ? 'Carrera en curso.' : s.t1 ? 'Largando…' : (sinPm ? 'Conectá tu PM5 (botón de arriba) antes de tocar "Estoy listo".' : COMP.mirar ? 'Estás mirando: no corrés.' : `Listos: ${listos} de ${L.length}. Después de "Estoy listo" no muevas el ergo hasta que largue.`);
@@ -1963,7 +2010,7 @@ function compRender(){
   $('cListo').textContent = yo && yo.listo ? 'Ya no estoy listo' : 'Estoy listo';
   $('cLargar').classList.toggle('hide', !COMP.host || !!(s && s.t1) || COMP.cerrada);
   $('cFinal').classList.toggle('hide', !COMP.host || !COMP.go || term || COMP.cerrada);
-  $('cWaRes').classList.toggle('hide', !term); $('cImg').classList.toggle('hide', !term);
+  $('cWaRes').classList.toggle('hide', !term); $('cImg').classList.toggle('hide', !term); $('cXls').classList.toggle('hide', !term);
   $('cSalir').textContent = COMP.salirArm ? 'Tocá de nuevo: se cierra la sala para todos' : 'Salir de la sala';
 }
 function compVivoRender(){
@@ -2043,6 +2090,7 @@ $('cWa').onclick = () => {
 $('cCopia').onclick = async () => { const url = URL_APP + '?sala=' + COMP.sala; try { await navigator.clipboard.writeText(url); compMsg('Link copiado: ' + url); } catch(e){ compMsg(url); } };
 $('cWaRes').onclick = () => window.open('https://wa.me/?text=' + encodeURIComponent(compTextoRes()), '_blank');
 $('cImg').onclick = compImagen;
+$('cXls').onclick = () => bajarTexto(compCsv(), `competencia_${COMP.sala}_${new Date().toISOString().slice(0, 10)}.csv`);
 
 /* ================= demo sin ergo ================= */
 let demo = null;
