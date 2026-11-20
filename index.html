@@ -461,7 +461,7 @@ body.enSala #lDots i[data-s="7"]{display:block}
 
 <script>
 'use strict';
-const APP_V = 21;
+const APP_V = 22;
 const KEY = 'ergoVivo.v2', KEYH = 'ergoVivo.hist';
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -2005,7 +2005,7 @@ function compRender(){
   $('cRank').innerHTML = compTerminada(s) ? compPodioHtml() + compTablaHtml() : compRankHtml();
   const L = compLista(), listos = L.filter(e => e.listo).length, yo = s && s.rem && s.rem[COMP.id];
   const sinPm = !COMP.mirar && !pmOn(), term = compTerminada(s);
-  $('cNota').textContent = !s ? '' : COMP.dq ? 'Quedaste descalificado: saliste antes de la señal.' : COMP.cerrada ? 'Sala cerrada.' : term ? 'Carrera terminada.' : COMP.go ? 'Carrera en curso.' : s.t1 ? 'Largando…' : (sinPm ? 'Conectá tu PM5 (botón de arriba) antes de tocar "Estoy listo".' : COMP.mirar ? 'Estás mirando: no corrés.' : `Listos: ${listos} de ${L.length}. Después de "Estoy listo" no muevas el ergo hasta que largue.`);
+  $('cNota').textContent = !s ? '' : COMP.dq ? 'Quedaste descalificado: saliste antes de la señal.' : COMP.cerrada ? 'Sala cerrada.' : term ? 'Carrera terminada.' : COMP.go ? 'Carrera en curso.' : s.t1 ? 'Largando…' : (sinPm ? 'Conectá tu PM5 (botón de arriba) antes de tocar "Estoy listo".' : COMP.mirar ? 'Estás mirando: no corrés.' : `Listos: ${listos} de ${L.length}. Después de "Estoy listo" no muevas el ergo hasta que largue.${CAM.stream ? '' : ' Cámara apagada: se activa al tocar "Estoy listo".'}`);
   $('cListo').classList.toggle('hide', COMP.mirar || !!(s && s.t1) || COMP.cerrada);
   $('cListo').textContent = yo && yo.listo ? 'Ya no estoy listo' : 'Estoy listo';
   $('cLargar').classList.toggle('hide', !COMP.host || !!(s && s.t1) || COMP.cerrada);
@@ -2066,6 +2066,7 @@ $('cListo').onclick = async () => {
   compMsg(''); beep(1, 1);
   if (v) { landOff = false; girarPantalla(true).then(ok => { girado = ok; }).catch(() => {}); }   // pone la pantalla horizontal si el celular lo permite
   if (v && (R.running || R.finished)) resetRun();   // ergo en cero antes de largar
+  if (v && !CAM.stream) { await camOn(); await new Promise(r => setTimeout(r, 900)); }   // cámara lista: foto y video de respaldo + cara para la imagen final
   try { await fb('PATCH', `${COMP.sala}/rem/${COMP.id}`, { listo:v, pm:pmOn(), n:CFG.activo }); if (v) compSubeFoto(); } catch(e){ compMsg(errFb(e)); }
   compTick();
 };
