@@ -377,6 +377,7 @@ input,select{background:#1a1d21;color:#fff;border-color:var(--line)}
 
   <div class="row" style="margin-top:14px">
     <button id="btnDemo">Probar sin ergo (demo ×10)</button>
+    <button id="btnUpd">Actualizar app</button>
     <button id="btnReset">Reiniciar</button>
   </div>
 </section>
@@ -485,7 +486,7 @@ input,select{background:#1a1d21;color:#fff;border-color:var(--line)}
 
 <script>
 'use strict';
-const APP_V = 24;
+const APP_V = 25;
 const KEY = 'ergoVivo.v2', KEYH = 'ergoVivo.hist';
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -2207,6 +2208,12 @@ resetRun();
 pintaLogo(); renderPlan(); renderVivo();
 estado('Desconectado');
 // Si hay una versión nueva publicada, se instala y la app se recarga sola
+$('btnUpd').onclick = async () => {
+  $('btnUpd').textContent = 'Actualizando…';
+  try { for (const r of await navigator.serviceWorker.getRegistrations()) await r.unregister(); } catch(e){}
+  try { for (const k of await caches.keys()) await caches.delete(k); } catch(e){}
+  location.reload();   // los datos guardados (carreras, perfiles) no se tocan
+};
 if ('serviceWorker' in navigator && window.isSecureContext) {
   let recargado = false;
   navigator.serviceWorker.addEventListener('controllerchange', () => { if (!recargado && !R.running) { recargado = true; location.reload(); } });
