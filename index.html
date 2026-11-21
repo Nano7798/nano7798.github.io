@@ -486,7 +486,7 @@ input,select{background:#1a1d21;color:#fff;border-color:var(--line)}
 
 <script>
 'use strict';
-const APP_V = 25;
+const APP_V = 26;
 const KEY = 'ergoVivo.v2', KEYH = 'ergoVivo.hist';
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -1737,8 +1737,8 @@ async function hrConectar(todos){
     HRX.dev.addEventListener('gattserverdisconnected', hrAlCortar);
     await hrAbrir();
   } catch(e) {
-    if (e.name === 'NotFoundError') { hrEst('Pulsómetro: no se encontró'); $('btnHrAll').classList.remove('hide'); aviso('No apareció ningún pulsómetro. Ponete la banda (humedecé los contactos) o activá "transmitir pulso" en el reloj y tocá de nuevo. Si no figura, probá "Ver todos". Si la banda ya está conectada al PM5 u otra app, desconectala primero.'); }
-    else { hrEst('Pulsómetro: sin conectar'); aviso('No se pudo conectar el pulsómetro: ' + (e.name === 'NetworkError' ? 'ya está conectado a otro aparato (PM5, reloj o app). Desconectalo de ahí.' : e.message)); }
+    if (e.name === 'NotFoundError') { hrEst('Pulsómetro: no se encontró · probá "Ver todos"'); $('btnHrAll').classList.remove('hide'); }
+    else { hrEst(e.name === 'NetworkError' ? 'Pulsómetro: ocupado (conectado a otro aparato)' : 'Pulsómetro: sin conectar'); }
     if (HRX.dev && !(HRX.dev.gatt && HRX.dev.gatt.connected)) HRX.dev = null;
   }
 }
