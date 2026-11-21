@@ -333,7 +333,7 @@ input,select{background:#1a1d21;color:#fff;border-color:var(--line)}
   </div>
 
   <div class="card hide" id="fcCard">
-    <div class="lbl">Curva de fuerza (última palada)</div>
+    <div class="lbl">Curva de fuerza (última palada)</div><div class="lbl" id="fcInfo" style="text-transform:none"></div>
     <div id="fcSvg"></div>
   </div>
 
@@ -485,7 +485,7 @@ input,select{background:#1a1d21;color:#fff;border-color:var(--line)}
 
 <script>
 'use strict';
-const APP_V = 23;
+const APP_V = 24;
 const KEY = 'ergoVivo.v2', KEYH = 'ergoVivo.hist';
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -788,9 +788,10 @@ function lineaVivo(){
   return 'Esperando salida';
 }
 // Rotación manual de la imagen, recordada por cada posición del celular
-const oriKey = () => (screen.orientation && screen.orientation.type) || (window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
-const camRot = () => (CFG.camRot || {})[oriKey()] || 0;
-function rotarCam(){ CFG.camRot = CFG.camRot || {}; CFG.camRot[oriKey()] = (camRot() + 90) % 360; save(); }
+const forzOn = () => document.body.classList.contains('forzado');
+const oriKey = () => forzOn() ? (document.body.classList.contains('inv') ? 'forz-inv' : 'forz') : ((screen.orientation && screen.orientation.type) || (window.innerWidth > window.innerHeight ? 'landscape' : 'portrait'));
+const camRot = () => (((CFG.camRot || {})[oriKey()] || 0) + (forzOn() ? (document.body.classList.contains('inv') ? 90 : 270) : 0)) % 360;
+function rotarCam(){ CFG.camRot = CFG.camRot || {}; CFG.camRot[oriKey()] = (((CFG.camRot[oriKey()] || 0)) + 90) % 360; save(); }
 function dimsCam(v, maxSide){
   const rot = camRot(), k = Math.min(1, maxSide / Math.max(v.videoWidth, v.videoHeight));
   const dw = Math.round(v.videoWidth * k), dh = Math.round(v.videoHeight * k);
@@ -1009,7 +1010,7 @@ function ingestStroke(dl, dt, rec, peakLb, count){
   R.peak = peakLb > 0 ? peakLb * 0.4536 : null; if (count) R.strokes = count;
 }
 function ingestStroke2(w, calh, count){ if (w) { R.sw = w; R.w = w; } if (calh) R.calh = calh; if (count) R.strokes = count; }
-const FC = { buf:[], cnt:0, last:-1 };
+const FC = { buf:[], cnt:0, last:-1, pk:0, n:0, tm:null };
 function ingestForce(arr){ R.fc = arr; dibujaFuerza(); }
 FC.id = 0; FC.hist = [];
 function fcMk(pref){
@@ -1028,6 +1029,7 @@ function dibujaFuerza(){
   $('fcCard').classList.remove('hide');
   FC.svg = fcMk('l');
   $('fcSvg').innerHTML = fcMk('p');
+  $('fcInfo').textContent = `palada ${FC.id} · ${a.length} puntos · pico ${Math.max(...a)} · paquetes ${FC.pk}`;
   if (landS === 5) schedule();
 }
 const UNI = ['ritmo', 'watts', 'cal'], UNI_LBL = { ritmo:'Ritmo /500', watts:'Watts', cal:'Calorías/hora' };
@@ -1560,13 +1562,20 @@ function onAdd1(v){ if (v.byteLength >= 11) ingestAdd1(u16(v,7)/100, u16(v,9)/10
 function onAdd2(v){ if (v.byteLength >= 6) ingestAdd2(u16(v,4), v.byteLength >= 8 ? u16(v,6) : null); }
 function onStroke(v){ if (v.byteLength >= 20) ingestStroke(v.getUint8(6)/100, v.getUint8(7)/100, u16(v,8)/100, u16(v,12)/10, u16(v,18)); }
 function onStroke2(v){ if (v.byteLength >= 9) ingestStroke2(u16(v,3), u16(v,5), u16(v,7)); }
+function fcFlush(){
+  clearTimeout(FC.tm);
+  if (FC.buf.length > 3) { FC.n++; ingestForce(FC.buf.slice()); }
+  FC.buf = []; FC.cnt = 0; FC.last = -1;
+}
 function onForce(v){
   if (v.byteLength < 4) return;
   const total = v.getUint8(0) >> 4, n = v.getUint8(0) & 15, seq = v.getUint8(1);
-  if (seq <= FC.last || FC.cnt >= total) { FC.buf = []; FC.cnt = 0; }
+  FC.pk++;
+  if (seq <= FC.last || (total && FC.cnt >= total)) { FC.buf = []; FC.cnt = 0; }
   FC.last = seq; FC.cnt++;
   for (let i = 0; i < n && 3 + 2*i < v.byteLength; i++) FC.buf.push(u16(v, 2 + 2*i));
-  if (FC.cnt >= total && FC.buf.length > 3) { ingestForce(FC.buf.slice()); FC.last = -1; }
+  clearTimeout(FC.tm);
+  if (total && FC.cnt >= total) fcFlush(); else FC.tm = setTimeout(fcFlush, 150);   // si falta algún paquete, dibuja lo que llegó
 }
 function onMux(v){
   const id = v.getUint8(0), d = new DataView(v.buffer, v.byteOffset + 1, v.byteLength - 1);
