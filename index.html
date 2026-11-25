@@ -218,6 +218,15 @@ table.rs{border-collapse:collapse;font-size:13px;white-space:nowrap;width:100%}
 body.enSala #lDots i[data-s="7"]{display:block}
 .note{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.4}
 
+#ivTb td{padding:7px 3px}#ivTb input{width:58px;padding:6px 4px;font-size:15px;text-align:right}#ivTb select{width:auto;padding:6px 2px;font-size:14px}#ivTb button{padding:6px 9px}
+.tblw{overflow-x:auto}
+#vidDock{position:fixed;right:6px;top:124px;z-index:60;display:flex;flex-direction:column;gap:5px;pointer-events:none}
+@media (orientation:landscape){#vidDock{top:6px}}
+#vidDock .vt{pointer-events:auto;position:relative;width:min(26vw,128px);aspect-ratio:4/3;background:#000;border:1px solid #3a3f47;overflow:hidden}
+@media (orientation:landscape){#vidDock .vt{width:min(17vw,140px)}}
+#vidDock .vt.big{width:min(62vw,340px)}
+#vidDock video{width:100%;height:100%;object-fit:cover;display:block}
+#vidDock .vt span{position:absolute;left:0;right:0;bottom:0;padding:2px 5px;font-size:12px;color:#fff;background:rgba(0,0,0,.6);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 /* ===== tema oscuro (como ErgData) ===== */
 :root{--navy:#ffffff;--ink:#ffffff;--paper:#000000;--card:#101113;--line:#2a2d31;--muted:#9aa3ad;--acc:#2196f3;--cel:#74acdf;--ok:#3ddc84;--bad:#ff5a4f;color-scheme:dark}
 header{background:#000;color:#fff;border-bottom:2px solid var(--cel);box-shadow:none}
@@ -268,7 +277,7 @@ input,select{background:#1a1d21;color:#fff;border-color:var(--line)}
   <div class="lb2" id="lScreens"></div>
   <div class="ln"><span id="lDots" style="display:flex;gap:1.3cqw;align-items:center"></span><em id="lRec"></em></div>
 </div>
-<nav><button id="tabPlan">Plan</button><button id="tabVivo" class="on">En vivo</button><button id="tabHist">Carreras</button><button id="tabComp">Compe</button></nav>
+<nav><button id="tabPlan">Plan</button><button id="tabVivo" class="on">En vivo</button><button id="tabHist">Carreras</button><button id="tabComp">Compe</button><button id="tabIv">Series</button></nav>
 <main>
 <div class="msg" id="msg"></div>
 <div id="cuenta" class="hide"></div>
@@ -383,6 +392,7 @@ input,select{background:#1a1d21;color:#fff;border-color:var(--line)}
 </section>
 
 <!-- ============ PLAN ============ -->
+<div id="vidDock" class="hide"></div>
 <section id="vComp" class="hide">
   <div class="card" id="cSin">
     <div class="lbl">Competencia en vivo</div>
@@ -404,6 +414,8 @@ input,select{background:#1a1d21;color:#fff;border-color:var(--line)}
     <div class="row"><button class="pri" id="cWa">Invitar por WhatsApp</button><button id="cCopia">Copiar link</button></div>
     <div class="rk" id="cRank"></div>
     <div class="note" id="cNota"></div>
+    <div class="row"><button id="cVid">Video con los demás: sí</button></div>
+    <div class="note" id="cVidEst"></div>
     <div class="row"><button class="pri" id="cListo">Estoy listo</button><button class="pri hide" id="cLargar">Largar</button><button class="hide" id="cFinal">Dar por terminada</button></div>
     <div class="row"><button class="pri hide" id="cXls">Planilla de resultados (Excel)</button></div>
     <div class="row"><button class="pri hide" id="cImg">Imagen de resultados (con fotos)</button><button id="cWaRes" class="hide">Resultados por WhatsApp (texto)</button></div>
@@ -471,6 +483,62 @@ input,select{background:#1a1d21;color:#fff;border-color:var(--line)}
   </div>
 </section>
 
+<section id="vIv" class="hide">
+  <div id="ivLive" class="hide">
+    <div class="band"><span id="ivBand">Series</span><small id="ivBandObj"></small></div>
+    <div class="big">
+      <div class="card"><div class="lbl" id="ivL1">–</div><div class="delta" id="ivB1">–</div><div class="sub" id="ivS1"></div></div>
+      <div class="card"><div class="lbl" id="ivL2">Ritmo /500</div><div class="pace" id="ivB2">–</div><div class="sub" id="ivS2"></div></div>
+    </div>
+    <div class="stats">
+      <div><span class="lbl">Tiempo serie</span><b id="ivT">–</b></div>
+      <div><span class="lbl">Metros serie</span><b id="ivD">–</b></div>
+      <div><span class="lbl">Ritmo medio</span><b id="ivA">–</b></div>
+      <div><span class="lbl">s/m</span><b id="ivSpm">–</b></div>
+      <div><span class="lbl">Watts</span><b id="ivW">–</b></div>
+      <div><span class="lbl">FC</span><b id="ivH">–</b></div>
+    </div>
+    <div class="card">
+      <div class="tblw"><table>
+        <thead><tr><th>Serie</th><th>Tiempo</th><th>Metros</th><th>Ritmo</th><th>Obj</th><th>Dif</th></tr></thead>
+        <tbody id="ivRes"></tbody>
+      </table></div>
+      <div class="note">Ritmo y objetivo son por 500 m. Dif: negativo = más rápido que el objetivo. * = serie incompleta.</div>
+    </div>
+    <div class="row"><button class="pri" id="ivWa">WhatsApp al número registrado</button><button class="hide" id="ivShare">Compartir collage</button><button id="ivFin">Terminar ahora</button><button id="ivCerrar">Cerrar</button></div>
+  </div>
+  <div id="ivCamSlot"></div>
+  <div id="ivSetup">
+    <div class="card">
+      <div class="lbl">Armar series</div>
+      <div class="row"><div><span class="lbl">Cantidad</span><input id="ivGenN" value="8" inputmode="numeric"></div>
+        <div><span class="lbl">Tipo de serie</span><select id="ivGenModo"><option value="d">Por metros</option><option value="t">Por tiempo</option></select></div></div>
+      <div class="row"><div><span class="lbl" id="ivGenValLbl">Metros de cada serie</span><input id="ivGenVal" value="200" inputmode="decimal"></div>
+        <div><span class="lbl">Descanso</span><input id="ivGenRest" value="1:00" inputmode="decimal"></div>
+        <div><span class="lbl">Ritmo objetivo /500</span><input id="ivGenObj" placeholder="opcional" inputmode="decimal"></div></div>
+      <div class="row"><button class="pri" id="ivGen">Generar series</button></div>
+      <div class="note">Descanso: 60 = 1:00 · 0 = sin descanso. Ritmo: 118 = 1:58. Después podés cambiar cada serie en la tabla de abajo para armar series variables (por ejemplo 500 m, 250 m y 1:00).</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Series</div><div class="sub" id="ivResumenTxt"></div>
+      <div class="tblw"><table>
+        <thead><tr><th>#</th><th>Tipo</th><th>Valor</th><th>Obj</th><th>Desc.</th><th></th></tr></thead>
+        <tbody id="ivTb"></tbody>
+      </table></div>
+      <div class="row"><button id="ivAdd">Agregar serie</button></div>
+      <div class="note">Valor: metros o tiempo (1:00). Obj: ritmo objetivo por 500 m, opcional. Desc.: descanso que viene después de esa serie.</div>
+    </div>
+    <div class="card">
+      <div class="lbl">Antes de empezar</div>
+      <div class="sub" id="ivPm"></div>
+      <div class="row"><button id="ivProg">Programar PM5 (2 h por tiempo)</button></div>
+      <div class="note">El PM5 tiene que seguir corriendo durante los descansos: programalo con este botón (o a mano, un entrenamiento largo por tiempo) y después tocá Empezar. La app lleva la cuenta de las series: la primera arranca con la primera palada, y las siguientes con el aviso "Ya" al terminar cada descanso.</div>
+      <div class="row"><button class="pri" id="ivIni">Empezar series</button><button id="ivDemo">Probar sin ergo (demo ×10)</button></div>
+    </div>
+    <div id="ivHistCard" class="hide"><div class="lbl" style="margin-top:14px">Sesiones anteriores</div><div id="ivHist"></div></div>
+  </div>
+</section>
+
 <!-- ============ CARRERAS ============ -->
 <section id="vHist" class="hide">
   <div class="card">
@@ -486,7 +554,7 @@ input,select{background:#1a1d21;color:#fff;border-color:var(--line)}
 
 <script>
 'use strict';
-const APP_V = 26;
+const APP_V = 30;
 const KEY = 'ergoVivo.v2', KEYH = 'ergoVivo.hist';
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -746,16 +814,19 @@ $('btnBorrar').onclick = () => {
 
 /* ================= pestañas ================= */
 function tab(w){
-  ['plan','vivo','hist','comp'].forEach(x => {
-    $({ plan:'vPlan', vivo:'vVivo', hist:'vHist', comp:'vComp' }[x]).classList.toggle('hide', w !== x);
-    $({ plan:'tabPlan', vivo:'tabVivo', hist:'tabHist', comp:'tabComp' }[x]).classList.toggle('on', w === x);
+  ['plan','vivo','hist','comp','iv'].forEach(x => {
+    $({ plan:'vPlan', vivo:'vVivo', hist:'vHist', comp:'vComp', iv:'vIv' }[x]).classList.toggle('hide', w !== x);
+    $({ plan:'tabPlan', vivo:'tabVivo', hist:'tabHist', comp:'tabComp', iv:'tabIv' }[x]).classList.toggle('on', w === x);
   });
+  if (w === 'iv') $('ivCamSlot').append($('camCard'), $('evCard'));
+  else if ($('camCard').parentNode.id === 'ivCamSlot') $('fcCard').after($('camCard'), $('evCard'));
+  if (w === 'iv' && typeof ivRenderSetup === 'function') { ivRenderSetup(); ivRender(); }
   if (w === 'comp' && typeof compRender === 'function') compRender();
   if (w === 'vivo') renderVivo();
   if (w === 'hist') renderHist();
   landVis();
 }
-$('tabPlan').onclick = () => tab('plan'); $('tabVivo').onclick = () => tab('vivo'); $('tabHist').onclick = () => tab('hist'); $('tabComp').onclick = () => tab('comp');
+$('tabPlan').onclick = () => tab('plan'); $('tabVivo').onclick = () => tab('vivo'); $('tabHist').onclick = () => tab('hist'); $('tabComp').onclick = () => tab('comp'); $('tabIv').onclick = () => tab('iv');
 
 /* ================= cámara y registro ================= */
 const CAM = { stream:null, facing:'user', raf:0, rec:null, chunks:[], keep:false, recWall:0, grabando:false, flash:null };
@@ -775,7 +846,7 @@ function resetEv(){
 function sello(g, w, h, abajo){
   const fs = Math.max(14, Math.min(34, Math.round(Math.min(w, h) * 0.045))), pad = Math.round(fs * .45);
   g.font = `600 ${fs}px Roboto, system-ui, sans-serif`; g.textBaseline = 'middle';
-  const arriba = `${CFG.activo} · ${tituloDe(prof())} · ${hoyStr()} ${horaStr()}`;
+  const arriba = typeof IV !== 'undefined' && IV.cam ? `${CFG.activo} · ${IV.rows.length} series · ${hoyStr()} ${horaStr()}` : `${CFG.activo} · ${tituloDe(prof())} · ${hoyStr()} ${horaStr()}`;
   g.fillStyle = 'rgba(0,0,0,.6)'; g.fillRect(0, 0, w, fs + pad*2);
   g.fillStyle = '#fff'; g.fillText(arriba, pad, pad + fs/2);
   const lines = Array.isArray(abajo) ? abajo : [abajo], bh = lines.length * (fs + pad) + pad;
@@ -784,6 +855,7 @@ function sello(g, w, h, abajo){
 }
 function lineaVivo(){
   if (CAM.flash && performance.now() < CAM.flash.hasta) return CAM.flash.txt;
+  if (typeof IV !== 'undefined' && IV.cam) return ivLineaCam();
   if (R.finished) return `FINAL ${fmt(R.t)} · ${mfmt(R.d)} m`;
   if (R.running) return `${mfmt(Math.floor(R.d))} m · ${fmt(R.t)} · ritmo ${fmt(R.pace)} · ${R.spm ?? '–'} s/m`;
   return 'Esperando salida';
@@ -875,8 +947,9 @@ function armarRec(){
 function pararRec(keep){ if (CAM.rec && CAM.rec.state !== 'inactive') { CAM.keep = keep; CAM.rec.stop(); } }
 setInterval(() => {
   if (!CAM.rec) return;
-  if (!R.running && !R.finished && Date.now() - CAM.recWall > 60000) pararRec(false);
-  else if ((R.running && R.t >= 20) || R.finished) pararRec(true);
+  const iv = typeof IV !== 'undefined' && IV.activo && IV.estado !== 'listo';
+  if (!R.running && !R.finished && !iv && Date.now() - CAM.recWall > 60000) pararRec(false);
+  else if ((R.running && R.t >= 20) || R.finished || (iv && IV.k === 0 && IV.estado === 'trabajo' && IV.pt - IV.t0 >= 20)) pararRec(true);
 }, 500);
 
 function capturar(etiqueta, lineas, arch){
@@ -982,7 +1055,7 @@ function renderEv(){
   else EV.photos.slice().sort((x, y) => x.name.localeCompare(y.name)).forEach(f => h += `<figure><img src="${f.url}" alt=""><figcaption>${esc(f.etiqueta)} · ${f.hash.slice(0,12)}…</figcaption></figure>`);
   if (EV.video) h += `<figure><video src="${EV.video.url}" controls playsinline></video><figcaption>Video salida · ${EV.video.hash.slice(0,12)}…</figcaption></figure>`;
   $('evGal').innerHTML = h;
-  $('evNote').textContent = `${EV.photos.length} fotos${EV.video ? ' + video de salida' : ''}. El collage queda guardado en Carreras; las fotos sueltas y el video, no: descargalos si los necesitás.`;
+  $('evNote').textContent = `${EV.photos.length} fotos${EV.video ? ' + video de salida' : ''}. El collage queda guardado en ${$('ivCamSlot').contains($('evCard')) ? 'Series, en Sesiones anteriores' : 'Carreras'}; las fotos sueltas y el video, no: descargalos si los necesitás.`;
 }
 function bajar(f){ const a = document.createElement('a'); a.href = f.url || URL.createObjectURL(f.blob); a.download = f.name; document.body.appendChild(a); a.click(); a.remove(); }
 $('btnDl').onclick = () => archivosEv().forEach((f, i) => setTimeout(() => bajar(f), i * 400));
@@ -1045,6 +1118,7 @@ function finalizar(t, d){
   terminar(); if (typeof compFin === 'function') compFin(); schedule();
 }
 function ingestGeneral(t, d, wstate, drag){
+  if (typeof IV !== 'undefined' && IV.activo) { ivTick(t, d, wstate, drag); schedule(); return; }
   if (typeof compMov === 'function') compMov(d, R.lastD);
   if (drag) R.drag = drag;
   if (R.finished) {
@@ -1180,7 +1254,7 @@ const esLand = () => window.matchMedia('(orientation:landscape)').matches && win
 let forzUser = false;
 const forz = () => { try { return !esLand() && (forzUser || compForzar()); } catch(e){ return false; } };
 function landVis(){
-  const fz = forz(), on = (esLand() || fz) && !landOff && !$('vVivo').classList.contains('hide');
+  const fz = forz(), on = (esLand() || fz) && !landOff && (!$('vVivo').classList.contains('hide') || (IV.estado != null && !$('vIv').classList.contains('hide')));
   document.body.classList.toggle('forzado', fz && on);
   $('land').classList.toggle('hide', !on); document.body.style.overflow = on ? 'hidden' : '';
   const c = $('camCanvas');   // la vista de la cámara acompaña al modo activo
@@ -1227,16 +1301,18 @@ function renderLand(){
     pkPos: R.fc && R.fc.length > 3 ? Math.round(R.fc.indexOf(Math.max(...R.fc)) / (R.fc.length - 1) * 100) : 0,
     dlcm: R.dl ? Math.round(R.dl * 100) : 0
   };
+  const S = IV.estado != null && !$('vIv').classList.contains('hide') ? ivLandV() : null;
+  if (S) Object.assign(V, S.V);
   L.querySelectorAll('[data-v]').forEach(el => { const v = V[el.dataset.v]; el.textContent = v == null ? '–' : v; });
-  L.querySelectorAll('.vp').forEach(el => { el.classList.toggle('ok', d.classList.contains('ok')); el.classList.toggle('bad', d.classList.contains('bad')); });
+  L.querySelectorAll('.vp').forEach(el => { el.classList.toggle('ok', S ? S.ok : d.classList.contains('ok')); el.classList.toggle('bad', S ? S.bad : d.classList.contains('bad')); });
   $('lRec').textContent = CAM.stream ? (CAM.grabando ? '● grabando' : '● cámara') : '';
   if (landS >= nLand()) landS = 0;
   if (landS === 7) {
     $('lRank').innerHTML = compRankHtml();
     $('lMis').innerHTML = `<div><b>${fmt(R.t, 0)}</b><span>tiempo</span></div><div><b>${fmt(pNow, 0)}</b><span>/500 m</span></div><div><b>${Math.round(R.d)}</b><span>metros</span></div>`;
   }
-  if (landS === 3) { const b = $('lChart'); dibujaChart(b, Math.max(140, b.clientHeight - 8), 17); }
-  else if (landS === 4) $('lTb').innerHTML = filasTabla(tr);
+  if (landS === 3) { const b = $('lChart'); if (S) b.innerHTML = ivLandChart(b.clientWidth, Math.max(140, b.clientHeight - 8)); else dibujaChart(b, Math.max(140, b.clientHeight - 8), 17); }
+  else if (landS === 4) $('lTb').innerHTML = S ? ivLandTabla() : filasTabla(tr);
   else if (landS === 5) { const f = $('lFc'); if (f.dataset.i !== String(FC.id)) { f.dataset.i = FC.id; f.innerHTML = FC.svg || ''; } }
   else if (landS === 6) { $('lCamBtn').textContent = $('btnCam').textContent; $('lCamOff').classList.toggle('hide', !!CAM.stream); }
 }
@@ -1858,19 +1934,131 @@ function compEntrar(code){
   COMP.finSnap = null; COMP.fotos = null; COMP.cerrada = false; COMP.salirArm = false; COMP.libre = false;
   document.body.classList.add('enSala');
   clearInterval(COMP.timer); clearInterval(COMP.tc);
-  COMP.timer = setInterval(compTick, 1000); COMP.tc = setInterval(compCuenta, 150);
+  COMP.timer = setInterval(compTick, 1000); COMP.tc = setInterval(compCuenta, 150); vidIniciar();
   compTick(); compRender();
 }
 async function compSalir(silencio, msg){
-  const code = COMP.sala; clearInterval(COMP.timer); clearInterval(COMP.tc); COMP.timer = COMP.tc = null;
+  const code = COMP.sala; vidDetener(code); clearInterval(COMP.timer); clearInterval(COMP.tc); COMP.timer = COMP.tc = null;
   if (!COMP.mirar) await liberarPM5();
-  if (code && !silencio) { try { if (COMP.host) { await fb('DELETE', code); await fb('DELETE', code + '_f'); } else if (!COMP.mirar) { await fb('DELETE', `${code}/rem/${COMP.id}`); await fb('DELETE', `${code}_f/${COMP.id}`); } } catch(e){} }
+  if (code && !silencio) { try { if (COMP.host) { await fb('DELETE', code); await fb('DELETE', code + '_f'); await fb('DELETE', code + '_v'); } else if (!COMP.mirar) { await fb('DELETE', `${code}/rem/${COMP.id}`); await fb('DELETE', `${code}_f/${COMP.id}`); } } catch(e){} }
   if (COMP.prev) { const P = CFG.perfiles[COMP.prev.nombre]; if (P) { P.modo = COMP.prev.modo; P.dist = COMP.prev.dist; P.split = COMP.prev.split; normaliza(P); save(); cambioDistancia(); } COMP.prev = null; }
   COMP.sala = null; COMP.data = null; COMP.host = false; COMP.mirar = false; COMP.go = false; COMP.tStart = null; COMP.finData = null; COMP.dq = false; COMP.finSnap = null; COMP.cerrada = false;
   document.body.classList.remove('enSala'); $('cuenta').classList.add('hide'); $('compVivo').classList.add('hide');
   if (landS >= NLAND) landS = 0;
   compRender(); schedule(); if (msg) compMsg(msg);
 }
+
+/* ================= video en vivo entre remeros (WebRTC, hasta 4) ================= */
+// Cada remero manda su cámara (chica: ~240 px, 10 cuadros/s) directo a los otros; Firebase solo sirve para intercambiar las "señales" de conexión.
+const VID = { p:{}, vistos:{}, timer:null, draw:null, busy:false, cv:document.createElement('canvas'), track:null, max:4 };
+const VID_ICE = { iceServers:[{ urls:'stun:stun.l.google.com:19302' }, { urls:'stun:stun1.l.google.com:19302' }] };
+const vidOn = () => CFG.vid !== false;
+function vidIniciar(){
+  vidDetener(null, true);
+  if (typeof RTCPeerConnection === 'undefined') { $('cVidEst').textContent = 'Este navegador no soporta video en vivo.'; return; }
+  try { VID.track = VID.cv.captureStream(10).getVideoTracks()[0]; } catch(e){ VID.track = null; }
+  VID.timer = setInterval(vidTick, 1500); VID.draw = setInterval(vidDibuja, 100); vidEstado();
+}
+function vidDetener(code, silencio){
+  clearInterval(VID.timer); clearInterval(VID.draw); VID.timer = VID.draw = null;
+  const peers = Object.keys(VID.p); peers.forEach(vidCerrar); VID.vistos = {};
+  if (VID.track) { try { VID.track.stop(); } catch(e){} VID.track = null; }
+  $('vidDock').innerHTML = ''; $('vidDock').classList.add('hide');
+  if (code && !silencio && !COMP.host) peers.forEach(i => fb('DELETE', `${code}_v/${COMP.id < i ? COMP.id + '~' + i : i + '~' + COMP.id}`).catch(() => {}));
+}
+function vidCerrar(peer){
+  const e = VID.p[peer]; delete VID.p[peer];
+  if (e) { e.pc.onconnectionstatechange = null; e.pc.ontrack = null; try { e.pc.close(); } catch(x){} }
+  const t = $('vidDock').querySelector(`[data-p="${peer}"]`); if (t) t.remove();
+  $('vidDock').classList.toggle('hide', !$('vidDock').children.length);
+}
+function vidDibuja(){
+  const v = $('camVideo'); if (!CAM.stream || !v.videoWidth || !vidOn()) return;
+  const D = dimsCam(v, 240), c = VID.cv; if (c.width !== D.w || c.height !== D.h) { c.width = D.w; c.height = D.h; }
+  const g = c.getContext('2d'); pintaVideo(g, v, D);
+  g.fillStyle = 'rgba(0,0,0,.55)'; g.fillRect(0, D.h - 20, D.w, 20); g.fillStyle = '#fff'; g.font = '600 13px Roboto, system-ui, sans-serif'; g.textBaseline = 'middle'; g.fillText(CFG.activo, 6, D.h - 10);
+}
+function vidPista(){   // manda o corta mi cámara según esté encendida
+  const quiero = !!(CAM.stream && $('camVideo').videoWidth && vidOn() && VID.track);
+  Object.values(VID.p).forEach(e => { const t = quiero ? VID.track : null; if (e.snd && e.snd.track !== t) e.snd.replaceTrack(t).catch(() => {}); });
+}
+function vidIce(pc){
+  return new Promise(res => { if (pc.iceGatheringState === 'complete') return res();
+    const f = () => { if (pc.iceGatheringState === 'complete') { pc.removeEventListener('icegatheringstatechange', f); res(); } };
+    pc.addEventListener('icegatheringstatechange', f); setTimeout(res, 3500); });
+}
+function vidParams(e){
+  try { const q = e.snd.getParameters(); if (!q.encodings || !q.encodings.length) q.encodings = [{}];
+    q.encodings[0].maxBitrate = 180000; q.encodings[0].maxFramerate = 10; e.snd.setParameters(q).catch(() => {}); } catch(x){}
+}
+function vidPC(peer, oferta){
+  const pc = new RTCPeerConnection(VID_ICE), e = VID.p[peer] = { pc, k:null, t0:Date.now(), busy:false, ok:false, ans:false, snd:null };
+  if (oferta) { const tr = pc.addTransceiver('video', { direction:'sendrecv' }); e.snd = tr.sender; vidEnvia(e); }
+  pc.ontrack = ev => vidTile(peer, ev.streams[0] || new MediaStream([ev.track]));
+  pc.onconnectionstatechange = () => { e.ok = pc.connectionState === 'connected'; vidEstado(); };
+  return e;
+}
+function vidEnvia(e){ if (e.snd && CAM.stream && vidOn() && VID.track) e.snd.replaceTrack(VID.track).catch(() => {}); }
+function vidNombre(peer){ const r = COMP.data && COMP.data.rem && COMP.data.rem[peer]; return r && r.n ? r.n : 'Remero'; }
+function vidTile(peer, stream){
+  const dock = $('vidDock'); let t = dock.querySelector(`[data-p="${peer}"]`);
+  if (!t) { t = document.createElement('div'); t.className = 'vt'; t.dataset.p = peer; t.innerHTML = '<video autoplay playsinline muted></video><span></span>'; t.onclick = () => t.classList.toggle('big'); dock.appendChild(t); }
+  const v = t.querySelector('video'); if (v.srcObject !== stream) { v.srcObject = stream; v.play().catch(() => {}); }
+  t.querySelector('span').textContent = vidNombre(peer); dock.classList.remove('hide');
+}
+async function vidOferta(peer, pair){
+  vidCerrar(peer); const e = vidPC(peer, true); e.busy = true; e.k = nuevoId();
+  try {
+    await e.pc.setLocalDescription(await e.pc.createOffer()); await vidIce(e.pc); vidParams(e);
+    await fb('PUT', `${COMP.sala}_v/${pair}`, { o:{ k:e.k, sdp:e.pc.localDescription.sdp } }); e.t0 = Date.now();
+  } catch(x){ vidCerrar(peer); } finally { e.busy = false; }
+}
+async function vidResponde(peer, pair, o){
+  vidCerrar(peer); const e = vidPC(peer, false); e.busy = true; e.k = o.k;
+  try {
+    await e.pc.setRemoteDescription({ type:'offer', sdp:o.sdp });
+    const tr = e.pc.getTransceivers().find(t => t.receiver.track && t.receiver.track.kind === 'video');   // el que creó la oferta: hay que habilitarlo también para enviar
+    if (tr) { tr.direction = 'sendrecv'; e.snd = tr.sender; vidEnvia(e); }
+    await e.pc.setLocalDescription(await e.pc.createAnswer()); await vidIce(e.pc); vidParams(e);
+    await fb('PUT', `${COMP.sala}_v/${pair}/a`, { k:o.k, sdp:e.pc.localDescription.sdp }); e.t0 = Date.now();
+  } catch(x){ vidCerrar(peer); } finally { e.busy = false; }
+}
+async function vidTick(){
+  if (!COMP.sala || COMP.mirar || VID.busy) return;
+  if (!vidOn()) { Object.keys(VID.p).forEach(vidCerrar); vidEstado(); return; }
+  VID.busy = true;
+  try {
+    vidPista();
+    const rem = (COMP.data && COMP.data.rem) || {};
+    const ids = Object.keys(rem).sort((a, b) => (rem[a].ts || 0) - (rem[b].ts || 0) || (a < b ? -1 : 1)).slice(0, VID.max);
+    if (!ids.includes(COMP.id)) { Object.keys(VID.p).forEach(vidCerrar); vidEstado(true); return; }
+    const peers = ids.filter(i => i !== COMP.id);
+    Object.keys(VID.p).forEach(i => { if (!peers.includes(i)) vidCerrar(i); });
+    if (!peers.length) { vidEstado(); return; }
+    const data = (await fb('GET', COMP.sala + '_v')) || {};
+    for (const peer of peers) {
+      const lo = COMP.id < peer, pair = lo ? `${COMP.id}~${peer}` : `${peer}~${COMP.id}`, node = data[pair] || {}; let e = VID.p[peer];
+      const caida = e && (e.pc.connectionState === 'failed' || e.pc.connectionState === 'closed');
+      if (lo) {
+        if (!e || caida || (!e.ok && !e.busy && Date.now() - e.t0 > 25000)) await vidOferta(peer, pair);
+        else if (!e.busy && node.a && node.a.k === e.k && !e.ans && e.pc.signalingState === 'have-local-offer') {
+          e.ans = true; try { await e.pc.setRemoteDescription({ type:'answer', sdp:node.a.sdp }); } catch(x){ vidCerrar(peer); }
+        }
+      } else if (node.o && VID.vistos[peer] !== node.o.k && !(e && e.busy)) { VID.vistos[peer] = node.o.k; await vidResponde(peer, pair, node.o); }
+      else if (caida) vidCerrar(peer);
+    }
+    $('vidDock').querySelectorAll('.vt').forEach(t => { t.querySelector('span').textContent = vidNombre(t.dataset.p); });
+    vidEstado();
+  } catch(x){} finally { VID.busy = false; }
+}
+function vidEstado(fuera){
+  $('cVid').textContent = 'Video con los demás: ' + (vidOn() ? 'sí' : 'no');
+  const n = Object.values(VID.p).filter(e => e.ok).length, tot = Object.keys(VID.p).length;
+  $('cVidEst').textContent = !vidOn() ? 'No ves ni mostrás video.' : fuera ? `El video es solo para los primeros ${VID.max} remeros de la sala.` : COMP.mirar ? 'Como espectador no ves el video de los remeros.'
+    : `${tot ? `${n} de ${tot} conectados` : 'Esperando a los otros remeros'}${CAM.stream ? '' : ' · tu cámara está apagada, así que no te ven (activala en En vivo)'}.`;
+}
+$('cVid').onclick = () => { CFG.vid = !vidOn(); save(); if (!vidOn()) Object.keys(VID.p).forEach(vidCerrar); vidEstado(); };
+
 function compTerminada(s){
   if (!s || !s.rem) return false; if (s.estado === 'fin') return true;
   const L = Object.values(s.rem).filter(e => e.listo);
@@ -2167,6 +2355,419 @@ $('btnDemo').onclick = () => {
     ingestForce(Array.from({ length:28 }, (_, i) => Math.round(180 * Math.pow(Math.sin(Math.PI * i / 27), .7) * (1 - .25 * i / 27))));
     ingestGeneral(t, d, 1, 105);
     if (R.finished) pararDemo();
+  }, 100);
+};
+
+/* ================= SERIES / INTERVALOS ================= */
+// Cada serie: m 'd' (metros) o 't' (segundos), v valor, o ritmo objetivo /500 (o null), r descanso en segundos después de la serie.
+const KEYIV = 'ergoVivo.iv', KEYIVH = 'ergoVivo.ivh';
+let IVC = (() => {
+  try { const j = JSON.parse(localStorage.getItem(KEYIV)); if (j && Array.isArray(j.rows) && j.rows.length) return j; } catch(e){}
+  return { rows: Array.from({ length:8 }, () => ({ m:'d', v:200, o:null, r:60 })) };
+})();
+const ivSave = () => { try { localStorage.setItem(KEYIV, JSON.stringify(IVC)); } catch(e){} };
+const ivLoadH = () => { try { return JSON.parse(localStorage.getItem(KEYIVH)) || []; } catch(e){ return []; } };
+const ivSaveH = H => { try { localStorage.setItem(KEYIVH, JSON.stringify(H.slice(-30))); } catch(e){} };
+
+const IV = { cam:false, ses:null, activo:false, estado:null, k:0, res:[], clock:0, lastTick:0, vel:1, restEnd:0, lastSec:null, pt:null, pd:null, t0:0, d0:0, acc:null, demo:null, tm:null, id:null };
+const ivVal = r => r.m === 'd' ? mfmt(r.v) + ' m' : fmt(r.v, 0);
+const ivPace = (m, v, tiempo, dist) => dist > 0 ? tiempo / dist * 500 : null;
+const ivAcc = () => ({ n:0, spm:0, ns:0, hr:0, nh:0, w:0, nw:0 });
+const ivProm = (s, n) => n ? s / n : null;
+
+// ---- configuración ----
+function ivResumen(rows){
+  const n = rows.length, igual = rows.every(r => r.m === rows[0].m && r.v === rows[0].v && r.r === rows[0].r);
+  const trab = rows.filter(r => r.m === 'd').reduce((a, r) => a + r.v, 0), tt = rows.filter(r => r.m === 't').reduce((a, r) => a + r.v, 0);
+  const desc = rows.slice(0, -1).reduce((a, r) => a + (r.r || 0), 0);
+  const base = igual ? `${n} × ${ivVal(rows[0])}${rows[0].r ? ' · descanso ' + fmt(rows[0].r, 0) : ' · sin descanso'}` : `${n} series variables`;
+  return base + ` · ${trab ? mfmt(trab) + ' m' : ''}${trab && tt ? ' + ' : ''}${tt ? fmt(tt, 0) + ' de remo' : ''} · ${fmt(desc, 0)} de descanso`;
+}
+function ivRenderSetup(){
+  $('ivTb').innerHTML = IVC.rows.map((r, i) => `<tr>
+    <td>${i + 1}</td>
+    <td><select data-k="m" data-i="${i}"><option value="d"${r.m === 'd' ? ' selected' : ''}>m</option><option value="t"${r.m === 't' ? ' selected' : ''}>tiempo</option></select></td>
+    <td><input data-k="v" data-i="${i}" value="${r.m === 'd' ? r.v : fmt(r.v, 0)}" inputmode="decimal"></td>
+    <td><input data-k="o" data-i="${i}" value="${r.o ? fmt(r.o) : ''}" inputmode="decimal" placeholder="–"></td>
+    <td><input data-k="r" data-i="${i}" value="${r.r ? fmt(r.r, 0) : '0'}" inputmode="decimal"></td>
+    <td><button class="sec" data-del="${i}">✕</button></td></tr>`).join('');
+  $('ivResumenTxt').textContent = ivResumen(IVC.rows);
+  ivRenderHist();
+}
+function ivParseRest(s){ s = String(s).trim(); if (s === '' || s === '0') return 0; return parseT(s); }
+$('ivTb').addEventListener('change', e => {
+  const el = e.target, i = +el.dataset.i, k = el.dataset.k, r = IVC.rows[i]; if (!r || !k) return;
+  if (k === 'm') { r.m = el.value; r.v = r.m === 'd' ? 200 : 60; }
+  else if (k === 'v') {
+    const v = r.m === 'd' ? parseFloat(el.value.replace(',', '.')) : parseT(el.value);
+    if (!(v > 0) || (r.m === 'd' ? (v < 20 || v > 20000) : (v < 10 || v > 3600))) { aviso(r.m === 'd' ? 'La distancia de la serie tiene que estar entre 20 y 20.000 m.' : 'El tiempo de la serie tiene que estar entre 0:10 y 1:00:00. Ej.: 60 = 1:00 · 400 = 4:00'); }
+    else { r.v = r.m === 'd' ? Math.round(v) : v; aviso(''); }
+  }
+  else if (k === 'o') {
+    if (el.value.trim() === '') { r.o = null; aviso(''); }
+    else { const v = parseT(el.value); if (!v) aviso('No entendí ese ritmo. Ej.: 118 = 1:58 · 118,5 = 1:58,5'); else { r.o = v; aviso(''); } }
+  }
+  else if (k === 'r') { const v = ivParseRest(el.value); if (v == null || v > 3600) aviso('No entendí ese descanso. Ej.: 60 = 1:00 · 0 = sin descanso'); else { r.r = v; aviso(''); } }
+  ivSave(); ivRenderSetup();
+});
+$('ivTb').addEventListener('click', e => {
+  const b = e.target.closest('[data-del]'); if (!b) return;
+  if (IVC.rows.length < 2) { aviso('Tiene que quedar al menos una serie.'); return; }
+  IVC.rows.splice(+b.dataset.del, 1); ivSave(); ivRenderSetup();
+});
+$('ivAdd').onclick = () => { const l = IVC.rows[IVC.rows.length - 1]; if (IVC.rows.length >= 60) { aviso('Máximo 60 series.'); return; } IVC.rows.push({ m:l.m, v:l.v, o:l.o, r:l.r }); ivSave(); ivRenderSetup(); };
+$('ivGenModo').onchange = () => { const T = $('ivGenModo').value === 't'; $('ivGenValLbl').textContent = T ? 'Tiempo de cada serie' : 'Metros de cada serie'; $('ivGenVal').value = T ? '1:00' : '200'; };
+$('ivGen').onclick = () => {
+  const n = Math.round(parseFloat($('ivGenN').value.replace(',', '.'))), m = $('ivGenModo').value;
+  const v = m === 'd' ? Math.round(parseFloat($('ivGenVal').value.replace(',', '.'))) : parseT($('ivGenVal').value);
+  const r = ivParseRest($('ivGenRest').value), o = $('ivGenObj').value.trim() ? parseT($('ivGenObj').value) : null;
+  if (!(n >= 1 && n <= 60)) { aviso('La cantidad de series tiene que estar entre 1 y 60.'); return; }
+  if (!(v > 0) || (m === 'd' ? (v < 20 || v > 20000) : (v < 10 || v > 3600))) { aviso(m === 'd' ? 'Metros por serie: entre 20 y 20.000.' : 'Tiempo por serie: entre 0:10 y 1:00:00. Ej.: 60 = 1:00'); return; }
+  if (r == null || r > 3600) { aviso('No entendí el descanso. Ej.: 60 = 1:00 · 0 = sin descanso'); return; }
+  if ($('ivGenObj').value.trim() && !o) { aviso('No entendí el ritmo objetivo. Ej.: 118 = 1:58'); return; }
+  IVC.rows = Array.from({ length:n }, () => ({ m, v, o, r })); aviso(''); ivSave(); ivRenderSetup();
+};
+
+// ---- sesión ----
+function ivAhora(){ return IV.clock; }
+function ivEmpezar(){
+  if (R.running) { aviso('Hay una remada en curso: terminala antes de empezar las series.'); return; }
+  if (IV.activo) return;
+  if (IV.cam) { aviso('Esperá un momento: se está armando el collage de la sesión anterior.'); return; }
+  resetEv(); EV.finalP = null; IV.cam = true; IV.ses = null;
+  if (CAM.stream) { if (CAM.rec) { CAM.keep = false; CAM.rec.stop(); } else armarRec(); }
+  IV.activo = true; IV.estado = 'listo'; IV.k = 0; IV.res = []; IV.acc = ivAcc(); IV.id = Date.now();
+  IV.pt = R.t || 0; IV.pd = R.d || 0; IV.t0 = IV.pt; IV.d0 = IV.pd; IV.dRef = IV.pd;
+  IV.clock = 0; IV.lastTick = Date.now(); IV.lastSec = null; IV.rows = IVC.rows.map(r => ({ ...r }));
+  clearInterval(IV.tm); IV.tm = setInterval(ivReloj, 250);
+  pedirWakeLock(); aviso(''); ivRender();
+}
+function ivSerieFin(res){
+  const a = IV.acc, k = IV.k, row = IV.rows[k];
+  res.k = k; res.m = row.m; res.v = row.v; res.o = row.o;
+  res.spm = ivProm(a.spm, a.ns); res.hr = ivProm(a.hr, a.nh); res.w = ivProm(a.w, a.nw);
+  res.pace = ivPace(row.m, row.v, res.tiempo, res.dist);
+  IV.res.push(res); IV.acc = ivAcc();
+}
+function ivSonido(f, ms){ try { beep(f, ms); } catch(e){} try { navigator.vibrate && navigator.vibrate(Math.min(ms, 400)); } catch(e){} }
+function ivTick(t, d, ws, drag){
+  if (drag) R.drag = drag;
+  const pt = IV.pt == null ? t : IV.pt, pd = IV.pd == null ? d : IV.pd;
+  if (t + 1 < pt) { IV.t0 += t - pt; IV.d0 += d - pd; IV.dRef += d - pd; }   // el PM5 reinició su reloj: se acomodan las referencias
+  IV.pt = t; IV.pd = d; R.t = t; R.d = d; R.lastT = t; R.lastD = d; R.wstate = ws;
+  if (IV.estado === 'listo') {
+    if (d - IV.dRef > 2) { IV.estado = 'trabajo'; IV.t0 = pt; IV.d0 = pd; ivSonido(1000, 300); capturar('Inicio', [`INICIO · ${ivResumen(IV.rows).split(' · ').slice(0, 2).join(' · ')}`, `${hoyStr()} ${horaStr()}`], '00_inicio'); }
+    else { ivRender(); return; }
+  }
+  if (IV.estado === 'arranque') { IV.estado = 'trabajo'; IV.t0 = t; IV.d0 = d; IV.acc = ivAcc(); }
+  if (IV.estado !== 'trabajo') { ivRender(); return; }
+  const a = IV.acc, row = IV.rows[IV.k];
+  a.n++; if (R.spm) { a.spm += R.spm; a.ns++; } if (R.hr) { a.hr += R.hr; a.nh++; } if (R.w) { a.w += R.w; a.nw++; }
+  let fin = null;
+  if (row.m === 'd') {
+    if (d - IV.d0 >= row.v) {
+      const dd = d - pd, tc = dd > 0 ? pt + (row.v - (pd - IV.d0)) * (t - pt) / dd : t;
+      fin = { tiempo: Math.max(0.1, tc - IV.t0), dist: row.v };
+    }
+  } else if (t - IV.t0 >= row.v) {
+    const dt = t - pt, dc = dt > 0 ? pd + (IV.t0 + row.v - pt) * (d - pd) / dt : d;
+    fin = { tiempo: row.v, dist: Math.max(0, dc - IV.d0) };
+  }
+  if (fin) {
+    ivSerieFin(fin); ivFotoSerie(IV.res[IV.res.length - 1]);
+    if (IV.k >= IV.rows.length - 1) { ivTerminar(false); return; }
+    ivSonido(800, 500);
+    const rest = row.r || 0; IV.k++;
+    if (rest > 0) { IV.estado = 'descanso'; IV.restEnd = ivAhora() + rest; IV.lastSec = null; }
+    else IV.estado = 'arranque';
+  }
+  ivRender();
+}
+function ivReloj(){
+  const now = Date.now(); IV.clock += (now - IV.lastTick) / 1000 * IV.vel; IV.lastTick = now;
+  if (!IV.activo) return;
+  if (IV.estado === 'descanso') {
+    const rem = IV.restEnd - ivAhora(), sec = Math.ceil(rem);
+    if (sec !== IV.lastSec) { IV.lastSec = sec; if (sec >= 1 && sec <= 3) ivSonido(660, 150); }
+    if (rem <= 0) { IV.estado = 'arranque'; ivSonido(1000, 600); }
+  }
+  ivRender();
+}
+function ivTerminar(parcial){
+  if (!IV.activo) return;
+  if (parcial && IV.estado === 'trabajo') {   // serie a medias: se guarda lo que se alcanzó a remar
+    const row = IV.rows[IV.k], tiempo = IV.pt - IV.t0, dist = IV.pd - IV.d0;
+    if (tiempo > 5 && dist > 5) { const r = { tiempo, dist, parcial:true }; ivSerieFin(r); ivFotoSerie(r); }
+  }
+  IV.activo = false; IV.estado = 'fin'; clearInterval(IV.tm); IV.tm = null; soltarWakeLock();
+  IV.ses = { id:IV.id, fecha:new Date().toISOString(), rows:IV.rows, res:IV.res };
+  if (IV.res.length) { const H = ivLoadH(); H.push(IV.ses); ivSaveH(H); }
+  ivCamFinal(IV.ses);
+  ivSonido(600, 700);
+  setTimeout(() => { try { liberarPM5(); } catch(e){} }, 3000);   // termina el entrenamiento en el monitor para que no quede trabado
+  ivRender(); ivRenderSetup();
+}
+function ivCancelar(){
+  IV.activo = false; IV.cam = false; IV.ses = null; resetEv(); IV.estado = null; IV.res = []; clearInterval(IV.tm); IV.tm = null; soltarWakeLock(); pararIvDemo(); ivRender();
+}
+
+// ---- texto para compartir ----
+function ivFila(x){
+  const tiempo = x.m === 'd' ? fmt(x.tiempo) : fmt(x.v, 0), dist = x.m === 'd' ? mfmt(x.v) + ' m' : mfmt(x.dist) + ' m';
+  let s = `${x.k + 1}: ${tiempo} · ${dist} · ${fmt(x.pace)}/500`;
+  if (x.o && x.pace) s += ` (obj ${fmt(x.o)} → ${fmtDif(x.pace - x.o)})`;
+  if (x.parcial) s += ' (parcial)';
+  return s;
+}
+function ivTexto(s){
+  const f = new Date(s.fecha), ps = s.res.filter(x => x.pace && !x.parcial);
+  let t = `IndoorIRT · Series\n${f.toLocaleDateString('es-AR')} ${f.toLocaleTimeString('es-AR', { hour12:false, hour:'2-digit', minute:'2-digit' })}\n${ivResumen(s.rows)}\n\n`;
+  t += s.res.map(ivFila).join('\n');
+  if (ps.length > 1) {
+    const mejor = ps.reduce((a, b) => b.pace < a.pace ? b : a), peor = ps.reduce((a, b) => b.pace > a.pace ? b : a);
+    const medio = ps.reduce((a, b) => a + b.pace, 0) / ps.length;
+    t += `\n\nRitmo medio de las series: ${fmt(medio)}/500 · mejor ${fmt(mejor.pace)} (serie ${mejor.k + 1}) · peor ${fmt(peor.pace)} (serie ${peor.k + 1})`;
+  }
+  const hr = s.res.filter(x => x.hr).map(x => x.hr);
+  if (hr.length) t += `\nFC media por serie: ${hr.map(v => Math.round(v)).join(' · ')}`;
+  return t;
+}
+// ---- cámara y registro fotográfico ----
+const ivSleep = ms => new Promise(r => setTimeout(r, ms));
+function ivLineaCam(){
+  const rows = IV.rows || [], n = rows.length, k = Math.min(IV.k, n - 1), E = IV.estado;
+  if (!IV.activo) return `SERIES TERMINADAS · ${IV.res.length} de ${n}`;
+  if (E === 'listo') return 'Esperando salida';
+  if (E === 'descanso') return `DESCANSO ${fmt(Math.max(0, IV.restEnd - ivAhora()), 0)} · ${IV.res.length} de ${n} hechas`;
+  const dS = IV.pd - IV.d0, tS = IV.pt - IV.t0;
+  return `SERIE ${k + 1}/${n} · ${mfmt(Math.max(0, dS))} m · ${fmt(Math.max(0, tS))} · ritmo ${fmt(R.pace)} · ${R.spm ?? '–'} s/m`;
+}
+function ivFotoSerie(x){
+  const n = IV.rows.length, paso = Math.ceil(n / 10);
+  const txt = `SERIE ${x.k + 1}/${n} · ${x.m === 'd' ? fmt(x.tiempo) : fmt(x.v, 0)} · ${mfmt(x.m === 'd' ? x.v : x.dist)} m · ritmo ${fmt(x.pace)}${x.parcial ? ' (parcial)' : ''}`;
+  CAM.flash = { txt, hasta: performance.now() + 2000 };
+  if ((x.k + 1) % paso === 0 || x.k === n - 1) capturar(`Serie ${x.k + 1}`, [txt, x.o && x.pace ? `objetivo ${fmt(x.o)} → ${fmtDif(x.pace - x.o)}` : `s/m ${R.spm ?? '–'}`], String(x.k + 1).padStart(2, '0') + '_serie');
+}
+function ivCamFinal(ses){
+  if (!CAM.stream && !EV.photos.length) { IV.cam = false; return; }
+  const b = $('ivShare'); b.disabled = true; b.textContent = 'Preparando collage…'; b.classList.remove('hide');
+  (async () => {
+    pararRec(true);
+    await ivSleep(2500);   // foto del monitor ya con el resultado final
+    const ps = ses.res.filter(x => x.pace && !x.parcial), medio = ps.length ? ps.reduce((a, c) => a + c.pace, 0) / ps.length : null;
+    capturar('Final', [`SERIES TERMINADAS · ${ses.res.length} de ${ses.rows.length}`, `ritmo medio ${fmt(medio)}/500 · ${hoyStr()} ${horaStr()}`], '99_final');
+    await ivSleep(300); await Promise.all(EV.pend);
+    IV.cam = false;
+    if (EV.photos.length || EV.video) {
+      await ivArmarHoja(ses); renderEv();
+      if (ses.res.length) {
+        try { await idb.put('iv' + ses.id, EV.sheet.blob); const H = ivLoadH(), i = H.findIndex(x => x.id === ses.id); if (i >= 0) { H[i].collage = true; ivSaveH(H); } } catch(e){}
+        ivRenderHist();
+      }
+    }
+  })().catch(() => {}).finally(() => { IV.cam = false; b.disabled = false; b.textContent = 'Compartir collage'; ivRender(); });
+}
+async function ivArmarHoja(ses){
+  const W = 1080, pad = 36, colW = (W - pad * 3) / 2, res = ses.res, nombre = CFG.activo;
+  const fotos = EV.photos.slice().sort((a, b) => a.name.localeCompare(b.name));
+  const altoFoto = f => colW * f.c.height / f.c.width;
+  const y0 = 260 + (res.length + 1) * 38 + 40, filas = [];
+  for (let i = 0; i < fotos.length; i += 2) filas.push(Math.max(altoFoto(fotos[i]), fotos[i + 1] ? altoFoto(fotos[i + 1]) : 0) + 64);
+  const H = y0 + filas.reduce((a, b) => a + b, 0) + 150;
+  const c = document.createElement('canvas'); c.width = W; c.height = H; const g = c.getContext('2d');
+  g.fillStyle = '#ffffff'; g.fillRect(0, 0, W, H);
+  g.fillStyle = '#74acdf'; g.fillRect(0, 0, W, 130); g.fillStyle = '#ffffff'; g.fillRect(0, 130, W, 8); g.fillStyle = '#74acdf'; g.fillRect(0, 138, W, 6);
+  let xT = pad;
+  if (CFG.logo) { const im = new Image(); im.src = CFG.logo; await im.decode().catch(() => {}); if (im.width) { const s = 96 / Math.max(im.width, im.height); g.fillStyle = '#fff'; g.fillRect(pad, 17, 96, 96); g.drawImage(im, pad + (96 - im.width * s) / 2, 17 + (96 - im.height * s) / 2, im.width * s, im.height * s); xT = pad + 116; } }
+  g.fillStyle = '#0b2545'; g.textBaseline = 'alphabetic';
+  g.font = '700 40px Roboto, system-ui, sans-serif'; g.fillText(`${nombre} · Series`, xT, 62);
+  g.font = '400 26px Roboto, system-ui, sans-serif'; g.fillText(`${hoyStr()} · ${ivResumen(ses.rows).split(' · ').slice(0, 2).join(' · ')}`, xT, 104);
+  const ps = res.filter(x => x.pace && !x.parcial), medio = ps.length ? ps.reduce((a, b) => a + b.pace, 0) / ps.length : null;
+  g.fillStyle = color(); g.font = '700 64px Roboto, system-ui, sans-serif'; g.fillText(fmt(medio), pad, 214);
+  g.fillStyle = '#6b6f7a'; g.font = '400 26px Roboto, system-ui, sans-serif'; g.fillText(`ritmo medio /500 · ${res.length} de ${ses.rows.length} series`, pad + 330, 204);
+  let y = 270; g.font = '600 24px Roboto, system-ui, sans-serif';
+  ['Serie', 'Tiempo', 'Metros', 'Ritmo /500', 'Obj', 'Dif'].forEach((t, i) => g.fillText(t, pad + i * 170, y)); y += 6;
+  g.font = '400 28px Roboto, system-ui, sans-serif';
+  res.forEach(x => {
+    y += 38; const df = x.o && x.pace ? x.pace - x.o : null;
+    g.fillStyle = '#1b1f2a';
+    [`${x.k + 1}${x.parcial ? '*' : ''}`, x.m === 'd' ? fmt(x.tiempo) : fmt(x.v, 0), mfmt(x.m === 'd' ? x.v : x.dist)].forEach((t, i) => g.fillText(t, pad + i * 170, y));
+    g.fillStyle = color(); g.fillText(fmt(x.pace), pad + 510, y);
+    g.fillStyle = '#1b1f2a'; g.fillText(x.o ? fmt(x.o) : '–', pad + 680, y);
+    g.fillStyle = df == null ? '#6b6f7a' : df <= 0.04 ? '#1f7a4d' : '#b3261e'; g.fillText(df == null ? '–' : fmtDif(df), pad + 850, y);
+  });
+  y = y0;
+  for (let i = 0; i < fotos.length; i += 2) {
+    [fotos[i], fotos[i + 1]].forEach((f, j) => {
+      if (!f) return; const x = pad + j * (colW + pad), h = altoFoto(f);
+      g.drawImage(f.c, x, y, colW, h);
+      g.fillStyle = '#1b1f2a'; g.font = '700 24px Roboto, system-ui, sans-serif'; g.fillText(`${f.etiqueta} · ${f.hora}`, x, y + h + 30);
+      g.fillStyle = '#6b6f7a'; g.font = '400 20px Roboto, system-ui, sans-serif'; g.fillText('SHA-256 ' + f.hash.slice(0, 24) + '…', x, y + h + 54);
+    });
+    y += filas[i / 2];
+  }
+  g.fillStyle = '#6b6f7a'; g.font = '400 20px Roboto, system-ui, sans-serif';
+  if (EV.video) g.fillText(`Video de salida · SHA-256 ${EV.video.hash.slice(0, 24)}…`, pad, y + 40);
+  g.fillText('Los códigos SHA-256 completos están en el archivo de texto; cualquier edición de una foto cambia su código.', pad, y + 74);
+  const blob = await new Promise(r => c.toBlob(r, 'image/jpeg', 0.88));
+  if (EV.sheet) URL.revokeObjectURL(EV.sheet.url);
+  EV.sheet = { blob, url:URL.createObjectURL(blob), name:`${EV.base}_${nombre}_series.jpg` };
+  let t = ivTexto(ses) + '\n\nSHA-256 de cada archivo:\n';
+  fotos.forEach(f => t += `${f.hash}  ${f.name}\n`);
+  if (EV.video) t += `${EV.video.hash}  ${EV.video.name}\n`;
+  EV.txt = { blob:new Blob([t], { type:'text/plain' }), name:`${EV.base}_${nombre}_hashes.txt` };
+}
+$('ivShare').onclick = () => { if (EV.sheet && IV.ses) compartir(EV.sheet.blob, EV.sheet.name, ivTexto(IV.ses)); };
+
+// ---- vista horizontal (mismas pantallas que En vivo) ----
+function ivLandV(){
+  const rows = IV.rows, n = rows.length, E = IV.estado, k = Math.min(IV.k, n - 1), row = rows[k], last = IV.res[IV.res.length - 1];
+  const tS = Math.max(0, IV.pt - IV.t0), dS = Math.max(0, IV.pd - IV.d0), V = {};
+  let ok = false, bad = false;
+  V.plan = '–'; V.planU = 's vs obj'; V.split = last ? fmt(last.pace) : '–';
+  if (E === 'trabajo') {
+    V.rest = row.m === 'd' ? String(Math.max(0, Math.ceil(row.v - dS))) : fmt(Math.max(0, row.v - tS), 0); V.restU = row.m === 'd' ? 'm' : 'tiempo';
+    V.el = row.m === 'd' ? fmt(tS, 0) : String(Math.floor(dS)); V.elU = row.m === 'd' ? 'tiempo' : 'metros';
+    V.avg = dS > 5 && tS > 2 ? fmt(tS / dS * 500, 0) : '–';
+    V.proj = row.m === 'd' ? (dS > 20 ? fmt(tS / dS * row.v, 0) : '–') : (tS > 5 ? mfmt(dS / tS * row.v) + ' m' : '–');
+    if (row.o && R.pace) { const df = R.pace - row.o; V.plan = fmtDif(df); ok = df <= 0.04; bad = !ok; }
+  } else if (E === 'descanso') {
+    V.rest = fmt(Math.max(0, IV.restEnd - ivAhora()), 0); V.restU = 'descanso';
+    V.el = last ? fmt(last.tiempo, 0) : '–'; V.elU = 'serie ' + IV.res.length; V.avg = last ? fmt(last.pace, 0) : '–';
+    V.proj = ivVal(rows[k]); if (last && last.o) { const df = last.pace - last.o; V.plan = fmtDif(df); ok = df <= 0.04; bad = !ok; }
+  } else if (E === 'arranque') { V.rest = '¡YA!'; V.restU = 'serie ' + (k + 1); V.el = '–'; V.elU = 'tiempo'; V.avg = '–'; V.proj = ivVal(row); }
+  else if (E === 'fin') {
+    const ps = IV.res.filter(x => x.pace && !x.parcial), medio = ps.length ? ps.reduce((a, b) => a + b.pace, 0) / ps.length : null;
+    V.rest = '✓'; V.restU = 'terminado'; V.el = String(IV.res.length); V.elU = 'series'; V.avg = fmt(medio, 0); V.proj = '–';
+  } else { V.rest = ivVal(rows[0]); V.restU = 'primera serie'; V.el = '–'; V.elU = 'tiempo'; V.avg = '–'; V.proj = '–'; }
+  return { V, ok, bad };
+}
+function ivLandTabla(){
+  const fila = (x, cur) => `<tr class="${cur ? 'cur' : ''}"><td>${x.k + 1}</td><td>${fmt(x.tiempo)}</td><td>${Math.round(x.dist)}</td><td>${fmt(x.pace)}</td><td>${x.spm ? Math.round(x.spm) : '–'}</td><td>${x.hr ? Math.round(x.hr) : '–'}</td></tr>`;
+  const cur = IV.estado === 'trabajo', max = cur ? 3 : 4;
+  let h = IV.res.slice(-max).map(x => fila({ k:x.k, tiempo:x.m === 'd' ? x.tiempo : x.v, dist:x.m === 'd' ? x.v : x.dist, pace:x.pace, spm:x.spm, hr:x.hr }, false)).join('');
+  if (cur) { const tS = Math.max(0, IV.pt - IV.t0), dS = Math.max(0, IV.pd - IV.d0); h += fila({ k:IV.k, tiempo:tS, dist:dS, pace:dS > 5 && tS > 2 ? tS / dS * 500 : null, spm:R.spm, hr:R.hr }, true); }
+  return h;
+}
+function ivLandChart(W, H){
+  const ps = IV.res.filter(x => x.pace); if (!ps.length || W < 50) return '<div style="padding:2cqh;color:var(--muted)">Todavía no hay series terminadas.</div>';
+  const n = IV.rows.length, vals = ps.map(x => x.pace).concat(IV.rows.map(r => r.o).filter(Boolean));
+  const lo = Math.min(...vals) - 1, hi = Math.max(...vals) + 1, X = k => 30 + (n > 1 ? k / (n - 1) : .5) * (W - 60), Y = v => 14 + (v - lo) / (hi - lo) * (H - 44);
+  const obj = IV.rows.map((r, k) => r.o ? `${X(k).toFixed(1)},${Y(r.o).toFixed(1)}` : null).filter(Boolean).join(' ');
+  const real = ps.map(x => `${X(x.k).toFixed(1)},${Y(x.pace).toFixed(1)}`).join(' ');
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="display:block">
+    ${obj ? `<polyline points="${obj}" fill="none" stroke="#8a8f99" stroke-width="2" stroke-dasharray="6 5"/>` : ''}
+    <polyline points="${real}" fill="none" stroke="#4aa8ff" stroke-width="3"/>
+    ${ps.map(x => `<circle cx="${X(x.k).toFixed(1)}" cy="${Y(x.pace).toFixed(1)}" r="5" fill="#4aa8ff"/><text x="${X(x.k).toFixed(1)}" y="${H - 6}" fill="#9aa3ad" font-size="13" text-anchor="middle">${x.k + 1}</text><text x="${X(x.k).toFixed(1)}" y="${(Y(x.pace) - 9).toFixed(1)}" fill="#fff" font-size="13" text-anchor="middle">${fmt(x.pace, 0)}</text>`).join('')}
+  </svg>`;
+}
+
+function ivRenderHist(){
+  const H = ivLoadH().slice().reverse();
+  $('ivHistCard').classList.toggle('hide', !H.length);
+  $('ivHist').innerHTML = H.map(s => {
+    const f = new Date(s.fecha), ps = s.res.filter(x => x.pace && !x.parcial), medio = ps.length ? ps.reduce((a, b) => a + b.pace, 0) / ps.length : null;
+    return `<div class="card" style="margin-top:8px"><div class="lbl">${f.toLocaleDateString('es-AR')} ${f.toLocaleTimeString('es-AR', { hour12:false, hour:'2-digit', minute:'2-digit' })}</div>
+      <div class="sub">${esc(ivResumen(s.rows))}</div><div class="sub">${s.res.length} series hechas${medio ? ' · ritmo medio ' + fmt(medio) + '/500' : ''}</div>
+      <div class="row"><button class="sec" data-wa="${s.id}">WhatsApp</button>${s.collage ? `<button class="sec" data-col="${s.id}">Collage</button>` : ''}<button class="sec" data-borra="${s.id}">Borrar</button></div></div>`;
+  }).join('');
+}
+$('ivHist').addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  const H = ivLoadH();
+  if (b.dataset.wa) { const s = H.find(x => String(x.id) === b.dataset.wa); if (s) compartir(null, null, ivTexto(s)); }
+  if (b.dataset.col) { const s = H.find(x => String(x.id) === b.dataset.col); if (s) idb.get('iv' + s.id).then(bl => compartir(bl, `${s.fecha.slice(0, 10)}_series.jpg`, ivTexto(s))).catch(() => compartir(null, null, ivTexto(s))); }
+  if (b.dataset.borra) { ivSaveH(H.filter(x => String(x.id) !== b.dataset.borra)); idb.del('iv' + b.dataset.borra).catch(() => {}); ivRenderHist(); }
+});
+
+// ---- pantalla en vivo ----
+function ivRender(){
+  const vis = IV.estado != null;
+  $('ivLive').classList.toggle('hide', !vis); $('ivSetup').classList.toggle('hide', IV.activo);
+  if (!vis) return;
+  const rows = IV.rows || IVC.rows, n = rows.length, k = Math.min(IV.k, n - 1), row = rows[k], E = IV.estado;
+  const objTxt = r => r && r.o ? `objetivo ${fmt(r.o)}` : 'sin ritmo objetivo';
+  let band = '', bandObj = '', l1 = '', b1 = '–', s1 = '', l2 = 'Ritmo /500', b2 = '–', s2 = '', c2 = '';
+  const dif = (p, o) => p && o ? p - o : null, cls = x => x == null ? '' : x <= 0.04 ? 'var(--ok)' : 'var(--bad)';
+  let tS = null, dS = null, aS = null;
+  if (E === 'listo') {
+    band = `Series · ${n} en total`; bandObj = ivResumen(rows).split(' · ').slice(0, 2).join(' · ');
+    l1 = 'Primera serie'; b1 = ivVal(rows[0]); s1 = 'Empezá a remar: arranca con la primera palada';
+    b2 = R.pace ? fmt(R.pace) : '–'; s2 = objTxt(rows[0]);
+  } else if (E === 'trabajo' || E === 'arranque') {
+    band = `Serie ${k + 1} de ${n}`; bandObj = ivVal(row) + ' · ' + objTxt(row);
+    if (E === 'arranque') { l1 = 'Ya'; b1 = '¡REMÁ!'; s1 = ivVal(row); }
+    else {
+      tS = IV.pt - IV.t0; dS = IV.pd - IV.d0; aS = dS > 5 && tS > 2 ? tS / dS * 500 : null;
+      if (row.m === 'd') { l1 = 'Restan'; b1 = mfmt(Math.max(0, row.v - dS)) + ' m'; }
+      else { l1 = 'Restan'; b1 = fmt(Math.max(0, row.v - tS), 0); }
+      s1 = row.m === 'd' ? `serie de ${ivVal(row)}` : `${mfmt(dS)} m hasta ahora`;
+    }
+    b2 = R.pace ? fmt(R.pace) : '–'; const df = dif(R.pace, row.o); c2 = cls(df);
+    s2 = row.o ? `${objTxt(row)} · ahora ${fmtDif(df)}` : objTxt(row);
+    if (E === 'trabajo' && aS && row.o) s2 += ` · medio ${fmtDif(aS - row.o)}`;
+  } else if (E === 'descanso') {
+    const rem = Math.max(0, IV.restEnd - ivAhora()), prox = rows[Math.min(IV.k, n - 1)], ult = IV.res[IV.res.length - 1];
+    band = `Descanso · serie ${k} de ${n} hecha`; bandObj = `sigue la ${k + 1}`;
+    l1 = 'Descanso'; b1 = fmt(rem, 0); s1 = `próxima: ${ivVal(prox)} · ${objTxt(prox)}`;
+    l2 = `Serie ${ult.k + 1}`; b2 = fmt(ult.pace); const df = dif(ult.pace, ult.o); c2 = cls(df); s2 = ult.o ? `${objTxt(ult)} · ${fmtDif(df)}` : objTxt(ult);
+  } else if (E === 'fin') {
+    const ps = IV.res.filter(x => x.pace && !x.parcial), medio = ps.length ? ps.reduce((a, b) => a + b.pace, 0) / ps.length : null;
+    band = 'Series terminadas'; bandObj = `${IV.res.length} de ${n} hechas`;
+    l1 = 'Terminado'; b1 = '✓'; s1 = IV.res.length < n ? 'Quedaron series sin hacer' : 'Todas las series hechas';
+    l2 = 'Ritmo medio'; b2 = fmt(medio); s2 = ps.length > 1 ? `mejor ${fmt(Math.min(...ps.map(x => x.pace)))} · peor ${fmt(Math.max(...ps.map(x => x.pace)))}` : '';
+  }
+  $('ivBand').textContent = band; $('ivBandObj').textContent = bandObj;
+  $('ivL1').textContent = l1; $('ivB1').textContent = b1; $('ivS1').textContent = s1;
+  $('ivL2').textContent = l2; $('ivB2').textContent = b2; $('ivS2').textContent = s2; $('ivB2').style.color = c2;
+  $('ivB1').style.fontSize = b1.length > 5 ? 'clamp(40px,13vw,90px)' : '';
+  const cur = E === 'trabajo';
+  $('ivT').textContent = cur ? fmt(tS) : '–'; $('ivD').textContent = cur ? mfmt(dS) : '–'; $('ivA').textContent = cur && aS ? fmt(aS) : '–';
+  $('ivSpm').textContent = R.spm || '–'; $('ivW').textContent = R.w || '–'; $('ivH').textContent = R.hr || '–';
+  let h = IV.res.map(x => {
+    const df = x.o && x.pace ? x.pace - x.o : null;
+    return `<tr><td>${x.k + 1}${x.parcial ? '*' : ''}</td><td>${x.m === 'd' ? fmt(x.tiempo) : fmt(x.v, 0)}</td><td>${mfmt(x.m === 'd' ? x.v : x.dist)}</td><td class="pp">${fmt(x.pace)}</td><td>${x.o ? fmt(x.o) : '–'}</td><td class="${df == null ? '' : df <= 0.04 ? 'ok' : 'bad'}">${df == null ? '–' : fmtDif(df)}</td></tr>`;
+  }).join('');
+  if (E === 'trabajo') h += `<tr><td class="cur">${k + 1}</td><td class="cur">${fmt(tS)}</td><td class="cur">${mfmt(dS)}</td><td class="cur">${aS ? fmt(aS) : '–'}</td><td class="cur">${row.o ? fmt(row.o) : '–'}</td><td class="cur">${row.o && aS ? fmtDif(aS - row.o) : '–'}</td></tr>`;
+  $('ivRes').innerHTML = h || '<tr><td colspan="6" class="note">Todavía no hay series terminadas.</td></tr>';
+  $('ivWa').classList.toggle('hide', !IV.res.length || IV.activo); $('ivShare').classList.toggle('hide', !(EV.sheet && IV.ses) || IV.activo); $('ivFin').classList.toggle('hide', !IV.activo);
+  $('ivCerrar').textContent = IV.activo ? 'Cancelar' : 'Cerrar';
+  const pm = dev && dev.gatt && dev.gatt.connected;
+  $('ivPm').textContent = pm ? 'PM5 conectado' : 'PM5 sin conectar (usá el botón Conectar PM5 de la pestaña En vivo)';
+  if (!$('vIv').classList.contains('hide')) renderLand();
+}
+$('ivIni').onclick = ivEmpezar;
+$('ivFin').onclick = () => ivTerminar(true);
+$('ivCerrar').onclick = () => { if (IV.activo) { if (!confirm('¿Cancelar las series? No se guarda nada.')) return; } ivCancelar(); };
+$('ivWa').onclick = () => { if (!IV.res.length) return; compartir(null, null, ivTexto({ fecha:new Date(IV.id).toISOString(), rows:IV.rows, res:IV.res })); };
+async function ivProgramarPM5(){
+  if (!dev || !dev.gatt.connected) { aviso('Conectá el PM5 primero (pestaña En vivo).'); return; }
+  if (!ctrlCh) { aviso('Este PM5 no aceptó control remoto: programá a mano un entrenamiento largo por tiempo.'); return; }
+  try { await escribirPM5(frameTiempo(7200, 600)); aviso('PM5 programado: 2 horas por tiempo, para que el reloj siga corriendo durante los descansos.'); }
+  catch(e){ aviso('El PM5 no aceptó la programación: programá a mano un entrenamiento largo por tiempo.'); }
+}
+$('ivProg').onclick = ivProgramarPM5;
+
+// ---- demo ----
+function pararIvDemo(){ if (IV.demo) { clearInterval(IV.demo); IV.demo = null; IV.vel = 1; $('ivDemo').textContent = 'Probar sin ergo (demo ×10)'; } }
+$('ivDemo').onclick = () => {
+  if (IV.demo) { pararIvDemo(); ivCancelar(); return; }
+  if (IV.activo) { aviso('Ya hay una sesión de series en curso.'); return; }
+  resetRun(); IV.vel = 10; $('ivDemo').textContent = 'Parar demo'; estado('Demo (datos simulados)');
+  ivEmpezar(); IV.vel = 10;
+  let t = 0, d = 0;
+  IV.demo = setInterval(() => {
+    let pace = 0;
+    for (let i = 0; i < 10; i++) {
+      const row = IV.rows[Math.min(IV.k, IV.rows.length - 1)], obj = row.o || 118;
+      if (IV.estado === 'descanso' || IV.estado === 'fin') { pace = 0; d += 0.25 * 0.1; }
+      else { pace = obj + 1.5 * Math.sin(t / 7) + (Math.random() - .5) * 1.5 + (IV.k * 0.4); d += 500 / pace * 0.1; }
+      t += 0.1;
+    }
+    ingestAdd1(pace || 0, t / Math.max(d, 1) * 500, pace ? 30 + Math.round(Math.random() * 2) : 0, null);
+    ingestAdd2(pace ? Math.round(2.8 / Math.pow(pace / 500, 3)) : 0, 0);
+    ingestGeneral(t, d, 1, 105);
+    if (!IV.activo) pararIvDemo();
   }, 100);
 };
 
